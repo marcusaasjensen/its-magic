@@ -11,6 +11,16 @@ namespace Data
         
         private void OnValidate()
         {
+            OnResetData();
+        }
+
+        private void OnResetData()
+        {
+            if (resetData)
+            {
+                collectedItemKeys.Clear();
+                resetData = false;
+            }
         }
     }
 }

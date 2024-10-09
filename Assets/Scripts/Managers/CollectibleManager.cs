@@ -11,7 +11,7 @@ namespace Managers
 
         public event Action OnItemCollected;
 
-        public static string GenerateCollectableId(GameObject o)
+        public static string GenerateCollectibleId(GameObject o)
         {
             var id = o.name + o.transform.position;
             return id;

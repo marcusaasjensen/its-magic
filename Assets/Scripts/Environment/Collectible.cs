@@ -15,9 +15,9 @@ namespace Environment
         
         private void OnCollectible()
         {
-            _collectibleId = CollectibleManager.GenerateCollectableId(gameObject);
+            _collectibleId = CollectibleManager.GenerateCollectibleId(gameObject);
 
-            if (!CollectibleManager.IsItemCollected(_collectibleId) || !saveOnCollected)
+            if (!saveOnCollected || !CollectibleManager.IsItemCollected(_collectibleId))
             {
                 return;
             }
@@ -27,10 +27,11 @@ namespace Environment
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.CompareTag("Player"))
+            if (!other.CompareTag("Player"))
             {
-                Collect();
+                return;
             }
+            Collect();
         }
 
         private void PlayParticles()
@@ -45,7 +46,7 @@ namespace Environment
         
         protected abstract void WhenCollected();
 
-        private void Collect()
+        public void Collect()
         {
             WhenCollected();
             CollectibleManager.Instance.CollectItem(_collectibleId, saveOnCollected);
