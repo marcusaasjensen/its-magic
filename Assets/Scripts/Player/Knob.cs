@@ -4,10 +4,12 @@ namespace Player
 {
     public class Knob : MonoBehaviour
     {
-        [SerializeField] private int fingerId;
+        [field: SerializeField] public int FingerId { get; set; }
         [SerializeField] private GameObject knob;
         
         private Camera _camera;
+        
+        public bool IsVisible => knob.activeSelf;
         
         private void Start() => _camera = Camera.main;
 
@@ -19,17 +21,17 @@ namespace Player
 
         private void UpdateKnobVisibility()
         {
-            knob.SetActive(TouchInput.Instance.IsTouching);
+            knob.SetActive(TouchInput.Instance.Touches.Length > FingerId);
         }
     
         private void FollowFinger()
         {
-            if (TouchInput.Instance.Touches.Length <= 0)
+            if (TouchInput.Instance.Touches.Length <= FingerId)
             {
                 return;
             }
         
-            var ray = _camera.ScreenPointToRay(TouchInput.Instance.Touches[fingerId].position);
+            var ray = _camera.ScreenPointToRay(TouchInput.Instance.Touches[FingerId].position);
         
             Debug.DrawRay(new Vector3(ray.origin.x, ray.origin.y, transform.position.z), ray.direction, Color.red);
 
