@@ -9,6 +9,7 @@ namespace Environment
         [SerializeField] private bool saveOnCollected;
         [SerializeField] private ParticleSystem collectibleParticles;
         [SerializeField] protected UnityEvent onCollect;
+        [SerializeField] private string collectorName = "Player";
         private string _collectibleId;
 
         private void Start() => OnCollectible();
@@ -27,7 +28,7 @@ namespace Environment
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (!other.CompareTag("Player"))
+            if (!other.CompareTag(collectorName))
             {
                 return;
             }

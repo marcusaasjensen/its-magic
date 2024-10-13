@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using Managers;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Utils;
 
 namespace Player
@@ -8,9 +10,11 @@ namespace Player
     public class TouchInput : MonoBehaviourSingleton<TouchInput>
     {
         [SerializeField] private TextMeshProUGUI touchText;
+        [SerializeField] private KnobSelection selection;
         
         public Touch[] Touches { get; private set; }
         public bool IsTouching => Touches.Length > 0;
+        public KnobSelection Selection => selection;
         
         private void Start() => Touches = Input.touches;
         
