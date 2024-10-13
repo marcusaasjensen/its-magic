@@ -8,6 +8,7 @@ namespace Managers
     public class KnobPool : MonoBehaviour
     {
         [SerializeField] private int knobCount;
+        [SerializeField] private int startIndex;
         [SerializeField] private Knob knobPrefab;
         
         public List <Knob> Knobs { get; private set; }
@@ -18,8 +19,12 @@ namespace Managers
             for (var i = 0; i < knobCount; i++)
             {
                 var knob = Instantiate(knobPrefab, transform);
-                knob.FingerId = i;
-                Knobs.Add(knob);
+                knob.FingerId = i + startIndex;
+            }
+
+            foreach (Transform child in transform)
+            {
+                Knobs.Add(child.GetComponent<Knob>());
             }
         }
     }

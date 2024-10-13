@@ -1,4 +1,6 @@
-﻿using Player;
+﻿using System;
+using Managers;
+using Player;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -8,7 +10,8 @@ namespace Environment
     {
         [SerializeField] private SpriteRenderer spriteRenderer;
         [SerializeField] private Color selectionColor;
-        public bool IsSelected { get; private set; }
+        
+        public bool IsSelected { get; set; }
         
         private Color _defaultColor;
         
@@ -21,25 +24,41 @@ namespace Environment
         
         private void OnSelection()
         {
-            IsSelected = TouchInput.Instance.Selection.IsPointInSelection(transform.position);
-            spriteRenderer.color = IsSelected ? selectionColor : _defaultColor;
-            if (IsSelected)
+            if(TouchInput.Instance.Selection.IsPointInSelection(transform.position) && !IsSelected)
             {
-                print(gameObject.name);
+                SetAsSelected(true);
+            }
+            
+            spriteRenderer.color = IsSelected ? selectionColor : _defaultColor;
+        }
+
+        private void SetAsSelected(bool selected)
+        {
+            IsSelected = selected;
+            if (selected)
+            {
+                SelectableManager.Instance.RegisterSelectable(this);
+            }
+            else
+            {
+                SelectableManager.Instance.UnregisterSelectable(this);
             }
         }
         
         private void OnTriggerStay2D(Collider2D other)
         {
-            if (other.CompareTag("Player"))
+            if (other.CompareTag("Player") && !IsSelected)
             {
-                FollowPlayer(other.transform);
+                SetAsSelected(true);
             }
         }
-        
-        private void FollowPlayer(Transform player)
+
+        private void OnTriggerExit(Collider other)
         {
-            transform.position = player.position;
+            if (other.CompareTag("Player"))
+            {
+                SetAsSelected(false);
+            }
         }
     }
 }

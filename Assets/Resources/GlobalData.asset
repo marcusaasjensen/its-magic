@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: GlobalData
   m_EditorClassIdentifier: 
   resetData: 0
-  collectedItemKeys: []
+  collectedItemKeys:
+  - Mushroom(-1.16, 2.23, 0.00)

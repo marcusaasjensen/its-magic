@@ -19,8 +19,6 @@ namespace Managers
         private Mesh _mesh;
         private GameObject _fillPolygon;
         private LineRenderer _lineRenderer;
-        
-        public bool IsSelecting { get; private set; }
 
         private void Start()
         {
@@ -50,8 +48,6 @@ namespace Managers
             if (knobPool.Knobs == null) return;
 
             var knobs = knobPool.Knobs.FindAll(knob => knob.IsVisible);
-            
-            IsSelecting = knobs.Count > 1;
 
             if (knobs.Count < 2)
             {

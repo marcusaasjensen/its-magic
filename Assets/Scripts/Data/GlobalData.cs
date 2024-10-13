@@ -18,9 +18,14 @@ namespace Data
         {
             if (resetData)
             {
-                collectedItemKeys.Clear();
-                resetData = false;
+                ResetData();
             }
+        }
+
+        public void ResetData()
+        {
+            collectedItemKeys.Clear();
+            resetData = false;
         }
     }
 }
