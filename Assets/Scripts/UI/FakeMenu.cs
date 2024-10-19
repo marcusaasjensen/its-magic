@@ -1,26 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using UI;
+﻿using System.Collections.Generic;
+using Player;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-namespace Player
+namespace UI
 {
-    public class FakeMenu : MonoBehaviour
+    public class FakeMenu : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
     {
         [SerializeField] private GameObject fakeMenu;
         [SerializeField] private Animator animator;
         [SerializeField] private List<FakeMenuItem> menuItems;
 
-        private Camera _camera;
-        
         private int _counter;
         private static readonly int IsOdd = Animator.StringToHash("isOdd");
 
+        private bool _isDragging;
+        private Vector2 _pointerOffset; // Offset between the pointer and menu position at start
+        private RectTransform _rectTransform;
+        private Canvas _parentCanvas;
+
         private void Awake()
         {
-            _camera = Camera.main;
+            _rectTransform = GetComponent<RectTransform>();
+            _parentCanvas = GetComponentInParent<Canvas>();
         }
-        
+
         public void EnabledAllMenuItems()
         {
             foreach (var menuItem in menuItems)
@@ -35,13 +39,11 @@ namespace Player
             {
                 ToggleMenu();
             }
-            
+
             if (Input.GetKeyDown(KeyCode.R))
             {
                 ToggleRotation();
             }
-            
-            //FollowMouse();
         }
 
         private void ToggleMenu()
@@ -55,11 +57,40 @@ namespace Player
             _counter++;
         }
 
-        private void FollowMouse()
+        public void OnPointerDown(PointerEventData eventData)
         {
-            var mousePos = _camera.ScreenToWorldPoint(Input.mousePosition);
-            transform.position = new Vector3(mousePos.x, mousePos.y, 0);
+            if (!fakeMenu.activeSelf || TouchInput.Instance.Selection.IsSelecting) return;
+
+            _isDragging = true;
+
+            // Capture the offset between the menu and the pointer
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                _parentCanvas.transform as RectTransform,
+                eventData.position,
+                _parentCanvas.worldCamera,
+                out Vector2 localPointerPos);
+
+            _pointerOffset = _rectTransform.anchoredPosition - localPointerPos;
         }
-        
+
+        public void OnPointerUp(PointerEventData eventData)
+        {
+            _isDragging = false;
+        }
+
+        public void OnDrag(PointerEventData eventData)
+        {
+            if (!_isDragging || TouchInput.Instance.Selection.IsSelecting) return;
+
+            // Move the FakeMenu along with the pointer while maintaining the offset
+            Vector2 pointerPos;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                _parentCanvas.transform as RectTransform,
+                eventData.position,
+                _parentCanvas.worldCamera,
+                out pointerPos);
+
+            _rectTransform.anchoredPosition = pointerPos + _pointerOffset;
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Player;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -67,7 +68,7 @@ namespace UI
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            if (!IsDraggable) return;
+            if (!IsDraggable || TouchInput.Instance.Selection.IsSelecting) return;
 
             _isBeingDragged = true;
 
@@ -82,7 +83,7 @@ namespace UI
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            if (!IsDraggable) return;
+            if (!IsDraggable || TouchInput.Instance.Selection.IsSelecting) return;
 
             _isBeingDragged = false;
 
@@ -97,7 +98,7 @@ namespace UI
 
         public void OnDrag(PointerEventData eventData)
         {
-            if (!IsDraggable || !_isBeingDragged) return;
+            if (!IsDraggable || !_isBeingDragged || TouchInput.Instance.Selection.IsSelecting) return;
 
             Vector2 pointerPos;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(

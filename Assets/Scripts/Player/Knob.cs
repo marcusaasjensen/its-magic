@@ -1,3 +1,6 @@
+using System;
+using Managers;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Player
@@ -11,7 +14,21 @@ namespace Player
         
         public bool IsVisible => knob.activeSelf;
         
-        private void Start() => _camera = Camera.main;
+        private void Awake()
+        {
+            UpdateCamera();
+            CameraManager.Instance.OnCameraSwitch += UpdateCamera;
+        }
+
+        private void OnDestroy()
+        {
+            CameraManager.Instance.OnCameraSwitch -= UpdateCamera;
+        }
+
+        private void UpdateCamera()
+        {
+            _camera = Camera.main;
+        }
 
         private void Update()
         {
@@ -30,7 +47,7 @@ namespace Player
             {
                 return;
             }
-        
+            
             var ray = _camera.ScreenPointToRay(TouchInput.Instance.Touches[FingerId].position);
         
             Debug.DrawRay(new Vector3(ray.origin.x, ray.origin.y, transform.position.z), ray.direction, Color.red);

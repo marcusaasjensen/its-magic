@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 1234013986199940851}
   - component: {fileID: 5507809057913449985}
   m_Layer: 0
-  m_Name: Mushroom
+  m_Name: Mushroom 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 4f1b045f23dfe714481335d26fcaf277, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8af5a339dda54794cabb9f41fedd2fa2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -153,7 +153,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.46, y: 2.57}
+    oldSize: {x: 1.17, y: 1.74}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -178,7 +178,19 @@ MonoBehaviour:
   collectibleParticles: {fileID: 4529656327396712450, guid: 2f2ceb88d498e2b4286c4687d8906d9d, type: 3}
   onCollect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   collectorName: Bag
 --- !u!114 &368411029482766468
 MonoBehaviour:

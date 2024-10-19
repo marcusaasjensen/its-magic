@@ -29,7 +29,7 @@ namespace Environment
                 SetAsSelected(true);
             }
 
-            if (!TouchInput.Instance.Selection.IsPointInSelection(transform.position) && IsSelected)// && !TouchInput.Instance.IsTouching)
+            if (!TouchInput.Instance.Selection.IsPointInSelection(transform.position) && IsSelected && !TouchInput.Instance.IsTouching)
             {
                 SetAsSelected(false);
             }

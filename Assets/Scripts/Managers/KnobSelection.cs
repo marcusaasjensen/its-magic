@@ -20,6 +20,8 @@ namespace Managers
         private Mesh _mesh;
         private GameObject _fillPolygon;
         private LineRenderer _lineRenderer;
+        
+        public bool IsSelecting => knobPool.Knobs.FindAll(knob => knob.IsVisible).Count > 1;
 
         private void Start()
         {
