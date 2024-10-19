@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7018310149663734466}
   m_Layer: 0
   m_Name: Knob
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2d5fd202eb592e479f8b7e3a6a72440, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fingerId: 0
+  <FingerId>k__BackingField: 0
   knob: {fileID: 5896873986972324472}
 --- !u!1 &5896873986972324472
 GameObject:

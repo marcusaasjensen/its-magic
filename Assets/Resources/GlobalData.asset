@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resetData: 0
   collectedItemKeys:
-  - Mushroom(-1.16, 2.23, 0.00)
+  - Mushroom (2)(0.81, 1.82, 0.00)
+  - Mushroom (1)(-1.16, 2.23, 0.00)
+  - Mushroom (5)(-1.83, -1.46, 0.00)

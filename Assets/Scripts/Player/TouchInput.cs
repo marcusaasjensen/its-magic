@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using Managers;
+﻿using Managers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 using Utils;
 
 namespace Player

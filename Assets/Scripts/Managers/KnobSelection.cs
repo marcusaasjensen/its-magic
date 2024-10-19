@@ -15,6 +15,7 @@ namespace Managers
         [SerializeField] private Color color;
         [SerializeField] private bool enableFill = true;
         [SerializeField] private bool enableLines = true;
+        [SerializeField] private float maxDistance = 5f;
         
         private Mesh _mesh;
         private GameObject _fillPolygon;
@@ -86,20 +87,34 @@ namespace Managers
                 _mesh.Clear();
             }
 
+            var vertices = new List<Vector3>();
             var triangles = new List<int>();
 
-            for (var i = 1; i < knobs.Count - 1; i++)
+            vertices.Add(knobs[0].transform.position);
+
+            for (var i = 1; i < knobs.Count; i++)
             {
-                triangles.Add(0);
-                triangles.Add(i);
-                triangles.Add(i + 1);
+                if (Vector3.Distance(knobs[i - 1].transform.position, knobs[i].transform.position) <= maxDistance)
+                {
+                    vertices.Add(knobs[i].transform.position);
+
+                    if (vertices.Count > 2)
+                    {
+                        triangles.Add(0);
+                        triangles.Add(vertices.Count - 2);
+                        triangles.Add(vertices.Count - 1);
+                    }
+                }
             }
 
-            _mesh.vertices = knobs.Select(t => t.transform.position).ToArray();
-            _mesh.triangles = triangles.ToArray();
-            _mesh.RecalculateNormals();
+            if (vertices.Count >= 3)
+            {
+                _mesh.vertices = vertices.ToArray();
+                _mesh.triangles = triangles.ToArray();
+                _mesh.RecalculateNormals();
 
-            DrawPolygon();
+                DrawPolygon();
+            }
         }
 
         private void DrawPolygon()
@@ -112,11 +127,23 @@ namespace Managers
 
         private void DrawLines(List<Knob> knobs)
         {
-            _lineRenderer.positionCount = knobs.Count;
+            var linePositions = new List<Vector3>();
 
             for (var i = 0; i < knobs.Count; i++)
             {
-                _lineRenderer.SetPosition(i, knobs[i].transform.position);
+                if (i > 0 && Vector3.Distance(knobs[i - 1].transform.position, knobs[i].transform.position) > maxDistance)
+                {
+                    continue;
+                }
+
+                linePositions.Add(knobs[i].transform.position);
+            }
+
+            _lineRenderer.positionCount = linePositions.Count;
+
+            for (var i = 0; i < linePositions.Count; i++)
+            {
+                _lineRenderer.SetPosition(i, linePositions[i]);
             }
         }
 
@@ -139,9 +166,20 @@ namespace Managers
         public bool IsPointInSelection(Vector2 point)
         {
             var knobs = knobPool.Knobs.FindAll(knob => knob.IsVisible);
-            if (knobs.Count < 3) return false;
+            if(knobs.Count == 0) return false;
+            var validKnobs = new List<Knob> { knobs[0] };
 
-            var polygonVertices = knobs.Select(k => (Vector2)k.transform.position).ToArray();
+            for (var i = 1; i < knobs.Count; i++)
+            {
+                if (Vector3.Distance(knobs[i - 1].transform.position, knobs[i].transform.position) <= maxDistance)
+                {
+                    validKnobs.Add(knobs[i]);
+                }
+            }
+
+            if (validKnobs.Count < 3) return false;
+
+            var polygonVertices = validKnobs.Select(k => (Vector2)k.transform.position).ToArray();
             return IsPointInPolygon(point, polygonVertices);
         }
 

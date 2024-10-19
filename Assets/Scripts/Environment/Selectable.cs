@@ -1,7 +1,5 @@
-﻿using System;
-using Managers;
+﻿using Managers;
 using Player;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Environment
@@ -12,6 +10,8 @@ namespace Environment
         [SerializeField] private Color selectionColor;
         
         public bool IsSelected { get; set; }
+        
+        private bool _isTriggered;
         
         private Color _defaultColor;
         
@@ -24,9 +24,14 @@ namespace Environment
         
         private void OnSelection()
         {
-            if(TouchInput.Instance.Selection.IsPointInSelection(transform.position) && !IsSelected)
+            if(TouchInput.Instance.Selection.IsPointInSelection(transform.position) && !IsSelected && !_isTriggered)
             {
                 SetAsSelected(true);
+            }
+
+            if (!TouchInput.Instance.Selection.IsPointInSelection(transform.position) && IsSelected)// && !TouchInput.Instance.IsTouching)
+            {
+                SetAsSelected(false);
             }
             
             spriteRenderer.color = IsSelected ? selectionColor : _defaultColor;
@@ -45,11 +50,12 @@ namespace Environment
             }
         }
         
-        private void OnTriggerStay2D(Collider2D other)
+        /*private void OnTriggerStay2D(Collider2D other)
         {
             if (other.CompareTag("Player") && !IsSelected)
             {
                 SetAsSelected(true);
+                _isTriggered = true;
             }
         }
 
@@ -58,7 +64,8 @@ namespace Environment
             if (other.CompareTag("Player"))
             {
                 SetAsSelected(false);
+                _isTriggered = false;
             }
-        }
+        }*/
     }
 }
