@@ -15,14 +15,16 @@ namespace UI
         private static readonly int IsOdd = Animator.StringToHash("isOdd");
 
         private bool _isDragging;
-        private Vector2 _pointerOffset; // Offset between the pointer and menu position at start
+        private Vector2 _pointerOffset;
         private RectTransform _rectTransform;
         private Canvas _parentCanvas;
-
+        private Vector2 _screenCenter;
+        
         private void Awake()
         {
             _rectTransform = GetComponent<RectTransform>();
             _parentCanvas = GetComponentInParent<Canvas>();
+            _screenCenter = new Vector2(Screen.width / 2f, Screen.height / 2f);
         }
 
         public void EnabledAllMenuItems()
@@ -44,6 +46,19 @@ namespace UI
             {
                 ToggleRotation();
             }
+            
+            UpdateRotation();
+        }
+
+        private void UpdateRotation()
+        {
+            var menuPosition = _rectTransform.position;
+            
+            Vector2 directionFromCenter = menuPosition - (Vector3)_screenCenter;
+
+            var angle = Mathf.Atan2(directionFromCenter.y, directionFromCenter.x) * Mathf.Rad2Deg;
+
+            _rectTransform.rotation = Quaternion.Euler(0, 0, angle - 90 + 180);
         }
 
         private void ToggleMenu()
@@ -63,7 +78,6 @@ namespace UI
 
             _isDragging = true;
 
-            // Capture the offset between the menu and the pointer
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
                 _parentCanvas.transform as RectTransform,
                 eventData.position,
@@ -82,13 +96,11 @@ namespace UI
         {
             if (!_isDragging || TouchInput.Instance.Selection.IsSelecting) return;
 
-            // Move the FakeMenu along with the pointer while maintaining the offset
-            Vector2 pointerPos;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
                 _parentCanvas.transform as RectTransform,
                 eventData.position,
                 _parentCanvas.worldCamera,
-                out pointerPos);
+                out var pointerPos);
 
             _rectTransform.anchoredPosition = pointerPos + _pointerOffset;
         }

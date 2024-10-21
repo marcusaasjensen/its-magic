@@ -206,7 +206,7 @@ GameObject:
   - component: {fileID: 51390023}
   m_Layer: 0
   m_Name: potion_1_preview
-  m_TagString: Untagged
+  m_TagString: Draggable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -272,11 +272,11 @@ Transform:
   m_GameObject: {fileID: 51390020}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.029417494, w: 0.9995672}
-  m_LocalPosition: {x: -5.79, y: -15.93, z: 0}
-  m_LocalScale: {x: 0.5465, y: 0.5465, z: 0.5465}
+  m_LocalPosition: {x: -5.79, y: -3.4300003, z: 0}
+  m_LocalScale: {x: 0.5465001, y: 0.5465001, z: 0.5465}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1391055640}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 3.371}
 --- !u!60 &51390023
 PolygonCollider2D:
@@ -389,6 +389,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3674f28b7bd84d41b49ed5f015475daa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  draggableTag: Draggable
 --- !u!1 &146210164
 GameObject:
   m_ObjectHideFlags: 0
@@ -5787,7 +5788,7 @@ GameObject:
   - component: {fileID: 505017097}
   m_Layer: 0
   m_Name: scull_1_preview
-  m_TagString: Untagged
+  m_TagString: Draggable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5853,11 +5854,11 @@ Transform:
   m_GameObject: {fileID: 505017094}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.174102, w: -0.9847277}
-  m_LocalPosition: {x: 6.22, y: -22.24, z: 0}
+  m_LocalPosition: {x: 6.22, y: -9.74, z: 0}
   m_LocalScale: {x: 0.31601375, y: 0.31601375, z: 0.31601375}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1391055640}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -20.053}
 --- !u!114 &505017097
 MonoBehaviour:
@@ -5871,6 +5872,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3674f28b7bd84d41b49ed5f015475daa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  draggableTag: Draggable
 --- !u!60 &505017098
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -6085,8 +6087,9 @@ MonoBehaviour:
   disabledColor: {r: 1, g: 1, b: 1, a: 0.5019608}
   confirmColor: {r: 0.9496855, g: 0.48572588, b: 0.2060637, a: 1}
   resetSpeed: 5
-  confirmDistance: 25
+  confirmDistance: 250
   isDraggableOnStart: 0
+  fakeMenu: {fileID: 822287177}
 --- !u!114 &516010697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12020,8 +12023,9 @@ MonoBehaviour:
   disabledColor: {r: 1, g: 1, b: 1, a: 0.5019608}
   confirmColor: {r: 0.9496855, g: 0.48572588, b: 0.2060637, a: 1}
   resetSpeed: 5
-  confirmDistance: 25
+  confirmDistance: 250
   isDraggableOnStart: 1
+  fakeMenu: {fileID: 822287177}
 --- !u!114 &821554886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12165,7 +12169,7 @@ GameObject:
   - component: {fileID: 829664488}
   m_Layer: 0
   m_Name: book_1_preview_150ppi
-  m_TagString: Untagged
+  m_TagString: Draggable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12230,12 +12234,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 829664484}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.5, y: -17.04, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 5.5, y: -4.540001, z: 0}
   m_LocalScale: {x: 0.56395, y: 0.56395, z: 0.56395}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1391055640}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &829664487
 MonoBehaviour:
@@ -12249,6 +12253,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3674f28b7bd84d41b49ed5f015475daa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  draggableTag: Draggable
 --- !u!60 &829664488
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -12437,8 +12442,9 @@ MonoBehaviour:
   disabledColor: {r: 0, g: 0, b: 0, a: 0.5019608}
   confirmColor: {r: 0.9496855, g: 0.48572588, b: 0.2060637, a: 1}
   resetSpeed: 5
-  confirmDistance: 25
+  confirmDistance: 250
   isDraggableOnStart: 1
+  fakeMenu: {fileID: 0}
 --- !u!114 &833508639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12563,7 +12569,7 @@ MonoBehaviour:
   color: {r: 1, g: 1, b: 1, a: 1}
   enableFill: 0
   enableLines: 1
-  maxDistance: 5
+  maxDistance: 1000
 --- !u!4 &888456186 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5093388628779044466, guid: c34fcfde083c5f249bf3cec48cae0ad1, type: 3}
@@ -12932,8 +12938,9 @@ MonoBehaviour:
   disabledColor: {r: 0, g: 0, b: 0, a: 0.5019608}
   confirmColor: {r: 0.9496855, g: 0.48572588, b: 0.2060637, a: 1}
   resetSpeed: 5
-  confirmDistance: 25
+  confirmDistance: 250
   isDraggableOnStart: 1
+  fakeMenu: {fileID: 0}
 --- !u!114 &1139823531
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13237,6 +13244,10 @@ Transform:
   - {fileID: 1198176521}
   - {fileID: 146210165}
   - {fileID: 178916308}
+  - {fileID: 505017096}
+  - {fileID: 51390022}
+  - {fileID: 1491893967}
+  - {fileID: 829664486}
   m_Father: {fileID: 442374415}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1491893965
@@ -13253,7 +13264,7 @@ GameObject:
   - component: {fileID: 1491893968}
   m_Layer: 0
   m_Name: magic_staff_1_preview
-  m_TagString: Untagged
+  m_TagString: Draggable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13319,11 +13330,11 @@ Transform:
   m_GameObject: {fileID: 1491893965}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.981911, w: 0.18934302}
-  m_LocalPosition: {x: -9.04, y: -21.47, z: 0}
+  m_LocalPosition: {x: -9.04, y: -8.969999, z: 0}
   m_LocalScale: {x: 0.41664, y: 0.41664, z: 0.41664}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1391055640}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -158.171}
 --- !u!60 &1491893968
 PolygonCollider2D:
@@ -13566,6 +13577,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3674f28b7bd84d41b49ed5f015475daa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  draggableTag: Draggable
 --- !u!1 &1516039946
 GameObject:
   m_ObjectHideFlags: 0
@@ -18532,8 +18544,9 @@ MonoBehaviour:
   disabledColor: {r: 0, g: 0, b: 0, a: 0.5019608}
   confirmColor: {r: 0.9496855, g: 0.48572588, b: 0.2060637, a: 1}
   resetSpeed: 5
-  confirmDistance: 25
+  confirmDistance: 250
   isDraggableOnStart: 1
+  fakeMenu: {fileID: 0}
 --- !u!114 &1540270802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18781,8 +18794,9 @@ MonoBehaviour:
   disabledColor: {r: 1, g: 1, b: 1, a: 0.5019608}
   confirmColor: {r: 0.9496855, g: 0.48572588, b: 0.2060637, a: 1}
   resetSpeed: 5
-  confirmDistance: 25
+  confirmDistance: 250
   isDraggableOnStart: 1
+  fakeMenu: {fileID: 822287177}
 --- !u!114 &1601030063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19637,7 +19651,3 @@ SceneRoots:
   - {fileID: 442374415}
   - {fileID: 945908348}
   - {fileID: 1986110640}
-  - {fileID: 505017096}
-  - {fileID: 51390022}
-  - {fileID: 1491893967}
-  - {fileID: 829664486}

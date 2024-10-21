@@ -1,5 +1,4 @@
-﻿using System;
-using Player;
+﻿using Player;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -15,6 +14,7 @@ namespace UI
         [SerializeField] private float resetSpeed = 5f;
         [SerializeField] private float confirmDistance = 200f;
         [SerializeField] private bool isDraggableOnStart = true;
+        [SerializeField] private Transform fakeMenu;
 
         public bool IsDraggable { get; set; } = true;
 
@@ -29,8 +29,6 @@ namespace UI
         private bool _isResetting;
         private bool _canConfirmUse;
 
-        private Vector3 _menuCenter;
-
         private void Awake()
         {
             _image = GetComponent<Image>();
@@ -39,7 +37,6 @@ namespace UI
             _defaultColor = _image.color;
             _parentCanvas = GetComponentInParent<Canvas>();
             IsDraggable = isDraggableOnStart;
-            _menuCenter = _defaultPosition;
         }
 
         private void Update()
@@ -72,13 +69,13 @@ namespace UI
 
             _isBeingDragged = true;
 
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            RectTransformUtility.ScreenPointToWorldPointInRectangle(
                 _parentCanvas.transform as RectTransform,
                 eventData.position,
                 _parentCanvas.worldCamera,
-                out Vector2 localPointerPos);
+                out Vector3 globalPointerPos);
 
-            _pointerOffset = _rectTransform.anchoredPosition - localPointerPos;
+            _pointerOffset = _rectTransform.position - globalPointerPos;
         }
 
         public void OnPointerUp(PointerEventData eventData)
@@ -100,16 +97,16 @@ namespace UI
         {
             if (!IsDraggable || !_isBeingDragged || TouchInput.Instance.Selection.IsSelecting) return;
 
-            Vector2 pointerPos;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            RectTransformUtility.ScreenPointToWorldPointInRectangle(
                 _parentCanvas.transform as RectTransform,
                 eventData.position,
                 _parentCanvas.worldCamera,
-                out pointerPos);
+                out Vector3 globalPointerPos);
 
-            _rectTransform.anchoredPosition = pointerPos + _pointerOffset;
+            _rectTransform.position = globalPointerPos + (Vector3)_pointerOffset;
+            
 
-            float distanceFromCenter = Vector3.Distance(_rectTransform.anchoredPosition, _menuCenter);
+            var distanceFromCenter = Vector3.Distance(_rectTransform.position, fakeMenu.position);
 
             if (distanceFromCenter >= confirmDistance)
             {

@@ -22,7 +22,7 @@ namespace Environment
             for (var i = 0; i < amount; i++)
             {
                 var position = new Vector2(Random.Range(-spawnArea.x, spawnArea.x) + defaultPosition.x, Random.Range(-spawnArea.y, spawnArea.y) + defaultPosition.y);
-                Instantiate(prefabs[Random.Range(0, prefabs.Count - 1)], position, Quaternion.identity, transform).SetActive(true);
+                Instantiate(prefabs[Random.Range(0, prefabs.Count - 1)], position, Quaternion.Euler(0,0, Random.Range(0, 360)), transform).SetActive(true);
             }
         }
 
