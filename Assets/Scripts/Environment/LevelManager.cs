@@ -2,7 +2,7 @@
 
 namespace Environment
 {
-    public class SceneManager : MonoBehaviour
+    public class LevelManager : MonoBehaviour
     {
         public void LoadScene(string sceneName)
         {
