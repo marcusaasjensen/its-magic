@@ -13,6 +13,8 @@ public class GraphManager : MonoBehaviour
 
     // Zone de génération des nœuds
     [SerializeField] private Vector2 spawnArea = new Vector2(10f, 10f); 
+	[SerializeField]
+    private Transform parent; 
 
     private SpriteRenderer _spriteRenderer; 
 
@@ -80,7 +82,7 @@ public class GraphManager : MonoBehaviour
 
             if (nodeA != nodeB && !AreNodesConnected(nodeA, nodeB))
             {
-                GameObject edgeObj = Instantiate(edgePrefab);
+                GameObject edgeObj = Instantiate(edgePrefab, parent.transform.position, Quaternion.identity, parent);
                 Edge newEdge = new Edge(nodeA, nodeB, edgeObj);
                 edges.Add(newEdge);
                 
