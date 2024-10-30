@@ -6,7 +6,7 @@ namespace Environment
 {
     public class Selectable : MonoBehaviour
     {
-        [SerializeField] private SpriteRenderer spriteRenderer;
+        private SpriteRenderer _spriteRenderer;
         [SerializeField] private Color selectionColor;
         
         public bool IsSelected { get; set; }
@@ -15,7 +15,10 @@ namespace Environment
         
         private Color _defaultColor;
         
-        private void Awake() => _defaultColor = spriteRenderer.color;
+        private void Awake() {
+            _spriteRenderer = GetComponent<SpriteRenderer>();
+            _defaultColor = _spriteRenderer.color;
+        }
 
         private void Update()
         {
@@ -34,7 +37,7 @@ namespace Environment
                 SetAsSelected(false);
             }
             
-            spriteRenderer.color = IsSelected ? selectionColor : _defaultColor;
+            _spriteRenderer.color = IsSelected ? selectionColor : _defaultColor;
         }
 
         private void SetAsSelected(bool selected)
