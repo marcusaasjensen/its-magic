@@ -3,27 +3,26 @@ using System.Collections.Generic;
 
 public class GraphManager : MonoBehaviour
 {
-    public GameObject nodePrefab;  // Prédéfini dans Unity pour représenter un nœud
-    public GameObject edgePrefab;  // Prédéfini dans Unity pour représenter une arête (ligne ou autre)
+    public GameObject nodePrefab;  
+    public GameObject edgePrefab;  
 
     [SerializeField]
-    public GameObject molecularItem; // Item qui déclenche la génération du graphe
+    public GameObject molecularItem; 
     [SerializeField]
-    private GameObject graphCenter; // Référence au GameObject vide pour le centre du graphe
+    private GameObject graphCenter; 
 
     // Zone de génération des nœuds
-    [SerializeField] private Vector2 spawnArea = new Vector2(10f, 10f); // Largeur et hauteur de la zone
+    [SerializeField] private Vector2 spawnArea = new Vector2(10f, 10f); 
 
-    private SpriteRenderer _spriteRenderer; // Référence au SpriteRenderer
+    private SpriteRenderer _spriteRenderer; 
 
-    private List<Node> nodes = new List<Node>();  // Liste des nœuds
-    private List<Edge> edges = new List<Edge>();  // Liste des arêtes
-    private bool isGraphGenerated = false;  // Indicateur si le graphe a été généré
+    private List<Node> nodes = new List<Node>(); 
+    private List<Edge> edges = new List<Edge>(); 
+    private bool isGraphGenerated = false;  
 
     private void Awake()
     {
         _spriteRenderer = molecularItem.GetComponent<SpriteRenderer>();
-        // Générer le graphe une seule fois au démarrage
         GenerateGraph(5, 10);
         ShowGraph(false);
     }
@@ -32,21 +31,21 @@ public class GraphManager : MonoBehaviour
     {
         Debug.Log("isGraphGenerated :" + isGraphGenerated);
 
-        if (_spriteRenderer.sprite != null)  // Vérifie si le SpriteRenderer a un sprite
+        if (_spriteRenderer.sprite != null)  
         {
-            if (!isGraphGenerated)  // Si le graphe n'est pas encore affiché
+            if (!isGraphGenerated)  
             {
-                ShowGraph(true);  // Affiche le graphe
-                isGraphGenerated = true;  // Met à jour l'indicateur
+                ShowGraph(true); 
+                isGraphGenerated = true;  
                 Debug.Log("Graphe affiché.");
             }
         }
         else
         {
-            if (isGraphGenerated)  // Si le graphe est affiché
+            if (isGraphGenerated) 
             {
-                ShowGraph(false);  // Masque le graphe
-                isGraphGenerated = false;  // Met à jour l'indicateur
+                ShowGraph(false); 
+                isGraphGenerated = false;  
                 Debug.Log("Graphe masqué.");
             }
         }
@@ -81,14 +80,12 @@ public class GraphManager : MonoBehaviour
             Node nodeA = nodes[Random.Range(0, nodes.Count)];
             Node nodeB = nodes[Random.Range(0, nodes.Count)];
 
-            // Vérifie si les deux nœuds sont déjà connectés
             if (nodeA != nodeB && !AreNodesConnected(nodeA, nodeB))
             {
                 GameObject edgeObj = Instantiate(edgePrefab);
                 Edge newEdge = new Edge(nodeA, nodeB, edgeObj);
                 edges.Add(newEdge);
                 
-                // Visualise l'arête (ligne entre les nœuds)
                 DrawEdge(newEdge);
                 
                 createdEdges++;
@@ -115,13 +112,14 @@ public class GraphManager : MonoBehaviour
         lineRenderer.positionCount = 2;
         lineRenderer.SetPosition(0, edge.startNode.position);
         lineRenderer.SetPosition(1, edge.endNode.position);
-        lineRenderer.startWidth = 0.1f; // Ajuste la largeur
-        lineRenderer.endWidth = 0.1f; // Ajuste la largeur
+        lineRenderer.startWidth = 0.1f; 
+        lineRenderer.endWidth = 0.1f; 
 
-        // Matériau pour le LineRenderer
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-        lineRenderer.startColor = Color.red; // Couleur de l'arête
-        lineRenderer.endColor = Color.red; // Couleur de l'arête
+        
+        Color edgeColor = new Color(1f, 1f, 1f, 0.01f); 
+        lineRenderer.startColor = edgeColor; 
+        lineRenderer.endColor = edgeColor;
     }
 
     void ShowGraph(bool isVisible)
@@ -146,8 +144,8 @@ public class GraphManager : MonoBehaviour
 [System.Serializable]
 public class Node
 {
-    public GameObject nodeObject;  // GameObject du nœud
-    public Vector3 position;       // Position du nœud
+    public GameObject nodeObject;  
+    public Vector3 position;  
 
     public Node(GameObject obj, Vector3 pos)
     {
@@ -170,3 +168,4 @@ public class Edge
         edgeObject = obj;
     }
 }
+
