@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1426694153490689965}
   - component: {fileID: -1285396022844776503}
+  - component: {fileID: 1129688349553105937}
   m_Layer: 0
   m_Name: GraphNode
   m_TagString: Untagged
@@ -84,3 +85,16 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1129688349553105937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 188981814967079013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab7693f7109b4f5ea9047dafa278e7ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectionColor: {r: 1, g: 1, b: 1, a: 1}

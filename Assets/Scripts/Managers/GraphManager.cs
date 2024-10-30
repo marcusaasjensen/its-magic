@@ -31,8 +31,6 @@ public class GraphManager : MonoBehaviour
 
     void Update()
     {
-        Debug.Log("isGraphGenerated :" + isGraphGenerated);
-
         if (_spriteRenderer.sprite != null)  
         {
             if (!isGraphGenerated)  
@@ -40,6 +38,7 @@ public class GraphManager : MonoBehaviour
                 ShowGraph(true); 
                 isGraphGenerated = true;  
             }
+        	UpdateEdges();
         }
         else
         {
@@ -139,6 +138,23 @@ public class GraphManager : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(graphCenter.transform.position, new Vector3(spawnArea.x, spawnArea.y, 0));
     }
+	
+	void UpdateEdges()
+	{
+    	foreach (Edge edge in edges)
+   	 	{
+        	// Récupère les positions actuelles des nœuds
+        	edge.startNode.position = edge.startNode.nodeObject.transform.position;
+        	edge.endNode.position = edge.endNode.nodeObject.transform.position;
+
+        	// Met à jour les positions du LineRenderer pour correspondre aux nouvelles positions des nœuds
+        	LineRenderer lineRenderer = edge.edgeObject.GetComponent<LineRenderer>();
+        	lineRenderer.SetPosition(0, edge.startNode.position);
+        	lineRenderer.SetPosition(1, edge.endNode.position);
+    	}
+	}
+
+
 }
 
 [System.Serializable]
