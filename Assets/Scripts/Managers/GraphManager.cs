@@ -37,7 +37,6 @@ public class GraphManager : MonoBehaviour
             {
                 ShowGraph(true); 
                 isGraphGenerated = true;  
-                Debug.Log("Graphe affiché.");
             }
         }
         else
@@ -46,7 +45,6 @@ public class GraphManager : MonoBehaviour
             {
                 ShowGraph(false); 
                 isGraphGenerated = false;  
-                Debug.Log("Graphe masqué.");
             }
         }
     }
