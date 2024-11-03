@@ -2,10 +2,11 @@
 
 public class Container : MonoBehaviour
 {
+    public Sprite newSprite;
     public GameObject emptySlot;  // Le slot vide dans le conteneur où le sprite de l'objet collecté sera affiché
     private SpriteRenderer emptySlotRenderer;
     private GameObject collectedObject;  // Référence à l'objet collecté dans le conteneur
-
+    
     private void Start()
     {
         emptySlotRenderer = emptySlot.GetComponent<SpriteRenderer>();
@@ -24,10 +25,16 @@ public class Container : MonoBehaviour
     {
         if (collectedObject != null)
         {
+            collectedObject.transform.position = transform.position + new Vector3(4, 0, 0);
             collectedObject.SetActive(true);
-            collectedObject.transform.position = transform.position + new Vector3(1, 1, 0);
             emptySlotRenderer.sprite = null;
             collectedObject = null;
         }
+    }
+    
+    public void ChangeObjetSprite()
+    {
+        emptySlotRenderer.sprite = newSprite;
+        collectedObject.GetComponent<SpriteRenderer>().sprite = newSprite;
     }
 }

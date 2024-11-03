@@ -1,4 +1,5 @@
-﻿using Managers;
+﻿using System;
+using Managers;
 using UnityEngine;
 
 namespace Environment
@@ -49,6 +50,11 @@ namespace Environment
             {
                 _isDragging = false;
             }
+        }
+
+        private void OnDisable()
+        {
+            _isDragging = false;
         }
     }
 }

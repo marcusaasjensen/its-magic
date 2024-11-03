@@ -1,28 +1,32 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
-using UnityEngine.Serialization;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
 
 public class GraphManager : MonoBehaviour
 {
-    public GameObject nodePrefab;  
-    public GameObject edgePrefab;  
+    public GameObject nodePrefab;
+    public GameObject edgePrefab;
 
     [SerializeField]
-    public GameObject molecularItem; 
+    public GameObject molecularItem;
     [SerializeField]
-    private GameObject graphCenter; 
+    private GameObject graphCenter;
     [SerializeField] private Color edgesColor;
 
-    // Zone de génération des nœuds
-    [SerializeField] private Vector2 spawnArea = new Vector2(10f, 10f); 
-	[SerializeField]
-    private Transform parent; 
+    [SerializeField] private Vector2 spawnArea = new Vector2(10f, 10f);
+    [SerializeField] private Transform parent;
+    
+    [SerializeField] private UnityEvent onEdgeCreated;
+    [SerializeField] private UnityEvent onEdgeRemoved;
 
-    private SpriteRenderer _spriteRenderer; 
+    private SpriteRenderer _spriteRenderer;
 
-    private List<Node> nodes = new List<Node>(); 
-    private List<Edge> edges = new List<Edge>(); 
-    private bool isGraphGenerated = false;  
+    private List<Node> nodes = new List<Node>();
+    private List<Edge> edges = new List<Edge>();
+    private bool isGraphGenerated = false;
+
+    private Node selectedNodeA = null;
+    private Node selectedNodeB = null;
 
     private void Awake()
     {
@@ -32,29 +36,31 @@ public class GraphManager : MonoBehaviour
 
     private void Start()
     {
-        
         ShowGraph(false);
     }
 
     void Update()
     {
-        if (_spriteRenderer.sprite != null)  
+        if (_spriteRenderer.sprite != null)
         {
-            if (!isGraphGenerated)  
+            if (!isGraphGenerated)
             {
-                ShowGraph(true); 
-                isGraphGenerated = true;  
+                ShowGraph(true);
+                isGraphGenerated = true;
             }
-        	UpdateEdges();
+            UpdateEdges();
         }
         else
         {
-            if (isGraphGenerated) 
+            if (isGraphGenerated)
             {
-                ShowGraph(false); 
-                isGraphGenerated = false;  
+                ShowGraph(false);
+                isGraphGenerated = false;
             }
         }
+
+        DetectSlash();
+        HandleNodeSelection();
     }
 
     public void GenerateGraph(int nodeCount, int edgeCount)
@@ -68,10 +74,10 @@ public class GraphManager : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             Vector3 position = graphCenter.transform.position + new Vector3(
-                Random.Range(-spawnArea.x / 2, spawnArea.x / 2),  // Utilise les limites de spawnArea
-                Random.Range(-spawnArea.y / 2, spawnArea.y / 2),  
+                Random.Range(-spawnArea.x / 2, spawnArea.x / 2),
+                Random.Range(-spawnArea.y / 2, spawnArea.y / 2),
                 0f);
-            
+
             GameObject nodeObj = Instantiate(nodePrefab, position, Quaternion.identity);
             Node newNode = new Node(nodeObj, position);
             nodes.Add(newNode);
@@ -91,9 +97,8 @@ public class GraphManager : MonoBehaviour
                 GameObject edgeObj = Instantiate(edgePrefab, parent.transform.position, Quaternion.identity, parent);
                 Edge newEdge = new Edge(nodeA, nodeB, edgeObj);
                 edges.Add(newEdge);
-                
+
                 DrawEdge(newEdge);
-                
                 createdEdges++;
             }
         }
@@ -103,7 +108,7 @@ public class GraphManager : MonoBehaviour
     {
         foreach (Edge edge in edges)
         {
-            if ((edge.startNode == nodeA && edge.endNode == nodeB) || 
+            if ((edge.startNode == nodeA && edge.endNode == nodeB) ||
                 (edge.startNode == nodeB && edge.endNode == nodeA))
             {
                 return true;
@@ -118,14 +123,11 @@ public class GraphManager : MonoBehaviour
         lineRenderer.positionCount = 2;
         lineRenderer.SetPosition(0, edge.startNode.position);
         lineRenderer.SetPosition(1, edge.endNode.position);
-        lineRenderer.startWidth = 0.1f; 
-        lineRenderer.endWidth = 0.1f; 
-
+        lineRenderer.startWidth = 0.1f;
+        lineRenderer.endWidth = 0.1f;
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-        
-        Color edgeColor = edgesColor;
-        lineRenderer.startColor = edgeColor; 
-        lineRenderer.endColor = edgeColor;
+        lineRenderer.startColor = edgesColor;
+        lineRenderer.endColor = edgesColor;
     }
 
     void ShowGraph(bool isVisible)
@@ -145,24 +147,98 @@ public class GraphManager : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(graphCenter.transform.position, new Vector3(spawnArea.x, spawnArea.y, 0));
     }
-	
-	void UpdateEdges()
-	{
-    	foreach (Edge edge in edges)
-   	 	{
-        	// Récupère les positions actuelles des nœuds
-        	edge.startNode.position = edge.startNode.nodeObject.transform.position;
-        	edge.endNode.position = edge.endNode.nodeObject.transform.position;
 
-        	// Met à jour les positions du LineRenderer pour correspondre aux nouvelles positions des nœuds
-        	LineRenderer lineRenderer = edge.edgeObject.GetComponent<LineRenderer>();
-        	lineRenderer.SetPosition(0, edge.startNode.position);
-        	lineRenderer.SetPosition(1, edge.endNode.position);
-    	}
-	}
+    void UpdateEdges()
+    {
+        foreach (Edge edge in edges)
+        {
+            edge.startNode.position = edge.startNode.nodeObject.transform.position;
+            edge.endNode.position = edge.endNode.nodeObject.transform.position;
 
+            LineRenderer lineRenderer = edge.edgeObject.GetComponent<LineRenderer>();
+            lineRenderer.SetPosition(0, edge.startNode.position);
+            lineRenderer.SetPosition(1, edge.endNode.position);
+        }
+    }
 
+    // Detects slashes and removes edges if intersected by swipe
+    void DetectSlash()
+    {
+        if (Input.touchCount == 1)
+        {
+            Touch touch = Input.GetTouch(0);
+
+            if (touch.phase == TouchPhase.Moved)
+            {
+                Vector3 touchPosition = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 0f));
+                touchPosition.z = 0;
+
+                foreach (Edge edge in new List<Edge>(edges))
+                {
+                    if (EdgeIntersectedBySwipe(edge, touchPosition))
+                    {
+                        Destroy(edge.edgeObject);
+                        edges.Remove(edge);
+                        onEdgeRemoved.Invoke();
+                    }
+                }
+            }
+        }
+    }
+
+    // Checks if an edge is intersected by the swipe
+    bool EdgeIntersectedBySwipe(Edge edge, Vector3 swipePosition)
+    {
+        float distanceToEdge = Vector2.Distance(edge.startNode.position, edge.endNode.position);
+        float distanceToStart = Vector2.Distance(edge.startNode.position, swipePosition);
+        float distanceToEnd = Vector2.Distance(edge.endNode.position, swipePosition);
+
+        return distanceToStart + distanceToEnd <= distanceToEdge + 0.2f;  // Adjust threshold as needed
+    }
+
+    // Handles node selection to create new edges by linking nodes
+    void HandleNodeSelection()
+    {
+        if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began)
+        {
+            Vector3 touchPosition = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
+            touchPosition.z = 0;
+
+            Node touchedNode = nodes.Find(n => Vector2.Distance(n.position, touchPosition) < 0.5f);
+
+            if (touchedNode != null)
+            {
+                if (selectedNodeA == null)
+                {
+                    selectedNodeA = touchedNode;
+                }
+                else if (selectedNodeB == null && touchedNode != selectedNodeA)
+                {
+                    selectedNodeB = touchedNode;
+                    CreateEdgeBetweenSelectedNodes();
+                }
+            }
+        }
+    }
+
+    // Creates a new edge between selected nodes if not already connected
+    void CreateEdgeBetweenSelectedNodes()
+    {
+        if (selectedNodeA != null && selectedNodeB != null && !AreNodesConnected(selectedNodeA, selectedNodeB))
+        {
+            GameObject edgeObj = Instantiate(edgePrefab, parent.transform.position, Quaternion.identity, parent);
+            Edge newEdge = new Edge(selectedNodeA, selectedNodeB, edgeObj);
+            edges.Add(newEdge);
+            DrawEdge(newEdge);
+            onEdgeCreated.Invoke();
+        }
+
+        // Reset node selections
+        selectedNodeA = null;
+        selectedNodeB = null;
+    }
 }
+
 
 [System.Serializable]
 public class Node
