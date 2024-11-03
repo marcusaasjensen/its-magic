@@ -16,11 +16,11 @@ namespace Managers
         [SerializeField] private bool enableFill = true;
         [SerializeField] private bool enableLines = true;
         [SerializeField] private float maxDistance = 5f;
-        
+
         private Mesh _mesh;
         private GameObject _fillPolygon;
         private LineRenderer _lineRenderer;
-        
+
         public bool IsSelecting => knobPool.Knobs.FindAll(knob => knob.IsVisible).Count > 1;
 
         private void Start()
@@ -89,17 +89,22 @@ namespace Managers
                 _mesh.Clear();
             }
 
-            var vertices = new List<Vector3>();
+            // Sort knobs based on angle around the center to form a circular/convex shape
+            Vector3 center = GetCenter(knobs);
+            List<Vector3> sortedVertices = knobs
+                .Select(knob => knob.transform.position)
+                .OrderBy(v => Mathf.Atan2(v.y - center.y, v.x - center.x))
+                .ToList();
+
+            var vertices = new List<Vector3> { sortedVertices[0] };
             var triangles = new List<int>();
 
-            vertices.Add(knobs[0].transform.position);
-
-            for (var i = 1; i < knobs.Count; i++)
+            for (int i = 1; i < sortedVertices.Count; i++)
             {
-                if (Vector3.Distance(knobs[i - 1].transform.position, knobs[i].transform.position) <= maxDistance)
+                // Only add vertices within maxDistance to maintain boundary constraints
+                if (Vector3.Distance(sortedVertices[i - 1], sortedVertices[i]) <= maxDistance)
                 {
-                    vertices.Add(knobs[i].transform.position);
-
+                    vertices.Add(sortedVertices[i]);
                     if (vertices.Count > 2)
                     {
                         triangles.Add(0);
@@ -119,6 +124,16 @@ namespace Managers
             }
         }
 
+        private Vector3 GetCenter(List<Knob> knobs)
+        {
+            Vector3 center = Vector3.zero;
+            foreach (var knob in knobs)
+            {
+                center += knob.transform.position;
+            }
+            return center / knobs.Count;
+        }
+
         private void DrawPolygon()
         {
             if (_fillPolygon != null)
@@ -129,23 +144,16 @@ namespace Managers
 
         private void DrawLines(List<Knob> knobs)
         {
-            var linePositions = new List<Vector3>();
+            Vector3 center = GetCenter(knobs);
+            List<Vector3> sortedVertices = knobs
+                .Select(knob => knob.transform.position)
+                .OrderBy(v => Mathf.Atan2(v.y - center.y, v.x - center.x))
+                .ToList();
 
-            for (var i = 0; i < knobs.Count; i++)
+            _lineRenderer.positionCount = sortedVertices.Count;
+            for (int i = 0; i < sortedVertices.Count; i++)
             {
-                if (i > 0 && Vector3.Distance(knobs[i - 1].transform.position, knobs[i].transform.position) > maxDistance)
-                {
-                    continue;
-                }
-
-                linePositions.Add(knobs[i].transform.position);
-            }
-
-            _lineRenderer.positionCount = linePositions.Count;
-
-            for (var i = 0; i < linePositions.Count; i++)
-            {
-                _lineRenderer.SetPosition(i, linePositions[i]);
+                _lineRenderer.SetPosition(i, sortedVertices[i]);
             }
         }
 
@@ -164,13 +172,13 @@ namespace Managers
                 _lineRenderer.positionCount = 0;
             }
         }
-        
+
         public bool IsPointInSelection(Vector2 point)
         {
             var knobs = knobPool.Knobs.FindAll(knob => knob.IsVisible);
-            if(knobs.Count == 0) return false;
-            var validKnobs = new List<Knob> { knobs[0] };
+            if (knobs.Count == 0) return false;
 
+            var validKnobs = new List<Knob> { knobs[0] };
             for (var i = 1; i < knobs.Count; i++)
             {
                 if (Vector3.Distance(knobs[i - 1].transform.position, knobs[i].transform.position) <= maxDistance)

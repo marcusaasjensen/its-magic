@@ -1,4 +1,5 @@
-﻿using Managers;
+﻿using System;
+using Managers;
 using Player;
 using UnityEngine;
 
@@ -43,16 +44,19 @@ namespace Environment
         private void SetAsSelected(bool selected)
         {
             IsSelected = selected;
-            if (selected)
-            {
-                SelectableManager.Instance.RegisterSelectable(this);
-            }
-            else
-            {
-                SelectableManager.Instance.UnregisterSelectable(this);
-            }
+            SelectableManager.Instance.RegisterSelectable(this, selected);
         }
-        
+
+        private void OnDestroy()
+        {
+            SelectableManager.Instance.RegisterSelectable(this, false);
+        }
+
+        private void OnDisable()
+        {
+            SelectableManager.Instance.RegisterSelectable(this, false);
+        }
+
         /*private void OnTriggerStay2D(Collider2D other)
         {
             if (other.CompareTag("Player") && !IsSelected)

@@ -14,7 +14,6 @@ public class Container : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Draggable") && collectedObject == null)
         {
-            print("POuet");
             collectedObject = collision.gameObject;
             emptySlotRenderer.sprite = collectedObject.GetComponent<SpriteRenderer>().sprite;
             collectedObject.SetActive(false);

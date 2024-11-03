@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Serialization;
 
 public class GraphManager : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class GraphManager : MonoBehaviour
     public GameObject molecularItem; 
     [SerializeField]
     private GameObject graphCenter; 
+    [SerializeField] private Color edgesColor;
 
     // Zone de génération des nœuds
     [SerializeField] private Vector2 spawnArea = new Vector2(10f, 10f); 
@@ -26,6 +28,11 @@ public class GraphManager : MonoBehaviour
     {
         _spriteRenderer = molecularItem.GetComponent<SpriteRenderer>();
         GenerateGraph(5, 10);
+    }
+
+    private void Start()
+    {
+        
         ShowGraph(false);
     }
 
@@ -116,7 +123,7 @@ public class GraphManager : MonoBehaviour
 
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
         
-        Color edgeColor = new Color(1f, 1f, 1f, 0.01f); 
+        Color edgeColor = edgesColor;
         lineRenderer.startColor = edgeColor; 
         lineRenderer.endColor = edgeColor;
     }
