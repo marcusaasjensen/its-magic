@@ -27,6 +27,8 @@ public class GraphManager : MonoBehaviour
 
     private Node selectedNodeA = null;
     private Node selectedNodeB = null;
+    
+    private bool _isVisible = false;
 
     private void Awake()
     {
@@ -57,6 +59,11 @@ public class GraphManager : MonoBehaviour
                 ShowGraph(false);
                 isGraphGenerated = false;
             }
+        }
+        
+        if(!_isVisible)
+        {
+            return;
         }
 
         DetectSlash();
@@ -140,6 +147,8 @@ public class GraphManager : MonoBehaviour
         {
             edge.edgeObject.SetActive(isVisible);
         }
+        
+        _isVisible = isVisible;
     }
 
     private void OnDrawGizmos()
