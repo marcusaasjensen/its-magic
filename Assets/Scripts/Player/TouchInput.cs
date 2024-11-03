@@ -10,10 +10,12 @@ namespace Player
     {
         [SerializeField] private TextMeshProUGUI touchText;
         [SerializeField] private KnobSelection selection;
+        [SerializeField] private DrawingSelector drawingSelection;
         
         public Touch[] Touches { get; private set; }
         public bool IsTouching => Touches.Length > 0;
         public KnobSelection Selection => selection;
+        public DrawingSelector DrawingSelection => drawingSelection;
 
         public UnityEvent onSingleTouch;
 

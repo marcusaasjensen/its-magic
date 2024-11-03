@@ -14,7 +14,7 @@ namespace UI
         private int _counter;
         private static readonly int IsOdd = Animator.StringToHash("isOdd");
 
-        private bool _isDragging;
+        public bool IsDragging { get; private set; }
         private Vector2 _pointerOffset;
         private RectTransform _rectTransform;
         private Canvas _parentCanvas;
@@ -76,7 +76,7 @@ namespace UI
         {
             if (!fakeMenu.activeSelf || TouchInput.Instance.Selection.IsSelecting) return;
 
-            _isDragging = true;
+            IsDragging = true;
 
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
                 _parentCanvas.transform as RectTransform,
@@ -89,12 +89,12 @@ namespace UI
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            _isDragging = false;
+            IsDragging = false;
         }
 
         public void OnDrag(PointerEventData eventData)
         {
-            if (!_isDragging || TouchInput.Instance.Selection.IsSelecting) return;
+            if (!IsDragging || TouchInput.Instance.Selection.IsSelecting) return;
 
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
                 _parentCanvas.transform as RectTransform,

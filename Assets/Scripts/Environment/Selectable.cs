@@ -28,12 +28,12 @@ namespace Environment
         
         private void OnSelection()
         {
-            if(TouchInput.Instance.Selection.IsPointInSelection(transform.position) && !IsSelected && !_isTriggered)
+            if((TouchInput.Instance.Selection.IsPointInSelection(transform.position) || TouchInput.Instance.DrawingSelection.IsPointInSelection(transform.position)) && !IsSelected && !_isTriggered)
             {
                 SetAsSelected(true);
             }
 
-            if (!TouchInput.Instance.Selection.IsPointInSelection(transform.position) && IsSelected && !TouchInput.Instance.IsTouching)
+            if (!(TouchInput.Instance.Selection.IsPointInSelection(transform.position) || TouchInput.Instance.DrawingSelection.IsPointInSelection(transform.position)) && IsSelected && !TouchInput.Instance.IsTouching)
             {
                 SetAsSelected(false);
             }
