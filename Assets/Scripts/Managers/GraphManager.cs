@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Environment;
 
 public class GraphManager : MonoBehaviour
 {
@@ -88,28 +89,35 @@ public class GraphManager : MonoBehaviour
             GameObject nodeObj = Instantiate(nodePrefab, position, Quaternion.identity);
             Node newNode = new Node(nodeObj, position);
             nodes.Add(newNode);
+
+            NodeBehaviour nodeBehaviour = nodeObj.AddComponent<NodeBehaviour>();
+            nodeBehaviour.nodeData = newNode;
         }
     }
 
     void CreateEdges(int count)
+{
+    int createdEdges = 0;
+    while (createdEdges < count)
     {
-        int createdEdges = 0;
-        while (createdEdges < count)
+        Node nodeA = nodes[Random.Range(0, nodes.Count)];
+        Node nodeB = nodes[Random.Range(0, nodes.Count)];
+
+        if (nodeA != nodeB && !AreNodesConnected(nodeA, nodeB))
         {
-            Node nodeA = nodes[Random.Range(0, nodes.Count)];
-            Node nodeB = nodes[Random.Range(0, nodes.Count)];
+            GameObject edgeObj = Instantiate(edgePrefab, parent.transform.position, Quaternion.identity, parent);
+            Edge newEdge = new Edge(nodeA, nodeB, edgeObj);
+            edges.Add(newEdge);
 
-            if (nodeA != nodeB && !AreNodesConnected(nodeA, nodeB))
-            {
-                GameObject edgeObj = Instantiate(edgePrefab, parent.transform.position, Quaternion.identity, parent);
-                Edge newEdge = new Edge(nodeA, nodeB, edgeObj);
-                edges.Add(newEdge);
+            nodeA.connectedEdges.Add(newEdge);
+            nodeB.connectedEdges.Add(newEdge);
 
-                DrawEdge(newEdge);
-                createdEdges++;
-            }
+            DrawEdge(newEdge);
+            createdEdges++;
         }
     }
+}
+
 
     bool AreNodesConnected(Node nodeA, Node nodeB)
     {
@@ -126,7 +134,12 @@ public class GraphManager : MonoBehaviour
 
     void DrawEdge(Edge edge)
     {
-        LineRenderer lineRenderer = edge.edgeObject.AddComponent<LineRenderer>();
+        LineRenderer lineRenderer = edge.edgeObject.GetComponent<LineRenderer>();
+        if (lineRenderer == null)
+        {
+            lineRenderer = edge.edgeObject.AddComponent<LineRenderer>();
+        }
+
         lineRenderer.positionCount = 2;
         lineRenderer.SetPosition(0, edge.startNode.position);
         lineRenderer.SetPosition(1, edge.endNode.position);
@@ -232,33 +245,38 @@ public class GraphManager : MonoBehaviour
 
     // Creates a new edge between selected nodes if not already connected
     void CreateEdgeBetweenSelectedNodes()
+{
+    if (selectedNodeA != null && selectedNodeB != null && !AreNodesConnected(selectedNodeA, selectedNodeB))
     {
-        if (selectedNodeA != null && selectedNodeB != null && !AreNodesConnected(selectedNodeA, selectedNodeB))
-        {
-            GameObject edgeObj = Instantiate(edgePrefab, parent.transform.position, Quaternion.identity, parent);
-            Edge newEdge = new Edge(selectedNodeA, selectedNodeB, edgeObj);
-            edges.Add(newEdge);
-            DrawEdge(newEdge);
-            onEdgeCreated.Invoke();
-        }
-
-        // Reset node selections
-        selectedNodeA = null;
-        selectedNodeB = null;
+        GameObject edgeObj = Instantiate(edgePrefab, parent.transform.position, Quaternion.identity, parent);
+        Edge newEdge = new Edge(selectedNodeA, selectedNodeB, edgeObj);
+        edges.Add(newEdge);
+        
+        selectedNodeA.connectedEdges.Add(newEdge);
+        selectedNodeB.connectedEdges.Add(newEdge);
+        
+        DrawEdge(newEdge);
+        onEdgeCreated.Invoke();
     }
+
+    selectedNodeA = null;
+    selectedNodeB = null;
+}
 }
 
 
 [System.Serializable]
 public class Node
 {
-    public GameObject nodeObject;  
-    public Vector3 position;  
+    public GameObject nodeObject;
+    public Vector3 position;
+    public List<Edge> connectedEdges;
 
     public Node(GameObject obj, Vector3 pos)
     {
         nodeObject = obj;
         position = pos;
+        connectedEdges = new List<Edge>();
     }
 }
 
