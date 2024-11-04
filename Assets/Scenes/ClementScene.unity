@@ -720,6 +720,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   drawableManager: {fileID: 0}
+  fakeMenu: {fileID: 822287178}
 --- !u!1 &258038752
 GameObject:
   m_ObjectHideFlags: 0
@@ -25943,6 +25944,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   touchText: {fileID: 1924742468}
   selection: {fileID: 840195860}
+  drawingSelection: {fileID: 243269015}
   onSingleTouch:
     m_PersistentCalls:
       m_Calls: []

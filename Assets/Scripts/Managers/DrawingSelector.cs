@@ -35,6 +35,11 @@ public class DrawingSelector : MonoBehaviour
 
     private void HandleClickDown()
     {
+        if (_touchPositions.Count > 0)
+        {
+            _touchPositions.Clear();
+        }
+        
         if (fakeMenu.IsDragging || TouchInput.Instance.Selection.IsSelecting) return;
 
         _currentLine = Instantiate(linePrefab, new Vector3(0, 0, -1), Quaternion.identity, transform);
@@ -42,10 +47,7 @@ public class DrawingSelector : MonoBehaviour
         _lineRenderer = _currentLine.GetComponent<LineRenderer>();
         _edgeCollider = _currentLine.GetComponent<EdgeCollider2D>();
 
-        // Définir le Sorting Layer sur "Foreground"
         _lineRenderer.sortingLayerName = "Foreground";
-
-        // Définir le Sorting Order pour qu'il soit au premier plan
         _lineRenderer.sortingOrder = 10;
 
         Vector2 startPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -80,32 +82,27 @@ public class DrawingSelector : MonoBehaviour
 
         SelectCollectiblesInside();
 
-        Invoke(nameof(DestroyLine), 1f);
+        DestroyLine();
+        //Invoke(nameof(DestroyLine), 1f);
     }
 
-private void SelectCollectiblesInside()
-{
-    PolygonCollider2D polygon = _currentLine.AddComponent<PolygonCollider2D>();
-    polygon.isTrigger = true;
-
-    Vector2[] colliderPoints = new Vector2[_touchPositions.Count];
-    _touchPositions.CopyTo(colliderPoints);
-    polygon.points = colliderPoints;
-
-    // Initialiser une liste pour les résultats d'OverlapCollider
-    List<Collider2D> results = new List<Collider2D>();
-    ContactFilter2D filter = new ContactFilter2D();
-    filter.SetLayerMask(collectibleLayer);
-
-    // Utiliser OverlapCollider pour détecter les objets dans le polygone
-    int overlapCount = polygon.OverlapCollider(filter, results);
-    foreach (Collider2D collectible in results)
+    private void SelectCollectiblesInside()
     {
-        collectible.GetComponent<Collectible>().Collect();
-    }
+        Collider2D[] collectibles = Physics2D.OverlapAreaAll(_touchPositions[0], _touchPositions[0], collectibleLayer);
 
-    Destroy(polygon);
-}
+        foreach (var collectible in collectibles)
+        {
+            Vector2 point = collectible.transform.position;
+            if (IsPointInPolygon(point, _touchPositions.ToArray()))
+            {
+                var selectable = collectible.GetComponent<Selectable>();
+                if (selectable != null)
+                {
+                    selectable.IsSelected = true; // Mark as selected
+                }
+            }
+        }
+    }
 
 
     private bool CanCreateNewLine(Vector2 tempTouchPos)
@@ -123,33 +120,28 @@ private void SelectCollectiblesInside()
 
     public bool IsPointInSelection(Vector2 point)
     {
-        if (_touchPositions.Count > 1) return false;
-
-        //Debug.Log($"Checking touch positions: {_touchPositions.Count}");
-
         return IsPointInPolygon(point, _touchPositions.ToArray());
     }
 
     private static bool IsPointInPolygon(Vector2 point, Vector2[] polygon)
     {
-        bool isInside = false;
-        for (int i = 0, j = polygon.Length - 1; i < polygon.Length; j = i++)
+        int polygonLength = polygon.Length, i = 0;
+        bool inside = false;
+
+        for (int j = polygonLength - 1; i < polygonLength; j = i++)
         {
-            if (((polygon[i].y > point.y) != (polygon[j].y > point.y)) &&
+            if (((polygon[i].y <= point.y && point.y < polygon[j].y) || (polygon[j].y <= point.y && point.y < polygon[i].y)) &&
                 (point.x < (polygon[j].x - polygon[i].x) * (point.y - polygon[i].y) / (polygon[j].y - polygon[i].y) + polygon[i].x))
             {
-                isInside = !isInside;
+                inside = !inside;
             }
         }
-
-        if (isInside) Debug.Log("1");
-
-        return isInside;
+        return inside;
     }
 
     private void DestroyLine()
     {
-        _touchPositions.Clear();
-        Destroy(_currentLine);
+        //_touchPositions.Clear();
+        Destroy(_currentLine, 1f);
     }
 }
