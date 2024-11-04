@@ -6610,7 +6610,7 @@ MonoBehaviour:
   edgePrefab: {fileID: 8410774856949541345, guid: 428c2363fa67d5941b0917b068021c84, type: 3}
   molecularItem: {fileID: 220635580}
   graphCenter: {fileID: 406852779}
-  edgesColor: {r: 0.30245098, g: 0.30603626, b: 0.557, a: 1}
+  edgesColor: {r: 0.30245098, g: 0.30603626, b: 0.557, a: 0.14901961}
   spawnArea: {x: 9, y: 9}
   parent: {fileID: 406852780}
   onEdgeCreated:
