@@ -15,6 +15,7 @@ public class DrawingSelector : MonoBehaviour
     private LineRenderer _lineRenderer;
     private EdgeCollider2D _edgeCollider;
     private List<Vector2> _touchPositions = new List<Vector2>();
+    private Selectable _selectedObjectToDrag; // Track selected object
     private const float SensitivityThreshold = 0.3f;
 
     private void Update()
@@ -25,32 +26,67 @@ public class DrawingSelector : MonoBehaviour
         }
         else if (Input.GetMouseButton(0))
         {
-            HandleMoving();
+            if (_selectedObjectToDrag != null)
+            {
+                // Handle dragging if an object is selected
+                HandleDragging();
+            }
+            else
+            {
+                HandleMoving();
+            }
         }
         else if (Input.GetMouseButtonUp(0))
         {
-            HandleClickUp();
+            if (_selectedObjectToDrag != null)
+            {
+                // Stop dragging
+                _selectedObjectToDrag = null; 
+            }
+            else
+            {
+                HandleClickUp();
+            }
         }
     }
 
     private void HandleClickDown()
     {
+        if (fakeMenu.IsDragging || TouchInput.Instance.Selection.IsSelecting) return;
+
+        // Check if a Draggable object is under the mouse
+        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
+
+        if (hit.collider != null)
+        {
+            var selectable = hit.collider.GetComponent<Selectable>();
+            if (selectable != null)
+            {
+                // Start dragging if a Draggable object is found and exit to avoid starting a drawing
+                _selectedObjectToDrag = selectable;
+                return;
+            }
+        }
+
+        // Start drawing only if no Draggable object was found
+        StartDrawing(mousePosition);
+    }
+
+    private void StartDrawing(Vector2 startPos)
+    {
         if (_touchPositions.Count > 0)
         {
             _touchPositions.Clear();
         }
-        
-        if (fakeMenu.IsDragging || TouchInput.Instance.Selection.IsSelecting) return;
 
         _currentLine = Instantiate(linePrefab, new Vector3(0, 0, -1), Quaternion.identity, transform);
-
         _lineRenderer = _currentLine.GetComponent<LineRenderer>();
         _edgeCollider = _currentLine.GetComponent<EdgeCollider2D>();
 
         _lineRenderer.sortingLayerName = "Foreground";
         _lineRenderer.sortingOrder = 10;
 
-        Vector2 startPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         _touchPositions.Add(startPos);
         _touchPositions.Add(startPos);
 
@@ -82,8 +118,7 @@ public class DrawingSelector : MonoBehaviour
 
         SelectCollectiblesInside();
 
-        DestroyLine();
-        //Invoke(nameof(DestroyLine), 1f);
+        Destroy(_currentLine, 1f);
     }
 
     private void SelectCollectiblesInside()
@@ -104,6 +139,12 @@ public class DrawingSelector : MonoBehaviour
         }
     }
 
+    private void HandleDragging()
+    {
+        // Move the selected object to follow the mouse
+        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        _selectedObjectToDrag.transform.position = mousePosition;
+    }
 
     private bool CanCreateNewLine(Vector2 tempTouchPos)
     {
@@ -137,11 +178,5 @@ public class DrawingSelector : MonoBehaviour
             }
         }
         return inside;
-    }
-
-    private void DestroyLine()
-    {
-        //_touchPositions.Clear();
-        Destroy(_currentLine, 1f);
     }
 }

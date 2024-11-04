@@ -16,7 +16,7 @@ namespace Environment
             HandleMouseDrag();
         }
 
-        private void HandleMouseDrag()
+        public void HandleMouseDrag()
         {
             Vector2 mousePosition = CameraManager.Instance.MainCamera.ScreenToWorldPoint(Input.mousePosition);
 
