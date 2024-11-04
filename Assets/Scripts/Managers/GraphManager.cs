@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Environment;
+using Player;
 
 public class GraphManager : MonoBehaviour
 {
@@ -29,6 +31,7 @@ public class GraphManager : MonoBehaviour
     private Node selectedNodeB = null;
     
     private bool _isVisible = false;
+    private Vector3 _swipeStartPosition;
 
     private void Awake()
     {
@@ -88,28 +91,35 @@ public class GraphManager : MonoBehaviour
             GameObject nodeObj = Instantiate(nodePrefab, position, Quaternion.identity);
             Node newNode = new Node(nodeObj, position);
             nodes.Add(newNode);
+
+            NodeBehaviour nodeBehaviour = nodeObj.AddComponent<NodeBehaviour>();
+            nodeBehaviour.nodeData = newNode;
         }
     }
 
     void CreateEdges(int count)
+{
+    int createdEdges = 0;
+    while (createdEdges < count)
     {
-        int createdEdges = 0;
-        while (createdEdges < count)
+        Node nodeA = nodes[Random.Range(0, nodes.Count)];
+        Node nodeB = nodes[Random.Range(0, nodes.Count)];
+
+        if (nodeA != nodeB && !AreNodesConnected(nodeA, nodeB))
         {
-            Node nodeA = nodes[Random.Range(0, nodes.Count)];
-            Node nodeB = nodes[Random.Range(0, nodes.Count)];
+            GameObject edgeObj = Instantiate(edgePrefab, parent.transform.position, Quaternion.identity, parent);
+            Edge newEdge = new Edge(nodeA, nodeB, edgeObj);
+            edges.Add(newEdge);
 
-            if (nodeA != nodeB && !AreNodesConnected(nodeA, nodeB))
-            {
-                GameObject edgeObj = Instantiate(edgePrefab, parent.transform.position, Quaternion.identity, parent);
-                Edge newEdge = new Edge(nodeA, nodeB, edgeObj);
-                edges.Add(newEdge);
+            nodeA.connectedEdges.Add(newEdge);
+            nodeB.connectedEdges.Add(newEdge);
 
-                DrawEdge(newEdge);
-                createdEdges++;
-            }
+            DrawEdge(newEdge);
+            createdEdges++;
         }
     }
+}
+
 
     bool AreNodesConnected(Node nodeA, Node nodeB)
     {
@@ -126,7 +136,12 @@ public class GraphManager : MonoBehaviour
 
     void DrawEdge(Edge edge)
     {
-        LineRenderer lineRenderer = edge.edgeObject.AddComponent<LineRenderer>();
+        LineRenderer lineRenderer = edge.edgeObject.GetComponent<LineRenderer>();
+        if (lineRenderer == null)
+        {
+            lineRenderer = edge.edgeObject.AddComponent<LineRenderer>();
+        }
+
         lineRenderer.positionCount = 2;
         lineRenderer.SetPosition(0, edge.startNode.position);
         lineRenderer.SetPosition(1, edge.endNode.position);
@@ -170,40 +185,61 @@ public class GraphManager : MonoBehaviour
         }
     }
 
-    // Detects slashes and removes edges if intersected by swipe
+    private float swipeSpeedThreshold = 5.0f;  // Adjust this to set the minimum swipe speed for a valid slash
+    private float swipeStartTime;
+
     void DetectSlash()
     {
         if (Input.touchCount == 1)
         {
             Touch touch = Input.GetTouch(0);
 
-            if (touch.phase == TouchPhase.Moved)
+            if (touch.phase == TouchPhase.Began)
             {
-                Vector3 touchPosition = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 0f));
-                touchPosition.z = 0;
+                // Store the starting point and start time of the swipe
+                _swipeStartPosition = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 0f));
+                _swipeStartPosition.z = 0;
+                swipeStartTime = Time.time;
+            }
+            else if (touch.phase == TouchPhase.Ended)
+            {
+                // Store the end point of the swipe
+                Vector3 swipeEndPosition = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 0f));
+                swipeEndPosition.z = 0;
+                float swipeEndTime = Time.time;
 
-                foreach (Edge edge in new List<Edge>(edges))
+                // Calculate swipe distance and duration
+                float swipeDistance = Vector3.Distance(_swipeStartPosition, swipeEndPosition);
+                float swipeDuration = swipeEndTime - swipeStartTime;
+                float swipeSpeed = swipeDistance / swipeDuration;
+
+                // Check if swipe speed meets the threshold for a "slash"
+                if (swipeSpeed >= swipeSpeedThreshold)
                 {
-                    if (EdgeIntersectedBySwipe(edge, touchPosition))
+                    foreach (Edge edge in new List<Edge>(edges))
                     {
-                        Destroy(edge.edgeObject);
-                        edges.Remove(edge);
-                        onEdgeRemoved.Invoke();
+                        if (EdgeIntersectedBySwipe(edge, _swipeStartPosition, swipeEndPosition))
+                        {
+                            Destroy(edge.edgeObject);
+                            edges.Remove(edge);
+                            onEdgeRemoved.Invoke();
+                        }
                     }
                 }
             }
         }
     }
 
-    // Checks if an edge is intersected by the swipe
-    bool EdgeIntersectedBySwipe(Edge edge, Vector3 swipePosition)
-    {
-        float distanceToEdge = Vector2.Distance(edge.startNode.position, edge.endNode.position);
-        float distanceToStart = Vector2.Distance(edge.startNode.position, swipePosition);
-        float distanceToEnd = Vector2.Distance(edge.endNode.position, swipePosition);
 
-        return distanceToStart + distanceToEnd <= distanceToEdge + 0.2f;  // Adjust threshold as needed
+
+    bool EdgeIntersectedBySwipe(Edge edge, Vector3 swipeStart, Vector3 swipeEnd)
+    {
+        Vector3 edgeStart = edge.startNode.position;
+        Vector3 edgeEnd = edge.endNode.position;
+
+        return LinesIntersect(swipeStart, swipeEnd, edgeStart, edgeEnd);
     }
+
 
     // Handles node selection to create new edges by linking nodes
     void HandleNodeSelection()
@@ -238,27 +274,44 @@ public class GraphManager : MonoBehaviour
             GameObject edgeObj = Instantiate(edgePrefab, parent.transform.position, Quaternion.identity, parent);
             Edge newEdge = new Edge(selectedNodeA, selectedNodeB, edgeObj);
             edges.Add(newEdge);
+            
+            selectedNodeA.connectedEdges.Add(newEdge);
+            selectedNodeB.connectedEdges.Add(newEdge);
+            
             DrawEdge(newEdge);
             onEdgeCreated.Invoke();
         }
 
-        // Reset node selections
         selectedNodeA = null;
         selectedNodeB = null;
     }
+    
+    bool LinesIntersect(Vector3 p1, Vector3 p2, Vector3 q1, Vector3 q2)
+    {
+        float det = (p2.x - p1.x) * (q2.y - q1.y) - (p2.y - p1.y) * (q2.x - q1.x);
+        if (Mathf.Abs(det) < 0.0001f) return false;  // Lines are parallel
+
+        float lambda = ((q2.y - q1.y) * (q2.x - p1.x) + (q1.x - q2.x) * (q2.y - p1.y)) / det;
+        float gamma = ((p1.y - p2.y) * (q2.x - p1.x) + (p2.x - p1.x) * (q2.y - p1.y)) / det;
+
+        return (0 < lambda && lambda < 1) && (0 < gamma && gamma < 1);
+    }
+
 }
 
 
 [System.Serializable]
 public class Node
 {
-    public GameObject nodeObject;  
-    public Vector3 position;  
+    public GameObject nodeObject;
+    public Vector3 position;
+    public List<Edge> connectedEdges;
 
     public Node(GameObject obj, Vector3 pos)
     {
         nodeObject = obj;
         position = pos;
+        connectedEdges = new List<Edge>();
     }
 }
 
