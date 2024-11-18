@@ -35,7 +35,7 @@ namespace Managers
 
             if (_lastTouchPosition == Vector3.zero)
             {
-                _lastTouchPosition = currentTouchPosition;
+                _lastTouchPosition = Vector3.Lerp(_lastTouchPosition, currentTouchPosition, Time.deltaTime * 10);
                 CalculateSelectionCenter();
             }
 
