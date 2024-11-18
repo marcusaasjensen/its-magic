@@ -13,7 +13,7 @@ public class WebSocketClient : MonoBehaviour
     void Start()
     {
         // Initialiser le WebSocket avec l'adresse de votre serveur
-        ws = new WebSocket("ws://172.20.10.2:8080");
+        ws = new WebSocket("ws://192.168.1.28:8080"); //mettre bien votre ip
 
         // Événements pour gérer les messages reçus et la connexion
         ws.OnMessage += (sender, e) =>
