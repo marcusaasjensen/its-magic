@@ -27,6 +27,7 @@
 .vs/
 .vscode/
 .vsconfig/
+.vsconfig
 # JetBrains
 # Common IntelliJ Platform excludes
 
