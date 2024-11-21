@@ -2,23 +2,34 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using WebSocketSharp;
-
+using System.Collections.Generic;
 
 public class WebSocketClient : MonoBehaviour
 {
     private WebSocket ws; // Instance WebSocket
     public TMP_InputField messageInput; // Référence à la boîte de texte pour entrer le message
     public Button sendButton; // Bouton pour envoyer un message
+    public TMP_Text receivedMessagesText; // Zone pour afficher les messages reçus
+    private string receivedMessages = ""; // Stocker les messages reçus
+
+    // File d'attente pour les messages reçus
+    private Queue<string> messageQueue = new Queue<string>();
 
     void Start()
     {
         // Initialiser le WebSocket avec l'adresse de votre serveur
-        ws = new WebSocket("ws://192.168.1.28:8080"); //mettre bien votre ip
+        ws = new WebSocket("ws://172.20.10.2:8080"); // Remplacez par votre IP serveur
 
         // Événements pour gérer les messages reçus et la connexion
         ws.OnMessage += (sender, e) =>
         {
             Debug.Log("Message reçu du serveur : " + e.Data);
+
+            // Ajouter le message à la file d'attente
+            lock (messageQueue)
+            {
+                messageQueue.Enqueue(e.Data);
+            }
         };
 
         ws.OnOpen += (sender, e) =>
@@ -38,6 +49,19 @@ public class WebSocketClient : MonoBehaviour
         sendButton.onClick.AddListener(SendMessageToServer);
     }
 
+    void Update()
+    {
+        // Traiter les messages reçus depuis la file d'attente
+        lock (messageQueue)
+        {
+            while (messageQueue.Count > 0)
+            {
+                string message = messageQueue.Dequeue();
+                AddMessageToUI(message);
+            }
+        }
+    }
+
     void SendMessageToServer()
     {
         // Récupérer le message de la boîte de texte
@@ -55,6 +79,19 @@ public class WebSocketClient : MonoBehaviour
         else
         {
             Debug.Log("La boîte de texte est vide.");
+        }
+    }
+
+    void AddMessageToUI(string message)
+    {
+        // Ajoute le message reçu à la chaîne
+        receivedMessages += message + "\n";
+        Debug.Log("Messages reçus : " + receivedMessages);
+
+        // Met à jour le texte dans l'UI
+        if (receivedMessagesText != null)
+        {
+            receivedMessagesText.text = receivedMessages;
         }
     }
 
