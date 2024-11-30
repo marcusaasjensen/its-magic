@@ -17,7 +17,10 @@ namespace Managers
         private Vector3 _lastTouchPosition;
         private float _lastTouchAngle = 0f;
         private bool _rotationInProgress = false;
-        private float _lastTouchDistance = 0f; // Track the last distance for pinch gesture
+        private float _lastTouchDistance = 0f;
+
+        [SerializeField] private Vector2 minBounds = new Vector2(-5, -5);
+        [SerializeField] private Vector2 maxBounds = new Vector2(5, 5);
 
         private void Update()
         {
@@ -43,6 +46,7 @@ namespace Managers
             foreach (var selectable in Selectables.Where(s => s.IsSelected))
             {
                 selectable.transform.position += movementDelta;
+                selectable.transform.position = ClampToBounds(selectable.transform.position);
             }
 
             if (Input.touchCount >= 2)
@@ -83,6 +87,7 @@ namespace Managers
             foreach (var selectable in Selectables.Where(s => s.IsSelected))
             {
                 selectable.transform.RotateAround(_selectionCenter, Vector3.forward, angleDelta);
+                selectable.transform.position = ClampToBounds(selectable.transform.position);
             }
 
             CalculateSelectionCenter();
@@ -114,10 +119,7 @@ namespace Managers
             {
                 // Scale each selected item relative to the selection center
                 Vector3 direction = selectable.transform.position - _selectionCenter;
-                selectable.transform.position = _selectionCenter + direction * scaleFactor;
-
-                // Optional: Limit item positions to screen bounds (pseudo-code)
-                // selectable.transform.position = ClampToScreenBounds(selectable.transform.position);
+                selectable.transform.position = ClampToBounds(_selectionCenter + direction * scaleFactor);
             }
 
             CalculateSelectionCenter();
@@ -125,12 +127,11 @@ namespace Managers
             _lastTouchDistance = currentDistance;
         }
 
-        private Vector3 ClampToScreenBounds(Vector3 position)
+        private Vector3 ClampToBounds(Vector3 position)
         {
-            Vector3 viewportPosition = Camera.main.WorldToViewportPoint(position);
-            viewportPosition.x = Mathf.Clamp(viewportPosition.x, 0.1f, 0.9f);
-            viewportPosition.y = Mathf.Clamp(viewportPosition.y, 0.1f, 0.9f);
-            return Camera.main.ViewportToWorldPoint(viewportPosition);
+            position.x = Mathf.Clamp(position.x, minBounds.x, maxBounds.x);
+            position.y = Mathf.Clamp(position.y, minBounds.y, maxBounds.y);
+            return position;
         }
 
         public void RegisterSelectable(Selectable selectable, bool register = true)
@@ -169,6 +170,13 @@ namespace Managers
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(_selectionCenter, 1f);
+
+            // Draw bounds for visual debugging
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(new Vector3(minBounds.x, minBounds.y, 0), new Vector3(maxBounds.x, minBounds.y, 0));
+            Gizmos.DrawLine(new Vector3(maxBounds.x, minBounds.y, 0), new Vector3(maxBounds.x, maxBounds.y, 0));
+            Gizmos.DrawLine(new Vector3(maxBounds.x, maxBounds.y, 0), new Vector3(minBounds.x, maxBounds.y, 0));
+            Gizmos.DrawLine(new Vector3(minBounds.x, maxBounds.y, 0), new Vector3(minBounds.x, minBounds.y, 0));
         }
     }
 }

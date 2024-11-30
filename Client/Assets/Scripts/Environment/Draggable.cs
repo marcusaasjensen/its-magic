@@ -6,55 +6,40 @@ namespace Environment
 {
     public class Draggable : MonoBehaviour
     {
-        [SerializeField] private string draggableTag = "Draggable";
-        private bool _isDragging;
-        private bool _canDrag;
-        private Vector3 _offset;
+        private Vector2 touchOffset; // Offset between touch and object position
+        private int activeTouchId = -1; // ID of the touch dragging this object
 
-        private void Update()
+        void Update()
         {
-            HandleMouseDrag();
-        }
-
-        private void HandleMouseDrag()
-        {
-            Vector2 mousePosition = CameraManager.Instance.MainCamera.ScreenToWorldPoint(Input.mousePosition);
-
-            // Check if the mouse is clicking and dragging a draggable object
-            if (Input.GetMouseButtonDown(0))  // Only calculate offset when mouse is pressed down
+            // Iterate through all active touches
+            foreach (Touch touch in Input.touches)
             {
-                RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
+                Vector2 touchPosition = Camera.main.ScreenToWorldPoint(touch.position);
 
-                if (hit.collider != null && hit.collider.CompareTag(draggableTag))
+                if (touch.phase == TouchPhase.Began)
                 {
-                    _isDragging = true;
-                    _canDrag = hit.collider.gameObject == gameObject;
-
-                    // Calculate offset between object position and mouse click position
-                    if (_canDrag)
+                    // Check if this touch began on this object
+                    RaycastHit2D hit = Physics2D.Raycast(touchPosition, Vector2.zero);
+                    if (hit.collider != null && hit.collider.gameObject == gameObject)
                     {
-                        Vector3 hitPoint = hit.point;
-                        _offset = hit.collider.transform.position - hitPoint;
+                        activeTouchId = touch.fingerId; // Assign the touch ID
+                        touchOffset = (Vector2)transform.position - touchPosition;
+                    }
+                }
+                else if (touch.fingerId == activeTouchId)
+                {
+                    if (touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary)
+                    {
+                        // Drag the object with the touch
+                        transform.position = (Vector2)touchPosition + touchOffset;
+                    }
+                    else if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled)
+                    {
+                        // Release the object when touch ends
+                        activeTouchId = -1;
                     }
                 }
             }
-
-            // If currently dragging, apply the offset
-            if (_isDragging && _canDrag && Input.GetMouseButton(0))
-            {
-                transform.position = new Vector3(mousePosition.x, mousePosition.y, transform.position.z) + _offset;
-            }
-
-            // Stop dragging when mouse button is released
-            if (Input.GetMouseButtonUp(0))
-            {
-                _isDragging = false;
-            }
-        }
-
-        private void OnDisable()
-        {
-            _isDragging = false;
         }
     }
 }
