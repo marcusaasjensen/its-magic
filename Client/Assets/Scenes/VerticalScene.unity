@@ -313,7 +313,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3674f28b7bd84d41b49ed5f015475daa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  draggableTag: Draggable
 --- !u!212 &56698342
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -844,7 +843,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3674f28b7bd84d41b49ed5f015475daa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  draggableTag: Ingredient
 --- !u!50 &165906190
 Rigidbody2D:
   serializedVersion: 4
@@ -985,7 +983,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3674f28b7bd84d41b49ed5f015475daa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  draggableTag: Draggable
 --- !u!1 &186097502
 GameObject:
   m_ObjectHideFlags: 0
@@ -2982,7 +2979,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3674f28b7bd84d41b49ed5f015475daa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  draggableTag: Ingredient
 --- !u!50 &465926047
 Rigidbody2D:
   serializedVersion: 4
@@ -3355,7 +3351,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3674f28b7bd84d41b49ed5f015475daa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  draggableTag: Ingredient
 --- !u!50 &598638019
 Rigidbody2D:
   serializedVersion: 4
@@ -4138,6 +4133,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  minBounds: {x: -5, y: -5}
+  maxBounds: {x: 5, y: 5}
 --- !u!82 &784514110
 AudioSource:
   m_ObjectHideFlags: 0
@@ -6776,7 +6773,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3674f28b7bd84d41b49ed5f015475daa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  draggableTag: Ingredient
 --- !u!50 &1263970511
 Rigidbody2D:
   serializedVersion: 4
@@ -6850,7 +6846,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3674f28b7bd84d41b49ed5f015475daa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  draggableTag: Draggable
 --- !u!60 &1296440355
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -18397,6 +18392,55 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &1923009030
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1923009032}
+  - component: {fileID: 1923009031}
+  m_Layer: 0
+  m_Name: Slasher
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1923009031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1923009030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cea944e14914cd785e4edfdc68b1d6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  swipeSpeedThreshold: 5
+  slashRadius: 1
+  onAnySlash:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!4 &1923009032
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1923009030}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1924742466
 GameObject:
   m_ObjectHideFlags: 0
@@ -23810,7 +23854,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3674f28b7bd84d41b49ed5f015475daa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  draggableTag: Draggable
 --- !u!212 &2098185657
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -23981,7 +24024,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3674f28b7bd84d41b49ed5f015475daa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  draggableTag: Ingredient
 --- !u!50 &2109610794
 Rigidbody2D:
   serializedVersion: 4
@@ -24209,3 +24251,4 @@ SceneRoots:
   - {fileID: 945908348}
   - {fileID: 1986110640}
   - {fileID: 650901851}
+  - {fileID: 1923009032}

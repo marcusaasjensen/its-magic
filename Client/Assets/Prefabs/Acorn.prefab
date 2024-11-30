@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 6056644906501965711}
   - component: {fileID: 5475445843294251311}
   - component: {fileID: -6735021025863391222}
+  - component: {fileID: 3644052977339231853}
   m_Layer: 0
   m_Name: Acorn
-  m_TagString: Untagged
+  m_TagString: Slashable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -495,3 +496,45 @@ PolygonCollider2D:
       - {x: 2.6699998, y: 0.64}
       - {x: 2.6799998, y: 0.64}
   m_UseDelaunayMesh: 0
+--- !u!114 &3644052977339231853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2015880986304579171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 593e019c472347baac0204c627956f8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slashableTag: Slashable
+  onSlash:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3644052977339231853}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5475445843294251311}
+        m_TargetAssemblyTypeName: UnityEngine.Rigidbody2D, UnityEngine
+        m_MethodName: set_isKinematic
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  slashRadius: 1
+  swipeSpeedThreshold: 5

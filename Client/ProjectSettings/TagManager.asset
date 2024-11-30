@@ -7,6 +7,7 @@ TagManager:
   - Bag
   - Draggable
   - Ingredient
+  - Slashable
   layers:
   - Default
   - TransparentFX
