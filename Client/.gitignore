@@ -112,3 +112,9 @@ crashlytics-build.properties
 Assembly-CSharp.csproj
 Client.sln
 
+/[Aa]ssets/[Rr]esources/config.json
+/[Aa]ssets/[Rr]esources/config.json.meta
+
+/[Bb]uilds
+
+

@@ -1,88 +1,91 @@
-using TMPro;
-using UnityEngine;
-using UnityEngine.UI;
-using WebSocketSharp;
 using System.Collections.Generic;
+using UnityEngine;
+using Utils;
+using WebSocketSharp;
 
-public class WebSocketClient : MonoBehaviour
+namespace Client
 {
-    private WebSocket ws; // Instance WebSocket
-    public TMP_InputField messageInput; // Référence à la boîte de texte pour entrer le message
-    public Button sendButton; // Bouton pour envoyer un message
-    public TMP_Text receivedMessagesText; // Zone pour afficher les messages reçus
-    private string receivedMessages = ""; // Stocker les messages reçus
-
-    // File d'attente pour les messages reçus
-    private Queue<string> messageQueue = new Queue<string>();
-
-    void Start()
+    public class WebSocketClient : MonoBehaviourSingleton<WebSocketClient>
     {
-        // Initialiser le WebSocket avec l'adresse de votre serveur
-        ws = new WebSocket("ws://172.20.10.2:8080"); // Remplacez par votre IP serveur
+        //[SerializeField] private string serverAddress = "ws://<ipconfig>:8080";
+    
+        private ServerConfig _serverConfig;
+        private WebSocket _ws;
+        //public TMP_InputField messageInput;
+        //public Button sendButton;
+        //public TMP_Text receivedMessagesText;
+        private string receivedMessages = "";
 
-        // Événements pour gérer les messages reçus et la connexion
-        ws.OnMessage += (sender, e) =>
+        // File d'attente pour les messages reçus
+        public readonly Queue<string> messageQueue = new();
+        
+        protected override void Awake()
         {
-            Debug.Log("Message reçu du serveur : " + e.Data);
+            base.Awake();
+            _serverConfig = ConfigLoader.LoadConfig();
+            Debug.Log($"Configuration loaded: {JsonUtility.ToJson(_serverConfig)}");
+        }
 
-            // Ajouter le message à la file d'attente
+        private void Start()
+        {
+            _ws = new WebSocket($"ws://{_serverConfig.serverIp}:{_serverConfig.serverPort}");
+            
+            _ws.OnMessage += (sender, e) =>
+            {
+                // Debug.Log("Message reçu du serveur : " + e.Data);
+
+                lock (messageQueue)
+                {
+                    messageQueue.Enqueue(e.Data);
+                }
+            };
+
+            _ws.OnOpen += (sender, e) =>
+            {
+                Debug.Log("Connecté au serveur WebSocket.");
+            };
+
+            _ws.OnClose += (sender, e) =>
+            {
+                Debug.Log("Déconnecté du serveur.");
+            };
+        
+            _ws.Connect();
+
+            //sendButton.onClick.AddListener(() => SendMessageToServer(messageInput.text));
+        }
+
+        private void Update()
+        {
             lock (messageQueue)
             {
-                messageQueue.Enqueue(e.Data);
+                while (messageQueue.Count > 0)
+                {
+                    string message = messageQueue.Dequeue();
+                    Debug.Log("Message reçu du serveur : " + message);
+                    //AddMessageToUI(message);
+                }
             }
-        };
+        }
 
-        ws.OnOpen += (sender, e) =>
+        public void SendMessageToServer(string message)
         {
-            Debug.Log("Connecté au serveur WebSocket.");
-        };
+            // string message = messageInput.text;
 
-        ws.OnClose += (sender, e) =>
-        {
-            Debug.Log("Déconnecté du serveur.");
-        };
-
-        // Connecter au serveur
-        ws.Connect();
-
-        // Ajouter un listener au bouton d'envoi
-        sendButton.onClick.AddListener(SendMessageToServer);
-    }
-
-    void Update()
-    {
-        // Traiter les messages reçus depuis la file d'attente
-        lock (messageQueue)
-        {
-            while (messageQueue.Count > 0)
+            if (!string.IsNullOrEmpty(message))
             {
-                string message = messageQueue.Dequeue();
-                AddMessageToUI(message);
+                _ws.Send(message);
+                Debug.Log("Message envoyé au serveur : " + message);
+
+                //messageInput.text = "";
+            }
+            else
+            {
+                Debug.Log("La boîte de texte est vide.");
             }
         }
-    }
 
-    void SendMessageToServer()
-    {
-        // Récupérer le message de la boîte de texte
-        string message = messageInput.text;
-
-        if (!string.IsNullOrEmpty(message))
-        {
-            // Envoyer le message au serveur
-            ws.Send(message);
-            Debug.Log("Message envoyé au serveur : " + message);
-
-            // Effacer la boîte de texte après l'envoi
-            messageInput.text = "";
-        }
-        else
-        {
-            Debug.Log("La boîte de texte est vide.");
-        }
-    }
-
-    void AddMessageToUI(string message)
+        /*void AddMessageToUI(string message)
     {
         // Ajoute le message reçu à la chaîne
         receivedMessages += message + "\n";
@@ -93,14 +96,14 @@ public class WebSocketClient : MonoBehaviour
         {
             receivedMessagesText.text = receivedMessages;
         }
-    }
+    }*/
 
-    void OnDestroy()
-    {
-        // Fermer la connexion lorsque l'objet est détruit
-        if (ws != null)
+        private void OnDestroy()
         {
-            ws.Close();
+            if (_ws != null)
+            {
+                _ws.Close();
+            }
         }
     }
 }

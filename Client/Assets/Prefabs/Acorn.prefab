@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 6056644906501965711}
   - component: {fileID: 5475445843294251311}
   - component: {fileID: -6735021025863391222}
-  - component: {fileID: 3644052977339231853}
+  - component: {fileID: 342069731640801016}
+  - component: {fileID: -6082599934365446913}
   m_Layer: 0
   m_Name: Acorn
   m_TagString: Slashable
@@ -30,8 +31,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 6.22, y: 3.98, z: 0}
-  m_LocalScale: {x: 0.058734663, y: 0.058734663, z: 0.058734663}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.10000001, y: 0.10000001, z: 0.10000001}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -75,7 +76,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 8e582ac499d7c8448aef6b3574ecb767, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -143,7 +144,7 @@ PolygonCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -496,7 +497,7 @@ PolygonCollider2D:
       - {x: 2.6699998, y: 0.64}
       - {x: 2.6799998, y: 0.64}
   m_UseDelaunayMesh: 0
---- !u!114 &3644052977339231853
+--- !u!114 &342069731640801016
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -505,14 +506,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2015880986304579171}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 593e019c472347baac0204c627956f8a, type: 3}
+  m_Script: {fileID: 11500000, guid: 9b8788ac85ff4a4892058fa7878fa3db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slashableTag: Slashable
   onSlash:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3644052977339231853}
+      - m_Target: {fileID: 342069731640801016}
         m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
         m_MethodName: set_enabled
         m_Mode: 6
@@ -537,4 +537,17 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   slashRadius: 1
-  swipeSpeedThreshold: 5
+  name: Acorn
+--- !u!114 &-6082599934365446913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2015880986304579171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab7693f7109b4f5ea9047dafa278e7ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectionColor: {r: 0, g: 0.7805195, b: 1, a: 1}
