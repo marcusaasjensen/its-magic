@@ -6,13 +6,19 @@ const wss = new WebSocket.Server({ port: 8080 });
 
 wss.on('connection', (ws) => {
     console.log('Client connecté');
+    console.log('Nombre de clients connectés :', wss.clients.size);
 
     // Envoyer un message au client dès la connexion
     ws.send('Hello Client!');
 
     // Réception des messages depuis le client
     ws.on('message', (message) => {
+        if(message === ''){
+            console.log('Client a envoyé un message vide');
+            return;
+        }
         console.log(`Message reçu du client : ${message}`);
+        broadcastMessage(message.toString()); // Envoyer le message à tous les clients
     });
 
     // Gestion de la déconnexion
@@ -33,6 +39,7 @@ console.log('Serveur WebSocket en écoute sur ws://localhost:8080');
 const broadcastMessage = (message) => {
     wss.clients.forEach((client) => {
         if (client.readyState === WebSocket.OPEN) {
+            console.log(message);
             client.send(message);
         }
     });
