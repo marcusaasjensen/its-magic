@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Client</title>
+</head>
+<body>
+    <h1>WebSocket Client</h1>
+    <div id="messages"></div>
+
+    <!-- Formulaire pour envoyer des messages -->
+    <input type="text" id="messageInput" placeholder="Tapez votre message ici">
+    <button onclick="sendMessage()">Envoyer</button>
+
+    <script>
+        // Connexion au serveur WebSocket
+        const ws = new WebSocket('ws://172.20.10.2:8080'); // Remplacez par l'adresse IP de votre serveur
+
+        ws.onopen = () => {
+            console.log('Connecté au serveur');
+            ws.send('Hello Server depuis le navigateur !');
+        };
+
+        ws.onmessage = (event) => {
+            console.log('Message reçu :', event.data);
+            document.getElementById('messages').innerHTML += `<p>${event.data}</p>`;
+        };
+
+        // Fonction pour envoyer un message au serveur
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value;
+
+            if (message.trim() !== '') {
+                ws.send(message); // Envoie le message au serveur
+                input.value = ''; // Vide le champ après l'envoi
+            } else {
+                alert('Veuillez entrer un message avant d\'envoyer.');
+            }
+        }
+    </script>
+</body>
+</html>
