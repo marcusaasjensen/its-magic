@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center">
+
+    <!-- Jauge de luminosité -->
+    <LinearLayout
+        android:id="@+id/brightnessGauge"
+        android:layout_width="50dp"
+        android:layout_height="300dp"
+        android:orientation="vertical"
+        android:background="@android:color/darker_gray"
+        android:padding="2dp"
+        android:gravity="bottom"/>
+
+    <!-- Texte affichant le pourcentage de luminosité -->
+    <TextView
+        android:id="@+id/brightnessStatusTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Current Brightness: 0%"
+        android:textSize="18sp"
+        android:layout_marginTop="20dp"/>
+
+</LinearLayout>
