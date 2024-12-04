@@ -11,6 +11,10 @@ import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.os.Bundle;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private AudioRecord audioRecord;
     private boolean isRecording = false;
     private TextView breathTextView;
+    private ImageView blowEffect;
+    private Animation animation;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,6 +46,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         // Initialize UI elements
         lightTextView = findViewById(R.id.lightTextView);
         breathTextView = findViewById(R.id.breathTextView);
+
+        blowEffect = findViewById(R.id.blowEffect);
+        animation = AnimationUtils.loadAnimation(this, R.anim.blow_effect);
+
 
         // Initialize Light Sensor
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -123,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     runOnUiThread(() -> {
                         if (amplitude > 2000) { // Adjust this threshold for breath sensitivity
                             breathTextView.setText("Breath detected!");
+                            showBlowEffect();
                         } else {
                             breathTextView.setText("Listening for breath...");
                         }
@@ -156,5 +167,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         if (audioRecord != null) {
             audioRecord.release();
         }
+    }
+
+    private void showBlowEffect() {
+        blowEffect.setVisibility(View.VISIBLE);
+        blowEffect.startAnimation(animation);
     }
 }
