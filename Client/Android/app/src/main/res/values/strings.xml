@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Its-magic</string>
+    <string name="title_activity_login">MainActivity</string>
+</resources>

@@ -1,0 +1,40 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp">
+
+    <!-- Light Sensor -->
+    <TextView
+        android:id="@+id/lightTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Light Sensor: Waiting..."
+        android:textSize="18sp"
+        android:padding="16dp" />
+
+    <!-- Breath Sensor -->
+    <TextView
+        android:id="@+id/breathTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Breath Sensor: Waiting..."
+        android:textSize="18sp"
+        android:padding="16dp" />
+
+    <!-- Buttons -->
+    <Button
+        android:id="@+id/startButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start Breath Detection" />
+
+    <Button
+        android:id="@+id/stopButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stop Breath Detection"
+        android:layout_marginTop="8dp" />
+
+</LinearLayout>
