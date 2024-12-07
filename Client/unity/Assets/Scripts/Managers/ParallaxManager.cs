@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Client;
 using UnityEngine;
 
 namespace Managers
@@ -7,6 +8,7 @@ namespace Managers
     {
         [SerializeField, Range(0f, 360f)]
         private float scrollAngle = 0f; // Global scroll angle control (0 to 360)
+        [SerializeField] private float defaultRotationOffset = -90f; // Default rotation offset for all ParallaxElements
 
         [SerializeField] private float scrollSpeedMultiplier = 1f; // Speed adjustment via mouse scroll
 
@@ -38,8 +40,25 @@ namespace Managers
             // Update all ParallaxElements with the new scroll angle
             foreach (var element in _parallaxElements)
             {
-                element.SetScrollAngle(scrollAngle);
+                element.SetScrollAngle(scrollAngle + defaultRotationOffset);
             }
+        }
+        
+        public void ChangeAngle(string message)
+        {
+            print(message);
+            if(message == null)
+            {
+                return;
+            }
+            
+            var fallingObjectMessage = JsonUtility.FromJson<MagicStickMessage>(message);
+            if(fallingObjectMessage is not { type: "MagicStick" })
+            {
+                return;
+            }
+            
+            scrollAngle = Mathf.Clamp(fallingObjectMessage.rotationInDegrees, 0, 360);
         }
     }
 }
