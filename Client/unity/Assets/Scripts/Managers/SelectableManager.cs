@@ -15,12 +15,12 @@ namespace Managers
 
         private Vector3 _selectionCenter;
         private Vector3 _lastTouchPosition;
-        private float _lastTouchAngle = 0f;
-        private bool _rotationInProgress = false;
-        private float _lastTouchDistance = 0f;
+        private float _lastTouchAngle;
+        private bool _rotationInProgress;
+        private float _lastTouchDistance;
 
-        [SerializeField] private Vector2 minBounds = new Vector2(-5, -5);
-        [SerializeField] private Vector2 maxBounds = new Vector2(5, 5);
+        [SerializeField] private Vector2 minBounds = new (-5, -5);
+        [SerializeField] private Vector2 maxBounds = new (5, 5);
 
         private void Update()
         {
