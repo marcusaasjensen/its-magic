@@ -20,6 +20,7 @@ namespace Environment
                 {
                     // Check if this touch began on this object
                     RaycastHit2D hit = Physics2D.Raycast(touchPosition, Vector2.zero);
+
                     if (hit.collider != null && hit.collider.gameObject == gameObject)
                     {
                         activeTouchId = touch.fingerId; // Assign the touch ID
