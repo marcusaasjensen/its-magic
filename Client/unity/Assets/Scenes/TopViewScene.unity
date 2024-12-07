@@ -858,7 +858,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2743c65041ab412ea89d0179d312f367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boundary: {fileID: 296086923}
+  boundary: {fileID: 296086925}
 --- !u!61 &92158243
 BoxCollider2D:
   m_ObjectHideFlags: 0
