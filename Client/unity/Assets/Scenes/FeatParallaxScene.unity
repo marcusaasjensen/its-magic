@@ -2764,6 +2764,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 578579293}
+  - {fileID: 611723097}
   m_Father: {fileID: 2105515913}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &338513031
@@ -5393,6 +5394,54 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!1 &611723096
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 611723097}
+  - component: {fileID: 611723098}
+  m_Layer: 0
+  m_Name: Berries
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &611723097
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 611723096}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -6.39, y: -4.32, z: 0}
+  m_LocalScale: {x: 1.0741137, y: 1.0741137, z: 1.0741137}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 338513030}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &611723098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 611723096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf78d4baf7344d37b71819799c55f134, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  amount: 5
+  spawnArea: {x: 1.8, y: 1}
+  prefabs:
+  - {fileID: 2015880986304579171, guid: a1bcd56a00b6ad242b581ce0a86e8a39, type: 3}
 --- !u!1 &617066962
 GameObject:
   m_ObjectHideFlags: 3
@@ -16289,8 +16338,7 @@ Transform:
   m_LocalPosition: {x: 17.84, y: 0.1928, z: 0}
   m_LocalScale: {x: 0.931, y: 0.931, z: 0.931}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1636078298}
+  m_Children: []
   m_Father: {fileID: 2105515913}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1436461236
@@ -22041,54 +22089,6 @@ Transform:
   - {fileID: 63450006}
   m_Father: {fileID: 1904429101}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1636078297
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1636078298}
-  - component: {fileID: 1636078299}
-  m_Layer: 0
-  m_Name: Acorns (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1636078298
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1636078297}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.8263257, y: 0.008008966, z: 0}
-  m_LocalScale: {x: 1.0741137, y: 1.0741137, z: 1.0741137}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1436461235}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1636078299
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1636078297}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf78d4baf7344d37b71819799c55f134, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  amount: 5
-  spawnArea: {x: 1.57, y: 5.11}
-  prefabs:
-  - {fileID: 2015880986304579171, guid: a1bcd56a00b6ad242b581ce0a86e8a39, type: 3}
 --- !u!1 &1640467730
 GameObject:
   m_ObjectHideFlags: 0
