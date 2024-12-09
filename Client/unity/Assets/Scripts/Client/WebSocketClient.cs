@@ -64,6 +64,10 @@ namespace Client
 
         public void SendMessageToServer(string message)
         {
+            if(_ws.IsAlive == false)
+            {
+                return;
+            }
             if (!string.IsNullOrEmpty(message))
             {
                 _ws.Send(message);
