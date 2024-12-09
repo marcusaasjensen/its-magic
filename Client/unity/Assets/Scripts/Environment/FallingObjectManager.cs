@@ -9,7 +9,6 @@ namespace Environment
 
         public void Fall(string message)
         {
-            print(message);
             if(message == null)
             {
                 return;
