@@ -16,7 +16,7 @@ namespace Environment
             }
             
             var fallingObjectMessage = JsonUtility.FromJson<FallingObjectMessage>(message);
-            if(fallingObjectMessage == null)
+            if(fallingObjectMessage is not { type: "FallingObject" })
             {
                 return;
             }
