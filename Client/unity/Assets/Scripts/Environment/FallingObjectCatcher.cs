@@ -1,10 +1,12 @@
 ﻿using Client;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Environment
 {
     public class FallingObjectCatcher : MonoBehaviour
     {
+        [SerializeField] public UnityEvent<FallingObject> onFallingObject;
         private void OnTriggerEnter2D(Collider2D other)
         {
             var fallingObject = other.GetComponent<FallingObject>();
@@ -13,6 +15,8 @@ namespace Environment
             {
                 return;
             }
+
+            onFallingObject.Invoke(fallingObject);
             
             var fallingObjectMessage = new FallingObjectMessage
             {
