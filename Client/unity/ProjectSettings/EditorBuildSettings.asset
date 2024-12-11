@@ -5,7 +5,16 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SideViewScene.unity
     guid: dba3a3641c5e28a41a49c567078389bf
+  - enabled: 0
+    path: Assets/Scenes/TopViewScene.unity
+    guid: 336492791eed1184fae1c61a195a93fd
+  - enabled: 0
+    path: Assets/Scenes/ComSideViewScene.unity
+    guid: b163dc9beed583449aca485fa53ca377
+  - enabled: 1
+    path: Assets/Scenes/ComTopViewScene.unity
+    guid: e41a08157b78d9a479ef1bc13ad0545b
   m_configObjects: {}

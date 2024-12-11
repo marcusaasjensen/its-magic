@@ -21268,8 +21268,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 446084617
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: d6433c91b2b28c542930b622cf95a0b7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -40247,6 +40247,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fallenObjectPrefab: {fileID: 2015880986304579171, guid: a1bcd56a00b6ad242b581ce0a86e8a39, type: 3}
+  boundaryTransform: {fileID: 1875217781}
+  boundarySize: {x: 15.8, y: 7.6}
+  minX: -40
+  maxX: 40
 --- !u!4 &1791022646 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4336370861476835272, guid: d1d0a4d64958de345875435243c9b249, type: 3}
