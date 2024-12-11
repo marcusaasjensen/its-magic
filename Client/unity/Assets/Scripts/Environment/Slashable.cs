@@ -10,6 +10,7 @@ namespace Environment
 
         public UnityEvent OnSlash => onSlash;
 
+        [ContextMenu("Slash")]
         public void Slash()
         {
             onSlash.Invoke();

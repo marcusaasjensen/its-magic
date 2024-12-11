@@ -9,9 +9,13 @@ namespace Player
         [SerializeField] private float swipeSpeedThreshold = 5f;
         [SerializeField] private float slashRadius = 1f;
         [SerializeField] private UnityEvent onAnySlash;
+        [SerializeField] private GameObject slashFollower; // The referenced GameObject to follow the slash
+        [SerializeField] private float trailVisibilityDuration = 0.2f; // Time in seconds to keep the trail visible after swipe
 
         private Vector3 _swipeStartPosition;
         private float _swipeStartTime;
+        private bool _isSwiping;
+        private bool _isSlashing;
 
         private void Update()
         {
@@ -29,8 +33,41 @@ namespace Player
                     _swipeStartPosition = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 0f));
                     _swipeStartPosition.z = 0;
                     _swipeStartTime = Time.time;
+                    _isSwiping = true;
+                    _isSlashing = false;
+
+                    if (slashFollower != null)
+                    {
+                        slashFollower.SetActive(false); // Ensure the trail is inactive initially
+                    }
                 }
-                else if (touch.phase == TouchPhase.Ended)
+                else if (touch.phase == TouchPhase.Moved && _isSwiping)
+                {
+                    Vector3 swipeCurrentPosition = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 0f));
+                    swipeCurrentPosition.z = 0;
+
+                    float swipeDistance = Vector3.Distance(_swipeStartPosition, swipeCurrentPosition);
+                    float swipeDuration = Time.time - _swipeStartTime;
+                    float swipeSpeed = swipeDistance / swipeDuration;
+
+                    if (swipeSpeed >= swipeSpeedThreshold)
+                    {
+                        _isSlashing = true;
+
+                        if (slashFollower != null && !slashFollower.activeSelf)
+                        {
+                            slashFollower.transform.position = swipeCurrentPosition;
+                            slashFollower.SetActive(true);
+                        }
+                    }
+
+                    // Update the slash follower's position only while slashing
+                    if (slashFollower != null && _isSlashing)
+                    {
+                        slashFollower.transform.position = swipeCurrentPosition;
+                    }
+                }
+                else if (touch.phase == TouchPhase.Ended && _isSwiping)
                 {
                     Vector3 swipeEndPosition = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 0f));
                     swipeEndPosition.z = 0;
@@ -43,6 +80,16 @@ namespace Player
                     if (swipeSpeed >= swipeSpeedThreshold)
                     {
                         DetectSlashableObjects(_swipeStartPosition, swipeEndPosition);
+                    }
+
+                    // Reset swipe tracking
+                    _isSwiping = false;
+                    _isSlashing = false;
+
+                    // Deactivate the slash follower only if it was active
+                    if (slashFollower != null && slashFollower.activeSelf)
+                    {
+                        Invoke(nameof(DeactivateSlashFollower), trailVisibilityDuration);
                     }
                 }
             }
@@ -62,6 +109,14 @@ namespace Player
                     slashable.Slash();
                     onAnySlash.Invoke();
                 }
+            }
+        }
+
+        private void DeactivateSlashFollower()
+        {
+            if (slashFollower != null)
+            {
+                slashFollower.SetActive(false);
             }
         }
     }

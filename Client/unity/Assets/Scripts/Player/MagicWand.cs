@@ -55,16 +55,16 @@ namespace Player
         private new void Update()
         {
             base.Update();
-            
+
             _magicWandSpriteRenderer.sprite = _isLocked ? lockedMagicWand : magicWand;
 
-            if (_isLocked)
+            if (_isLocked || !IsBeingDragged)
             {
                 return;
             }
             _currentRotationInDegrees = transform.rotation.eulerAngles.z < 0 ? 360 + transform.rotation.eulerAngles.z : transform.rotation.eulerAngles.z;
 
-            var magicStickMessage = new MagicStickMessage
+            var magicStickMessage = new MagicWandMessage
             {
                 rotationInDegrees = _currentRotationInDegrees
             };

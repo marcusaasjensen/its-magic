@@ -16,7 +16,6 @@ namespace Environment
             if (!IsDraggable)
             {
                 _activeTouchId = -1;
-                print(IsDraggable);
                 return;
             }
             // Iterate through all active touches

@@ -6,6 +6,7 @@
         public string name;
         public int id;
         public float x;
+        public float y;
         
         public FallingObjectMessage()
         {

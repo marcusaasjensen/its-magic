@@ -22,7 +22,8 @@ namespace Environment
             {
                 id = fallingObject.GetInstanceID(),
                 name = fallingObject.Name,
-                x = fallingObject.transform.position.x,
+                x = fallingObject.InitialPosition.x,
+                y = fallingObject.InitialPosition.y
             };
             
             Destroy(fallingObject.gameObject);
