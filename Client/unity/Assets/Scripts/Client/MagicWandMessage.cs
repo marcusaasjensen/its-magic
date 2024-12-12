@@ -1,13 +1,13 @@
 ﻿namespace Client
 {
-    public class MagicStickMessage : Message
+    public class MagicWandMessage : Message
     {
         public float rotationInDegrees;
         
-        public MagicStickMessage()
+        public MagicWandMessage()
         {
             clientId = "TopView";
-            type = "MagicStick";
+            type = "MagicWand";
         }
         
     }

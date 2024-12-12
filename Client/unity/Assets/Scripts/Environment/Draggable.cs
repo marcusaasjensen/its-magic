@@ -9,9 +9,15 @@ namespace Environment
         private Vector2 _touchOffset; // Offset between touch and object position
         private int _activeTouchId = -1; // ID of the touch dragging this object
         protected bool IsBeingDragged => _activeTouchId != -1;
+        public bool IsDraggable { get; set; } = true;
 
         protected void Update()
         {
+            if (!IsDraggable)
+            {
+                _activeTouchId = -1;
+                return;
+            }
             // Iterate through all active touches
             foreach (Touch touch in Input.touches)
             {
