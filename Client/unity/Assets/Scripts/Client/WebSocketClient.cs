@@ -35,8 +35,8 @@ namespace Client
             {
                 case "TopViewScene":
                     return "TopView";
-                case "VerticalScene":
-                    return "VerticalView";
+                case "SideViewScene":
+                    return "SideView";
                 default:
                     Debug.LogWarning($"Unknown scene name: {sceneName}. Using default tag.");
                     return "UnknownView";
