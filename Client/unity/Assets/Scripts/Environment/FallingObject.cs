@@ -6,14 +6,14 @@ namespace Environment
     {
         [SerializeField] private new string name;
         
-        private Vector2 initialPosition;
+        private Vector2 _initialPosition;
 
         private void Awake()
         {
-            initialPosition = transform.position;
+            _initialPosition = transform.position;
         }
         
         public string Name => name;
-        public Vector2 InitialPosition => initialPosition;
+        public Vector2 InitialPosition => _initialPosition;
     }
 }
