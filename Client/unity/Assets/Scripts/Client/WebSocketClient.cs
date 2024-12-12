@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Environment;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;  // Pour accéder à SceneManager
 using Utils;
 using WebSocketSharp;
 
@@ -14,22 +15,40 @@ namespace Client
         private ServerConfig _serverConfig;
         private WebSocket _ws;
         private readonly Queue<string> _messageQueue = new();
+        private string _clientTag;
         
         protected override void Awake()
         {
             base.Awake();
             _serverConfig = ConfigLoader.LoadConfig();
             Debug.Log($"Configuration loaded: {JsonUtility.ToJson(_serverConfig)}");
+
+            // Déterminer le tag en fonction de la scène
+            string sceneName = SceneManager.GetActiveScene().name;
+            _clientTag = GetClientTagFromScene(sceneName);
+            Debug.Log($"Client tag determined from scene '{sceneName}': {_clientTag}");
+        }
+
+        private string GetClientTagFromScene(string sceneName)
+        {
+            switch (sceneName)
+            {
+                case "TopViewScene":
+                    return "TopView";
+                case "VerticalScene":
+                    return "VerticalView";
+                default:
+                    Debug.LogWarning($"Unknown scene name: {sceneName}. Using default tag.");
+                    return "UnknownView";
+            }
         }
 
         private void Start()
         {
-            _ws = new WebSocket($"ws://{_serverConfig.serverIp}:{_serverConfig.serverPort}");
+            _ws = new WebSocket($"ws://{_serverConfig.serverIp}:{_serverConfig.serverPort}?clientType={_clientTag}");
             
             _ws.OnMessage += (sender, e) =>
             {
-                // Debug.Log("Message reçu du serveur : " + e.Data);
-
                 lock (_messageQueue)
                 {
                     _messageQueue.Enqueue(e.Data);
@@ -38,7 +57,7 @@ namespace Client
 
             _ws.OnOpen += (sender, e) =>
             {
-                Debug.Log("Connecté au serveur WebSocket.");
+                Debug.Log($"Connecté au serveur WebSocket en tant que {_clientTag}");
             };
 
             _ws.OnClose += (sender, e) =>

@@ -5,5 +5,6 @@
     {
         public string clientId;
         public string type;
+        public string recipientId;
     }
 }
