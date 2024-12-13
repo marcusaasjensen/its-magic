@@ -918,6 +918,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   magicWand: {fileID: 0}
   lockedMagicWand: {fileID: 0}
+  center: {fileID: 0}
   onUnlock:
     m_PersistentCalls:
       m_Calls: []
@@ -39759,6 +39760,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   magicWand: {fileID: 21300000, guid: d6433c91b2b28c542930b622cf95a0b7, type: 3}
   lockedMagicWand: {fileID: 21300000, guid: 8f6b268905a1a1d4c9627605d806fada, type: 3}
+  center: {fileID: 1875217781}
   onUnlock:
     m_PersistentCalls:
       m_Calls:
