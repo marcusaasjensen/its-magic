@@ -10,11 +10,13 @@ namespace Player
     {
         [SerializeField] private Sprite magicWand;
         [SerializeField] private Sprite lockedMagicWand;
+        [SerializeField] private Transform center;
         [SerializeField] public UnityEvent onUnlock;
         [SerializeField] public UnityEvent onLock;
 
         private bool _isLocked;
         private float _currentRotationInDegrees;
+        private float _distanceToCenter;
         private SpriteRenderer _magicWandSpriteRenderer;
         
         private void Start()
@@ -63,9 +65,11 @@ namespace Player
                 return;
             }
             _currentRotationInDegrees = transform.rotation.eulerAngles.z < 0 ? 360 + transform.rotation.eulerAngles.z : transform.rotation.eulerAngles.z;
+            _distanceToCenter = Vector3.Distance(transform.position, center.position);
 
             var magicStickMessage = new MagicWandMessage
             {
+                distanceToCenter = _distanceToCenter,
                 rotationInDegrees = _currentRotationInDegrees
             };
             WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(magicStickMessage));

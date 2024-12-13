@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Client;
+using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Rendering;
 
@@ -6,71 +7,69 @@ namespace UI
 {
     public class DepthOfFieldControl : MonoBehaviour
     {
-        public Volume volume; // Reference to the post-processing volume
-        public float focusDistanceNear = 5f;
-        public float focusDistanceFar = 20f;
-        private DepthOfField depthOfField;
+        [Header("Post-Processing Settings")]
+        [SerializeField] private Volume postProcessingVolume;
+        [SerializeField, Min(0.1f)] private float minFocusDistance = 1.9f;
+        [SerializeField, Min(0.1f)] private float maxFocusDistance = 9.8f;
+        public float distanceToCenter;
+        private DepthOfField _depthOfField;
 
-        public LayerMask layerMask; // Layer mask to define which layers are affected by Depth of Field
+        [Header("Camera Settings")]
+        [SerializeField] private Camera mainCamera;
+        [SerializeField, Min(0)] private float minOrthoSize;
+        [SerializeField, Min(0)] private float maxOrthoSize = 5f;
 
-        void Start()
+        private void Start()
         {
-            // Check if volume exists and fetch Depth of Field effect
-            if (volume.profile.TryGet(out depthOfField))
+            if (postProcessingVolume == null || !postProcessingVolume.profile.TryGet(out _depthOfField))
             {
-                Debug.Log("Depth of Field found!");
+                Debug.LogError("Depth of Field component not found in the post-processing profile.");
             }
-            else
+            
+            _depthOfField.active = true;
+
+            if (mainCamera == null)
             {
-                Debug.LogError("Depth of Field effect not found in the volume profile.");
+                mainCamera = Camera.main;
             }
-        }
-
-        void Update()
-        {
-            // Apply Depth of Field based on the layers in the scene
-            ApplyDepthOfFieldBasedOnLayer();
-        }
-
-        void ApplyDepthOfFieldBasedOnLayer()
-        {
-            // Get all objects in the specified layers
-            GameObject[] objectsInLayer = GetObjectsInLayer(layerMask);
-
-            // Loop through each object in the layer and adjust focus distance based on its position
-            foreach (GameObject obj in objectsInLayer)
+            else if (!mainCamera.orthographic)
             {
-                if (obj != null)
-                {
-                    // Calculate the object's Z position (depth) to adjust focus distance
-                    float zPosition = obj.transform.position.z;
-
-                    // Adjust the focus distance based on object's Z position and layer-specific range
-                    if (zPosition < focusDistanceNear)
-                        depthOfField.focalLength.value = focusDistanceNear;
-                    else if (zPosition > focusDistanceFar)
-                        depthOfField.focalLength.value = focusDistanceFar;
-                    else
-                        depthOfField.focalLength.value = zPosition;
-                }
+                Debug.LogError("Assigned camera is not orthographic. Please use an orthographic camera.");
             }
         }
 
-        // Helper function to get all objects in the specified layer mask
-        GameObject[] GetObjectsInLayer(LayerMask layerMask)
+        public void ChangeFocus(string message)
         {
-            GameObject[] allObjects = GameObject.FindObjectsOfType<GameObject>();
-            var objectsInLayer = new System.Collections.Generic.List<GameObject>();
-
-            foreach (var obj in allObjects)
+            if (message == null || _depthOfField == null || mainCamera == null)
             {
-                if ((layerMask & (1 << obj.layer)) != 0)
-                {
-                    objectsInLayer.Add(obj);
-                }
+                return;
             }
 
-            return objectsInLayer.ToArray();
+            var magicWandMessage = JsonUtility.FromJson<MagicWandMessage>(message);
+
+            if (magicWandMessage is not { type: "MagicWand" })
+            {
+                return;
+            }
+
+            distanceToCenter = magicWandMessage.distanceToCenter;
+        }
+
+        private void Update()
+        {
+            ApplyDepthOfFieldAndZoom(distanceToCenter);
+        }
+
+        private void ApplyDepthOfFieldAndZoom(float distance)
+        {
+            var t = Mathf.InverseLerp(minFocusDistance, maxFocusDistance, distance);
+            var focusDistance = Mathf.Lerp(maxFocusDistance, minFocusDistance, t);
+            _depthOfField.focusDistance.value = focusDistance;
+
+            _depthOfField.aperture.value = Mathf.Lerp(16f, 1.4f, t); // Wide aperture for blur
+
+            var targetOrthoSize = Mathf.Lerp(maxOrthoSize, minOrthoSize, t);
+            mainCamera.orthographicSize = targetOrthoSize;
         }
     }
 }
