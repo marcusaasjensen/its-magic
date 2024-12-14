@@ -9,5 +9,16 @@ namespace Client
         {
             WebSocketClient.Instance.SendMessageToServer("Hello, world!");
         }
+        [ContextMenu("Vibrate")]
+        public void Vibrate()
+        {
+            var vibrateObject = new Message
+            {
+                clientId = "TopView",
+                type = "vibrate",
+                recipientId = "Android"
+            };
+            WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(vibrateObject));
+        }
     }
 }

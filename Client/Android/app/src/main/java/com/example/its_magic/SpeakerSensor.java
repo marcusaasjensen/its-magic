@@ -1,7 +1,6 @@
 package com.example.its_magic;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 
