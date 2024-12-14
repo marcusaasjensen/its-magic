@@ -1,10 +1,12 @@
 package com.example.its_magic;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
+import org.json.JSONObject;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -12,19 +14,22 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 public class WebSocketManager {
+    private final String clientId = "Android";
     private static final String TAG = "WebSocketManager";
     private static WebSocketManager instance;
     private WebSocketClient webSocketClient;
     private static final String WEBSOCKET_URL = "ws://192.168.1.18:8080";
     private final Object lock = new Object();
+    private SpeakerSensor speakerSensor;
 
-    private WebSocketManager() {
+    private WebSocketManager(Context context) {
+        this.speakerSensor = new SpeakerSensor(context);
         initWebSocket();
     }
 
-    public static synchronized WebSocketManager getInstance() {
+    public static synchronized WebSocketManager getInstance(Context context) {
         if (instance == null) {
-            instance = new WebSocketManager();
+            instance = new WebSocketManager(context);
         }
         return instance;
     }
@@ -58,6 +63,17 @@ public class WebSocketManager {
                 @Override
                 public void onMessage(String message) {
                     Log.d(TAG, "Received message from server: " + message);
+                    try {
+                        JSONObject jsonMessage = new JSONObject(message);
+                        String clientId = jsonMessage.getString("clientId");
+                        String type = jsonMessage.getString("type");
+
+                        if ("TopView".equals(clientId) && "vibrate".equals(type)) {
+                            speakerSensor.vibratePhone();
+                        }
+                    } catch (Exception e) {
+                        Log.e(TAG, "Error parsing message", e);
+                    }
                 }
 
                 @Override
@@ -93,12 +109,14 @@ public class WebSocketManager {
         synchronized (lock) {
             if (webSocketClient != null && webSocketClient.isOpen()) {
                 try {
-                    String message = String.format(
-                            "{\"type\":\"%s\",\"value\":\"%s\",\"timestamp\":%d}",
-                            sensorType, value, System.currentTimeMillis()
-                    );
-                    webSocketClient.send(message);
-                    Log.d(TAG, "Sent sensor data: " + message);
+                    String recipientId = "TopView";
+                    JSONObject jsonMessage = new JSONObject();
+                    jsonMessage.put("clientId", clientId);
+                    jsonMessage.put("type", value);
+                    jsonMessage.put("recipientId", recipientId);
+
+                    webSocketClient.send(jsonMessage.toString());
+                    Log.d(TAG, "Sent sensor data: " + jsonMessage);
                 } catch (Exception e) {
                     Log.e(TAG, "Error sending sensor data", e);
                     reconnectWithDelay();
