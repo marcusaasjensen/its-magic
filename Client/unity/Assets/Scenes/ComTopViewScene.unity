@@ -925,6 +925,8 @@ MonoBehaviour:
   onLock:
     m_PersistentCalls:
       m_Calls: []
+  minRadius: 1
+  maxRadius: 5
 --- !u!4 &121513612 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6128575076789129881, guid: 3f200502030a76d4e81f9be98a087ff2, type: 3}
@@ -39791,6 +39793,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  minRadius: 2.5
+  maxRadius: 6
 --- !u!82 &1679387234
 AudioSource:
   m_ObjectHideFlags: 0
@@ -40248,7 +40252,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb56a005250b4d89a9f14ed4fbe02104, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fallenObjectPrefab: {fileID: 2015880986304579171, guid: a1bcd56a00b6ad242b581ce0a86e8a39, type: 3}
+  fallenObjectPrefab:
+  - {fileID: 2015880986304579171, guid: a1bcd56a00b6ad242b581ce0a86e8a39, type: 3}
+  - {fileID: 2015880986304579171, guid: c725ebcf6056937459e81800f0ffbef0, type: 3}
   boundaryTransform: {fileID: 1875217781}
   boundarySize: {x: 15.8, y: 7.6}
   minX: -40
@@ -41195,6 +41201,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   globalData: {fileID: 11400000, guid: 964bf62e2fc793b45bb64a7d195a6c21, type: 2}
+  save: 0
 --- !u!1 &1986110638
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,6 +8,7 @@ namespace Managers
     public class CollectibleManager : SceneSingleton<CollectibleManager>
     {
         [SerializeField] public GlobalData globalData;
+        [SerializeField] private bool save;
 
         public event Action OnItemCollected;
 
@@ -19,7 +20,7 @@ namespace Managers
         
         public static bool IsItemCollected(string id) => Instance.globalData.collectedItemKeys.Contains(id);
         
-        public void CollectItem(string id, bool save)
+        public void CollectItem(string id)
         {
             if (IsItemCollected(id))
             {

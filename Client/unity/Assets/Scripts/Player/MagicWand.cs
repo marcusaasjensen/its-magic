@@ -13,11 +13,40 @@ namespace Player
         [SerializeField] private Transform center;
         [SerializeField] public UnityEvent onUnlock;
         [SerializeField] public UnityEvent onLock;
+        [SerializeField] private float minRadius = 2.5f; // Minimum radius to avoid the center
+        [SerializeField] private float maxRadius = 6.0f; // Maximum radius to clamp the wand
 
         private bool _isLocked;
         private float _currentRotationInDegrees;
         private float _distanceToCenter;
         private SpriteRenderer _magicWandSpriteRenderer;
+
+        protected override void SetPosition(Vector2 targetPosition)
+        {
+            if (center == null)
+            {
+                base.SetPosition(targetPosition); // Fallback if no center point is set
+                return;
+            }
+
+            // Calculate the distance from the center
+            Vector2 centerPosition = center.position;
+            Vector2 directionFromCenter = targetPosition - centerPosition;
+            float distanceFromCenter = directionFromCenter.magnitude;
+
+            // Clamp the position within the allowed radius range
+            if (distanceFromCenter < minRadius)
+            {
+                targetPosition = centerPosition + directionFromCenter.normalized * minRadius;
+            }
+            else if (distanceFromCenter > maxRadius)
+            {
+                targetPosition = centerPosition + directionFromCenter.normalized * maxRadius;
+            }
+
+            // Set the clamped position
+            transform.position = targetPosition;
+        }
         
         private void Start()
         {
