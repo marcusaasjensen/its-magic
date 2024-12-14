@@ -6,21 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
-    path: Assets/Scenes/Archive/MarieScene.unity
-    guid: 25ca9ec3f44d6984c8e53bf1c2939586
-  - enabled: 0
-    path: Assets/Scenes/Archive/MarcusScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 0
-    path: Assets/Scenes/VerticalScene.unity
-    guid: 358ddc4ec60be3a4e80bbebdecc9c87e
-  - enabled: 0
-    path: Assets/Scenes/TopViewScene.unity
-    guid: e05d0b646c154774291022c899fe00ef
+    path: Assets/Scenes/SideViewScene.unity
+    guid: dba3a3641c5e28a41a49c567078389bf
   - enabled: 0
     path: Assets/Scenes/TopViewScene.unity
     guid: 336492791eed1184fae1c61a195a93fd
   - enabled: 1
-    path: Assets/Scenes/SideViewScene.unity
-    guid: dba3a3641c5e28a41a49c567078389bf
+    path: Assets/Scenes/ComSideViewScene.unity
+    guid: b163dc9beed583449aca485fa53ca377
+  - enabled: 0
+    path: Assets/Scenes/ComTopViewScene.unity
+    guid: e41a08157b78d9a479ef1bc13ad0545b
   m_configObjects: {}

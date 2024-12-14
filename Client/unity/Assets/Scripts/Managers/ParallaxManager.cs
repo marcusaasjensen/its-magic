@@ -52,8 +52,8 @@ namespace Managers
                 return;
             }
             
-            var fallingObjectMessage = JsonUtility.FromJson<MagicStickMessage>(message);
-            if(fallingObjectMessage is not { type: "MagicStick" })
+            var fallingObjectMessage = JsonUtility.FromJson<MagicWandMessage>(message);
+            if(fallingObjectMessage is not { type: "MagicWand" })
             {
                 return;
             }

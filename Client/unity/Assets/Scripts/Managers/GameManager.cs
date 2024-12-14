@@ -12,10 +12,13 @@ namespace Managers
         protected override void Awake()
         {
             base.Awake();
+            
             if (resetDataOnStart)
             {
                 globalData.ResetData();
             }
+            
+            Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen;
         }
         
     }

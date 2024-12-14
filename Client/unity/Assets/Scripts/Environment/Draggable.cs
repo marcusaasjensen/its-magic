@@ -1,5 +1,4 @@
 ﻿using System;
-using Managers;
 using UnityEngine;
 
 namespace Environment
@@ -9,9 +8,16 @@ namespace Environment
         private Vector2 _touchOffset; // Offset between touch and object position
         private int _activeTouchId = -1; // ID of the touch dragging this object
         protected bool IsBeingDragged => _activeTouchId != -1;
+        public bool IsDraggable { get; set; } = true;
 
-        protected void Update()
+        protected virtual void Update()
         {
+            if (!IsDraggable)
+            {
+                _activeTouchId = -1;
+                return;
+            }
+
             // Iterate through all active touches
             foreach (Touch touch in Input.touches)
             {
@@ -33,7 +39,8 @@ namespace Environment
                     if (touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary)
                     {
                         // Drag the object with the touch
-                        transform.position = (Vector2)touchPosition + _touchOffset;
+                        Vector2 targetPosition = (Vector2)touchPosition + _touchOffset;
+                        SetPosition(targetPosition); // Allow subclasses to override behavior
                     }
                     else if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled)
                     {
@@ -42,6 +49,12 @@ namespace Environment
                     }
                 }
             }
+        }
+
+        // Virtual method for subclasses to override position behavior
+        protected virtual void SetPosition(Vector2 targetPosition)
+        {
+            transform.position = targetPosition;
         }
     }
 }
