@@ -3,6 +3,7 @@
     public class MagicWandMessage : Message
     {
         public float rotationInDegrees;
+        public float distanceToCenter;
         
         public MagicWandMessage()
         {
