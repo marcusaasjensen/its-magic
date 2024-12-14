@@ -7,6 +7,7 @@
         public LockMessage()
         {
             clientId = "TopView";
+            recipientId = "SideView";
             type = "Lock";
         }
     }

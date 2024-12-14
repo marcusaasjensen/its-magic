@@ -8,6 +8,7 @@
         public MagicWandMessage()
         {
             clientId = "TopView";
+            recipientId = "SideView";
             type = "MagicWand";
         }
         

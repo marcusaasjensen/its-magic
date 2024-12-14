@@ -6,6 +6,7 @@
         public ArrowMessage()
         {
             clientId = "SideView";
+            recipientId = "TopView";
             type = "Arrow";
         }
     }
