@@ -4,9 +4,8 @@ using UnityEngine.Events;
 
 namespace Environment
 {
-    public abstract class Collectible : MonoBehaviour
+    public class Collectible : MonoBehaviour
     {
-        [SerializeField] private bool saveOnCollected;
         [SerializeField] private ParticleSystem collectibleParticles;
         [SerializeField] protected UnityEvent onCollect;
         [SerializeField] private string collectorName = "Player";
@@ -18,7 +17,7 @@ namespace Environment
         {
             _collectibleId = CollectibleManager.GenerateCollectibleId(gameObject);
 
-            if (!saveOnCollected || !CollectibleManager.IsItemCollected(_collectibleId))
+            if (!CollectibleManager.IsItemCollected(_collectibleId))
             {
                 return;
             }
@@ -45,12 +44,12 @@ namespace Environment
             collectibleParticles.Play();
         }
         
-        protected abstract void WhenCollected();
+        // protected abstract void WhenCollected();
 
         public void Collect()
         {
-            WhenCollected();
-            CollectibleManager.Instance.CollectItem(_collectibleId, saveOnCollected);
+            // WhenCollected();
+            CollectibleManager.Instance.CollectItem(_collectibleId);
             PlayParticles();
             onCollect.Invoke();
             Destroy(gameObject);
