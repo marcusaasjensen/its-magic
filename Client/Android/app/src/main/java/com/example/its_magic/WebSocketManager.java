@@ -18,13 +18,27 @@ public class WebSocketManager {
     private static final String TAG = "WebSocketManager";
     private static WebSocketManager instance;
     private WebSocketClient webSocketClient;
-    private static final String WEBSOCKET_URL = "ws://192.168.1.18:8080";
+    private static final String WEBSOCKET_URL_BASE  = "ws://";
     private final Object lock = new Object();
     private SpeakerSensor speakerSensor;
+    private String serverIp;
+    private int serverPort;
+    private String clientType;
 
     private WebSocketManager(Context context) {
         this.speakerSensor = new SpeakerSensor(context);
+        JSONObject config = ConfigReader.readConfig(context);
+        if (config != null) {
+            this.serverIp = config.optString("serverIp", "192.168.1.1");  // Valeur par défaut
+            this.serverPort = config.optInt("serverPort", 8080);  // Valeur par défaut
+            this.clientType = config.optString("clientType", "Android");  // Valeur par défaut
+        }
         initWebSocket();
+
+    }
+
+    public String getClientId() {
+        return clientId;
     }
 
     public static synchronized WebSocketManager getInstance(Context context) {
@@ -36,7 +50,8 @@ public class WebSocketManager {
 
     private void initWebSocket() {
         try {
-            URI serverUri = new URI(WEBSOCKET_URL);
+            String webSocketUrl = WEBSOCKET_URL_BASE + serverIp + ":" + serverPort + "?clientType=" + clientType;
+            URI serverUri = new URI(webSocketUrl);
             createWebSocketClient(serverUri);
         } catch (URISyntaxException e) {
             Log.e(TAG, "Error creating WebSocket URI", e);
