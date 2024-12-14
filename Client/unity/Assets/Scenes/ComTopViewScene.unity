@@ -40193,7 +40193,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  minRadius: 2.5
+  minRadius: 2.25
   maxRadius: 6
 --- !u!82 &1679387234
 AudioSource:
