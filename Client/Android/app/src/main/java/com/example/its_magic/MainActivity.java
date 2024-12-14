@@ -31,7 +31,8 @@ public class MainActivity extends AppCompatActivity implements SensorCallback {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate");
-        setContentView(R.layout.main_layout);
+        setContentView(R.layout.forest_scene_layout);
+        fullScreen();
 
         try {
             initializeViews();
@@ -39,6 +40,15 @@ public class MainActivity extends AppCompatActivity implements SensorCallback {
         } catch (Exception e) {
             Log.e(TAG, "Error in onCreate", e);
             Toast.makeText(this, "Error initializing app", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void fullScreen() {
+        getWindow().setDecorFitsSystemWindows(false);
+        WindowInsetsController controller = getWindow().getInsetsController();
+        if (controller != null) {
+            controller.hide(WindowInsets.Type.statusBars() | WindowInsets.Type.navigationBars());
+            controller.setSystemBarsBehavior(WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
         }
     }
 
