@@ -2,7 +2,8 @@ using System.Collections.Generic;
 using Environment;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.SceneManagement;  // Pour accéder à SceneManager
+using UnityEngine.SceneManagement;
+using UnityEngine.Serialization; // Pour accéder à SceneManager
 using Utils;
 using WebSocketSharp;
 
@@ -11,11 +12,11 @@ namespace Client
     public class WebSocketClient : MonoBehaviourSingleton<WebSocketClient>
     {
         [SerializeField] private UnityEvent<string> onMessageReceived;
+        [SerializeField] private string clientTag;
         
         private ServerConfig _serverConfig;
         private WebSocket _ws;
         private readonly Queue<string> _messageQueue = new();
-        private string _clientTag;
         
         protected override void Awake()
         {
@@ -24,12 +25,22 @@ namespace Client
             Debug.Log($"Configuration loaded: {JsonUtility.ToJson(_serverConfig)}");
 
             // Déterminer le tag en fonction de la scène
-            string sceneName = SceneManager.GetActiveScene().name;
-            _clientTag = GetClientTagFromScene(sceneName);
-            Debug.Log($"Client tag determined from scene '{sceneName}': {_clientTag}");
+            string sceneName = clientTag;//SceneManager.GetActiveScene().name;
+            clientTag = GetClientTagFromScene(sceneName);
+            Debug.Log($"Client tag determined from scene '{sceneName}': {clientTag}");
+        }
+        
+        private static string GetClientTagFromScene(string sceneName)
+        {
+            if(!string.IsNullOrEmpty(sceneName)){
+                return sceneName;
+            }
+            
+            Debug.LogWarning($"Unknown scene name: {sceneName}. Using default tag.");
+            return "UnknownView";
         }
 
-        private string GetClientTagFromScene(string sceneName)
+        /*private string GetClientTagFromScene(string sceneName)
         {
             switch (sceneName)
             {
@@ -41,11 +52,11 @@ namespace Client
                     Debug.LogWarning($"Unknown scene name: {sceneName}. Using default tag.");
                     return "UnknownView";
             }
-        }
+        }*/
 
         private void Start()
         {
-            _ws = new WebSocket($"ws://{_serverConfig.serverIp}:{_serverConfig.serverPort}?clientType={_clientTag}");
+            _ws = new WebSocket($"ws://{_serverConfig.serverIp}:{_serverConfig.serverPort}?clientType={clientTag}");
             
             _ws.OnMessage += (sender, e) =>
             {
@@ -57,7 +68,7 @@ namespace Client
 
             _ws.OnOpen += (sender, e) =>
             {
-                Debug.Log($"Connecté au serveur WebSocket en tant que {_clientTag}");
+                Debug.Log($"Connecté au serveur WebSocket en tant que {clientTag}");
             };
 
             _ws.OnClose += (sender, e) =>
