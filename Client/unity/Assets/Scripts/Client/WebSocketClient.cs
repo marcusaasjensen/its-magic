@@ -23,11 +23,8 @@ namespace Client
             base.Awake();
             _serverConfig = ConfigLoader.LoadConfig();
             Debug.Log($"Configuration loaded: {JsonUtility.ToJson(_serverConfig)}");
-
-            // Déterminer le tag en fonction de la scène
-            string sceneName = clientTag;//SceneManager.GetActiveScene().name;
-            clientTag = GetClientTagFromScene(sceneName);
-            Debug.Log($"Client tag determined from scene '{sceneName}': {clientTag}");
+            clientTag = GetClientTagFromScene(clientTag);
+            Debug.Log($"Client tag : {clientTag}");
         }
         
         private static string GetClientTagFromScene(string sceneName)
@@ -39,20 +36,6 @@ namespace Client
             Debug.LogWarning($"Unknown scene name: {sceneName}. Using default tag.");
             return "UnknownView";
         }
-
-        /*private string GetClientTagFromScene(string sceneName)
-        {
-            switch (sceneName)
-            {
-                case "TopViewScene":
-                    return "TopView";
-                case "SideViewScene":
-                    return "SideView";
-                default:
-                    Debug.LogWarning($"Unknown scene name: {sceneName}. Using default tag.");
-                    return "UnknownView";
-            }
-        }*/
 
         private void Start()
         {
