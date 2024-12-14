@@ -12516,7 +12516,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   postProcessingVolume: {fileID: 288078320}
-  minFocusDistance: 1.9
+  minFocusDistance: 2
   maxFocusDistance: 9.8
   distanceToCenter: 0
   mainCamera: {fileID: 519420031}
