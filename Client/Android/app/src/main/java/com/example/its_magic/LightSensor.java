@@ -9,8 +9,10 @@ import android.util.Log;
 
 public class LightSensor extends BaseSensor implements SensorEventListener {
     private static final String TAG = "LightSensor";
-    private SensorManager sensorManager;
-    private Sensor lightSensor;
+    private final SensorManager sensorManager;
+    private final Sensor lightSensor;
+    private boolean isNightZone = false;
+    private boolean isDayZone = false;
 
     public LightSensor(Context context, SensorCallback callback) {
         super(context, callback);
@@ -48,8 +50,22 @@ public class LightSensor extends BaseSensor implements SensorEventListener {
         try {
             float lightLevel = event.values[0];
             String value = String.format("%.1f", lightLevel);
-            callback.onValueChanged("light", value + " lx");
-            sendToServer(value);
+
+            if (lightLevel <= 150) {
+                callback.onValueChanged("light", value + " lx");
+                if (!isNightZone) {
+                    isNightZone = true;
+                    isDayZone = false;
+                    sendToServer(value);
+                }
+            } else if (lightLevel > 150) {
+                callback.onValueChanged("light", value + " lx");
+                if (!isDayZone) {
+                    isDayZone = true;
+                    isNightZone = false;
+                    sendToServer(value);
+                }
+            }
         } catch (Exception e) {
             Log.e(TAG, "Error in onSensorChanged", e);
         }
