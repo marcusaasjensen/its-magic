@@ -13,7 +13,7 @@ public abstract class BaseSensor {
         this.context = context;
         this.callback = callback;
         try {
-            this.webSocketManager = WebSocketManager.getInstance();
+            this.webSocketManager = WebSocketManager.getInstance(context);
         } catch (Exception e) {
             Log.e(TAG, "Error initializing WebSocketManager", e);
         }
