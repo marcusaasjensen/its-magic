@@ -27,14 +27,20 @@
             android:contentDescription="@string/foreground_sun_watch_cycle"
             android:scaleType="centerInside"
             android:src="@drawable/clock" />
-
-        <TextView
-            android:id="@+id/lightTextView2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textColor="@color/white"/>
     </FrameLayout>
 
+    <TextView
+        android:id="@+id/lightLevel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:text="Light Level"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
