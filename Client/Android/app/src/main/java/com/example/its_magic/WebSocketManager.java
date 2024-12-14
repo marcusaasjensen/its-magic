@@ -15,8 +15,8 @@ public class WebSocketManager {
     private static final String TAG = "WebSocketManager";
     private static WebSocketManager instance;
     private WebSocketClient webSocketClient;
-    private static final String WEBSOCKET_URL = "ws://192.168.229.31:8080";
-    private final Object lock = new Object(); // Pour la synchronisation
+    private static final String WEBSOCKET_URL = "ws://192.168.1.18:8080";
+    private final Object lock = new Object();
 
     private WebSocketManager() {
         initWebSocket();
@@ -40,7 +40,6 @@ public class WebSocketManager {
 
     private void createWebSocketClient(URI serverUri) {
         synchronized (lock) {
-            // Si un client existe déjà, on le ferme proprement
             if (webSocketClient != null) {
                 try {
                     webSocketClient.close();
@@ -50,10 +49,9 @@ public class WebSocketManager {
                 webSocketClient = null;
             }
 
-            // Création d'un nouveau client
             webSocketClient = new WebSocketClient(serverUri) {
                 @Override
-                public void onOpen(ServerHandshake handshakedata) {
+                public void onOpen(ServerHandshake handshakeData) {
                     Log.i(TAG, "WebSocket connection opened successfully");
                 }
 
@@ -65,7 +63,6 @@ public class WebSocketManager {
                 @Override
                 public void onClose(int code, String reason, boolean remote) {
                     Log.e(TAG, "WebSocket closed with code: " + code + " reason: " + reason);
-                    // Tentative de reconnexion après un délai
                     reconnectWithDelay();
                 }
 
@@ -73,18 +70,18 @@ public class WebSocketManager {
                 public void onError(Exception ex) {
                     Log.e(TAG, "WebSocket error occurred: " + ex.getMessage());
                     if (ex instanceof java.net.ConnectException) {
-                        Log.e(TAG, "Connection refused. Vérifiez que le serveur est en cours d'exécution et accessible");
+                        Log.e(TAG, "Connection refused. Check that the server is running and accessible");
                     } else if (ex instanceof java.net.SocketTimeoutException) {
-                        Log.e(TAG, "Connection timed out. Vérifiez votre connexion réseau");
+                        Log.e(TAG, "Connection timed out. Check your network connection");
                     }
                     StringWriter sw = new StringWriter();
                     ex.printStackTrace(new PrintWriter(sw));
-                    Log.e(TAG, "Stack trace complète: " + sw.toString());
+                    Log.e(TAG, "Stack trace complète: " + sw);
                 }
             };
 
             try {
-                Log.d(TAG, "Attempting to connect to WebSocket at: " + serverUri.toString());
+                Log.d(TAG, "Attempting to connect to WebSocket at: " + serverUri);
                 webSocketClient.connect();
             } catch (Exception e) {
                 Log.e(TAG, "Exception while connecting to WebSocket", e);
@@ -121,7 +118,7 @@ public class WebSocketManager {
                     initWebSocket();
                 }
             }
-        }, 5000); // 5 secondes de délai
+        }, 5000);
     }
 
     public void cleanup() {
