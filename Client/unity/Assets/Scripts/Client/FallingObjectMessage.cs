@@ -10,7 +10,8 @@
         
         public FallingObjectMessage()
         {
-            clientId = "TopView";
+            clientId = "SideView";
+            recipientId = "TopView";
             type = "FallingObject";
         }
     }
