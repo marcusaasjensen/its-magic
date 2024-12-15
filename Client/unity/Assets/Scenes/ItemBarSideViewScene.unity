@@ -1238,6 +1238,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3674f28b7bd84d41b49ed5f015475daa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onStartDrag:
+    m_PersistentCalls:
+      m_Calls: []
+  onDragged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &139223185
 GameObject:
   m_ObjectHideFlags: 0
@@ -3986,6 +3992,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3674f28b7bd84d41b49ed5f015475daa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onStartDrag:
+    m_PersistentCalls:
+      m_Calls: []
+  onDragged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &444908017
 GameObject:
   m_ObjectHideFlags: 0
@@ -9806,6 +9818,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3674f28b7bd84d41b49ed5f015475daa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onStartDrag:
+    m_PersistentCalls:
+      m_Calls: []
+  onDragged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!212 &537570337
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -10637,6 +10655,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3674f28b7bd84d41b49ed5f015475daa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onStartDrag:
+    m_PersistentCalls:
+      m_Calls: []
+  onDragged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &671611683
 GameObject:
   m_ObjectHideFlags: 0
@@ -11941,6 +11965,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemBarContainer: {fileID: 2087765336}
   fallingObjectCatcher: {fileID: 1934528973}
+  leftCommunicationArea: {fileID: 1940358273}
+  rightCommunicationArea: {fileID: 759062948}
+  animationDuration: 1
+  animationLoops: 3
 --- !u!1 &885655057
 GameObject:
   m_ObjectHideFlags: 0
@@ -26490,6 +26518,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3674f28b7bd84d41b49ed5f015475daa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onStartDrag:
+    m_PersistentCalls:
+      m_Calls: []
+  onDragged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!60 &1412009905
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -54972,6 +55006,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3674f28b7bd84d41b49ed5f015475daa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onStartDrag:
+    m_PersistentCalls:
+      m_Calls: []
+  onDragged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1934528970
 GameObject:
   m_ObjectHideFlags: 0
@@ -55683,6 +55723,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3674f28b7bd84d41b49ed5f015475daa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onStartDrag:
+    m_PersistentCalls:
+      m_Calls: []
+  onDragged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1940358273
 GameObject:
   m_ObjectHideFlags: 0
@@ -56123,6 +56169,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3674f28b7bd84d41b49ed5f015475daa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onStartDrag:
+    m_PersistentCalls:
+      m_Calls: []
+  onDragged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!212 &1942162471
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -57306,6 +57358,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3674f28b7bd84d41b49ed5f015475daa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onStartDrag:
+    m_PersistentCalls:
+      m_Calls: []
+  onDragged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &2111291573
 GameObject:
   m_ObjectHideFlags: 0
