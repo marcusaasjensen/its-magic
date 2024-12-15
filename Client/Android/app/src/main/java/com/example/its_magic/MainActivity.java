@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements SensorCallback {
 
         runOnUiThread(() -> {
             try {
-                if (sensorName.equals("light")) {
+                if (sensorName.equals("Light")) {
                     if (lightTextView != null) {
                         lightTextView.setText("Light Level: " + value);
                     }
