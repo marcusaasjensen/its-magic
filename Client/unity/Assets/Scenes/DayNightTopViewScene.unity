@@ -56929,18 +56929,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1746000738}
-        m_TargetAssemblyTypeName: TimelineControl, Assembly-CSharp
-        m_MethodName: UpdateTimelinePosition
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   clientTag: TopView
 --- !u!224 &2104249206
 RectTransform:
