@@ -11941,10 +11941,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemBarContainer: {fileID: 2087765336}
   fallingObjectCatcher: {fileID: 1934528973}
-  leftCommunicationArea: {fileID: 1940358273}
-  rightCommunicationArea: {fileID: 759062948}
-  animationDuration: 1
-  animationLoops: 3
 --- !u!1 &885655057
 GameObject:
   m_ObjectHideFlags: 0
