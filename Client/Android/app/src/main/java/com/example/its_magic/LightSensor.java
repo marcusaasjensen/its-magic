@@ -11,8 +11,8 @@ public class LightSensor extends BaseSensor implements SensorEventListener {
     private static final String TAG = "LightSensor";
     private final SensorManager sensorManager;
     private final Sensor lightSensor;
-    private boolean isNightZone = false;
-    private boolean isDayZone = false;
+    private float lastLightLevel = -1f;
+
 
     public LightSensor(Context context, SensorCallback callback) {
         super(context, callback);
@@ -22,7 +22,7 @@ public class LightSensor extends BaseSensor implements SensorEventListener {
 
     @Override
     protected String getSensorType() {
-        return "light";
+        return "Light";
     }
 
     @Override
@@ -51,25 +51,26 @@ public class LightSensor extends BaseSensor implements SensorEventListener {
             float lightLevel = event.values[0];
             String value = String.format("%.1f", lightLevel);
 
-            if (lightLevel <= 150) {
-                callback.onValueChanged("light", value + " lx");
-                if (!isNightZone) {
-                    isNightZone = true;
-                    isDayZone = false;
-                    sendToServer(value);
-                }
-            } else if (lightLevel > 150) {
-                callback.onValueChanged("light", value + " lx");
-                if (!isDayZone) {
-                    isDayZone = true;
-                    isNightZone = false;
-                    sendToServer(value);
-                }
+            if (lastLightLevel < 0 || Math.abs(lightLevel - lastLightLevel) >= 20f) {
+                lastLightLevel = lightLevel;
+
+                float minLightValue = 0f;
+                float maxLightValue = 360f;
+
+                float normalizedLightLevel = (lightLevel - minLightValue) / (maxLightValue - minLightValue);
+                normalizedLightLevel = Math.max(0f, Math.min(1f, normalizedLightLevel));
+
+                String normalizedValue = String.format("%.2f", normalizedLightLevel);
+
+                callback.onValueChanged("Light", value + " lx");
+                sendToServer(normalizedValue);
             }
+
         } catch (Exception e) {
             Log.e(TAG, "Error in onSensorChanged", e);
         }
     }
+
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {

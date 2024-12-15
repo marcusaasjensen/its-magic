@@ -19,7 +19,7 @@ public class WebSocketManager {
     private static final String TAG = "WebSocketManager";
     private static WebSocketManager instance;
     private WebSocketClient webSocketClient;
-    private static final String WEBSOCKET_URL_BASE  = "ws://";
+    private static final String WEBSOCKET_URL_BASE = "ws://";
     private final Object lock = new Object();
     private SpeakerSensor speakerSensor;
     private String serverIp;
@@ -30,9 +30,9 @@ public class WebSocketManager {
         this.speakerSensor = new SpeakerSensor(context);
         JSONObject config = ConfigReader.readConfig(context);
         if (config != null) {
-            this.serverIp = config.optString("serverIp", "192.168.1.1");  // Valeur par défaut
-            this.serverPort = config.optInt("serverPort", 8080);  // Valeur par défaut
-            this.clientType = config.optString("clientType", "Android");  // Valeur par défaut
+            this.serverIp = config.optString("serverIp", "192.168.1.1"); // Valeur par défaut
+            this.serverPort = config.optInt("serverPort", 8080); // Valeur par défaut
+            this.clientType = config.optString("clientType", "Android"); // Valeur par défaut
         }
         initWebSocket();
 
@@ -125,14 +125,21 @@ public class WebSocketManager {
         synchronized (lock) {
             if (webSocketClient != null && webSocketClient.isOpen()) {
                 try {
-                    String recipientId = "TopView";
-                    JSONObject jsonMessage = new JSONObject();
-                    jsonMessage.put("clientId", clientId);
-                    jsonMessage.put("type", value);
-                    jsonMessage.put("recipientId", recipientId);
+                    // Create a list of recipient IDs
+                    String[] recipientIds = { "TopView", "SideView" };
 
-                    webSocketClient.send(jsonMessage.toString());
-                    Log.d(TAG, "Sent sensor data: " + jsonMessage);
+                    // Create the JSON message for each recipient
+                    for (String recipientId : recipientIds) {
+                        JSONObject jsonMessage = new JSONObject();
+                        jsonMessage.put("clientId", clientId);
+                        jsonMessage.put("type", sensorType);
+                        jsonMessage.put("value", value);
+                        jsonMessage.put("recipientId", recipientId);
+
+                        // Send the message
+                        webSocketClient.send(jsonMessage.toString());
+                        Log.d(TAG, "Sent sensor data to " + recipientId + ": " + jsonMessage);
+                    }
                 } catch (Exception e) {
                     Log.e(TAG, "Error sending sensor data", e);
                     reconnectWithDelay();
