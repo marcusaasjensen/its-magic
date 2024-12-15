@@ -51,19 +51,27 @@ public class LightSensor extends BaseSensor implements SensorEventListener {
             float lightLevel = event.values[0];
             String value = String.format("%.1f", lightLevel);
 
+            float minLightValue = 0f;
+            float maxLightValue = 360f;
+
+            float normalizedLightLevel = (lightLevel - minLightValue) / (maxLightValue - minLightValue);
+            normalizedLightLevel = Math.max(0f, Math.min(1f, normalizedLightLevel));
+
+            String normalizedValue = String.format("%.2f", normalizedLightLevel);
+
             if (lightLevel <= 150) {
                 callback.onValueChanged("light", value + " lx");
                 if (!isNightZone) {
                     isNightZone = true;
                     isDayZone = false;
-                    sendToServer(value);
+                    sendToServer(normalizedValue);
                 }
             } else if (lightLevel > 150) {
                 callback.onValueChanged("light", value + " lx");
                 if (!isDayZone) {
                     isDayZone = true;
                     isNightZone = false;
-                    sendToServer(value);
+                    sendToServer(normalizedValue);
                 }
             }
         } catch (Exception e) {
