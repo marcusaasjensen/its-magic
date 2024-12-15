@@ -7,7 +7,7 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 0
     path: Assets/Scenes/SideViewScene.unity
-    guid: dba3a3641c5e28a41a49c567078389bf
+    guid: dba3a3641c5e28a41a49c567078389bf6cccdf0f650c5c5a074be9eee51514d082dddc17
   - enabled: 0
     path: Assets/Scenes/TopViewScene.unity
     guid: 336492791eed1184fae1c61a195a93fd
