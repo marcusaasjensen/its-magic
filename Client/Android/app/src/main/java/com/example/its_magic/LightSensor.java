@@ -22,7 +22,7 @@ public class LightSensor extends BaseSensor implements SensorEventListener {
 
     @Override
     protected String getSensorType() {
-        return "light";
+        return "Light";
     }
 
     @Override
@@ -59,25 +59,15 @@ public class LightSensor extends BaseSensor implements SensorEventListener {
 
             String normalizedValue = String.format("%.2f", normalizedLightLevel);
 
-            if (lightLevel <= 150) {
-                callback.onValueChanged("light", value + " lx");
-                if (!isNightZone) {
-                    isNightZone = true;
-                    isDayZone = false;
-                    sendToServer(normalizedValue);
-                }
-            } else if (lightLevel > 150) {
-                callback.onValueChanged("light", value + " lx");
-                if (!isDayZone) {
-                    isDayZone = true;
-                    isNightZone = false;
-                    sendToServer(normalizedValue);
-                }
+                callback.onValueChanged("Light", value + " lx");
+                sendToServer(normalizedValue);
             }
+
         } catch (Exception e) {
             Log.e(TAG, "Error in onSensorChanged", e);
         }
     }
+
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
