@@ -11,8 +11,8 @@ public class LightSensor extends BaseSensor implements SensorEventListener {
     private static final String TAG = "LightSensor";
     private final SensorManager sensorManager;
     private final Sensor lightSensor;
-    private boolean isNightZone = false;
-    private boolean isDayZone = false;
+    private float lastLightLevel = -1f;
+
 
     public LightSensor(Context context, SensorCallback callback) {
         super(context, callback);
@@ -51,13 +51,16 @@ public class LightSensor extends BaseSensor implements SensorEventListener {
             float lightLevel = event.values[0];
             String value = String.format("%.1f", lightLevel);
 
-            float minLightValue = 0f;
-            float maxLightValue = 360f;
+            if (lastLightLevel < 0 || Math.abs(lightLevel - lastLightLevel) >= 20f) {
+                lastLightLevel = lightLevel;
 
-            float normalizedLightLevel = (lightLevel - minLightValue) / (maxLightValue - minLightValue);
-            normalizedLightLevel = Math.max(0f, Math.min(1f, normalizedLightLevel));
+                float minLightValue = 0f;
+                float maxLightValue = 360f;
 
-            String normalizedValue = String.format("%.2f", normalizedLightLevel);
+                float normalizedLightLevel = (lightLevel - minLightValue) / (maxLightValue - minLightValue);
+                normalizedLightLevel = Math.max(0f, Math.min(1f, normalizedLightLevel));
+
+                String normalizedValue = String.format("%.2f", normalizedLightLevel);
 
                 callback.onValueChanged("Light", value + " lx");
                 sendToServer(normalizedValue);
