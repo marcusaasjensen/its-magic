@@ -2,7 +2,7 @@
 {
     public class LightMessage : Message
     {
-        public float value;
+        public string value;
         
         public LightMessage()
         {

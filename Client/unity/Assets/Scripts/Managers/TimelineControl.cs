@@ -5,7 +5,7 @@ using UnityEngine.Playables;
 public class TimelineControl : MonoBehaviour
 {
     public PlayableDirector playableDirector;  // The PlayableDirector controlling the Timeline
-    [Range(0f, 1f)] public float timelinePosition = 0f;  // The value between 0 and 1 to control the timeline's position
+    [Range(0f, 1f)] public float timelinePosition;  // The value between 0 and 1 to control the timeline's position
 
     private void Update()
     {
@@ -37,7 +37,6 @@ public class TimelineControl : MonoBehaviour
         {
             return;
         }
-
-        timelinePosition = timelineMessage.value;
+        timelinePosition = 1f - float.Parse(timelineMessage.value);
     }
 }
