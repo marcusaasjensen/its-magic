@@ -13,7 +13,7 @@ namespace Client
     {
         [SerializeField] private UnityEvent<string> onMessageReceived;
         [SerializeField] private string clientTag;
-        
+
         private ServerConfig _serverConfig;
         private WebSocket _ws;
         private readonly Queue<string> _messageQueue = new();
@@ -26,13 +26,13 @@ namespace Client
             clientTag = GetClientTagFromScene(clientTag);
             Debug.Log($"Client tag : {clientTag}");
         }
-        
+
         private static string GetClientTagFromScene(string sceneName)
         {
             if(!string.IsNullOrEmpty(sceneName)){
                 return sceneName;
             }
-            
+
             Debug.LogWarning($"Unknown scene name: {sceneName}. Using default tag.");
             return "UnknownView";
         }
