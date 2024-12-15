@@ -14,7 +14,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/ComSideViewScene.unity
     guid: b163dc9beed583449aca485fa53ca377
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/ComTopViewScene.unity
     guid: e41a08157b78d9a479ef1bc13ad0545b
   m_configObjects: {}
