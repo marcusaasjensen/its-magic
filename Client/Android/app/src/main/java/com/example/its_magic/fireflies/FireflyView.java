@@ -35,12 +35,12 @@ public class FireflyView extends View {
     }
 
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
+    protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
+        super.onSizeChanged(width, height, oldWidth, oldHeight);
 
         if (!initialized) {
             for (int i = 0; i < NUM_FIREFLIES; i++) {
-                fireflies.add(new Firefly(w, h));
+                fireflies.add(new Firefly(width, height));
             }
             initialized = true;
         }
