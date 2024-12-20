@@ -27,7 +27,6 @@ public class FireflyView extends View {
     }
 
     private void init() {
-        paint.setColor(Color.GREEN);
         paint.setStyle(Paint.Style.FILL);
         paint.setMaskFilter(new BlurMaskFilter(20, BlurMaskFilter.Blur.NORMAL));
 
@@ -50,6 +49,7 @@ public class FireflyView extends View {
     protected void onDraw(@NonNull Canvas canvas) {
         super.onDraw(canvas);
         for (Firefly firefly : fireflies) {
+            paint.setColor(firefly.color);
             paint.setAlpha(firefly.alpha);
             canvas.drawCircle(firefly.x, firefly.y, firefly.size, paint);
             firefly.update(getWidth(), getHeight());
@@ -61,6 +61,7 @@ public class FireflyView extends View {
         float x, y, size;
         float dx, dy;
         int alpha;
+        int color;
 
         Firefly(int width, int height) {
             reset(width, height);
@@ -75,15 +76,27 @@ public class FireflyView extends View {
             dx = random.nextFloat() * 4 - 2;
             dy = random.nextFloat() * 4 - 2;
             alpha = random.nextInt(156) + 100;
+            color = getRandomColor();
         }
 
         void update(int width, int height) {
             x += dx;
             y += dy;
 
+            if (random.nextFloat() < 0.02) {
+                color = getRandomColor();
+            }
+
             if (x < 0 || x > width || y < 0 || y > height) {
                 reset(width, height);
             }
+        }
+
+        private int getRandomColor() {
+            int red = random.nextInt(100);
+            int green = random.nextInt(156) + 100;
+            int blue = random.nextInt(100);
+            return Color.rgb(red, green, blue);
         }
     }
 }
