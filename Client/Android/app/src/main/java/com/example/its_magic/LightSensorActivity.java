@@ -5,6 +5,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.WindowInsets;
 import android.view.WindowInsetsController;
 import android.widget.ImageView;
@@ -14,7 +15,9 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity implements SensorCallback {
+import com.example.its_magic.fireflies.FireflyView;
+
+public class LightSensorActivity extends AppCompatActivity implements SensorCallback {
     private static final String TAG = "MainActivity";
     private WebSocketManager webSocketManager;
     private boolean isActive = false;
@@ -24,12 +27,14 @@ public class MainActivity extends AppCompatActivity implements SensorCallback {
     private TextView lightTextView;
 
     private ImageView sunCycleImageView;
+    private ImageView starType;
+    private FireflyView fireflyView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate");
-        setContentView(R.layout.forest_scene_layout);
+        setContentView(R.layout.light_sensor_scene_layout);
         fullScreen();
 
         try {
@@ -53,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements SensorCallback {
     private void initializeViews() {
         sunCycleImageView = findViewById(R.id.sunCycleImg);
         lightTextView = findViewById(R.id.lightLevel);
+        fireflyView = findViewById(R.id.fireflies);
+        starType = findViewById(R.id.starType);
     }
 
     private void initializeSensors() {
@@ -130,11 +137,14 @@ public class MainActivity extends AppCompatActivity implements SensorCallback {
                             if (lightValue >= 0 && lightValue <= 180) {
                                 rotationAngle = mapValue(lightValue, 0, 180, 0, 180);
                                 changeBackgroundGradient(R.drawable.night_background_gradiant);
+                                fireflyView.setVisibility(View.VISIBLE);
+                                starType.setImageResource(R.drawable.moon);
 
                             } else {
                                 rotationAngle = mapValue(lightValue, 180, 360, 180, 360);
                                 changeBackgroundGradient(R.drawable.day_background_gradiant);
-
+                                fireflyView.setVisibility(View.INVISIBLE);
+                                starType.setImageResource(R.drawable.sun);
                             }
 
                             sunCycleImageView.setRotation(rotationAngle);
