@@ -19,7 +19,7 @@
         android:theme="@style/Theme.Itsmagic"
         tools:targetApi="31" >
         <activity
-            android:name=".LightSensorActivity"
+            android:name=".activities.LightSensorActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
