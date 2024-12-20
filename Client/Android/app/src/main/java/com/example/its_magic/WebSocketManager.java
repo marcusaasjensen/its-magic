@@ -5,6 +5,11 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import com.example.its_magic.activities.ActivitySwitcher;
+import com.example.its_magic.activities.LightSensorActivity;
+import com.example.its_magic.messages.Message;
+import com.example.its_magic.messages.SensorMessage;
+
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONObject;
@@ -13,9 +18,11 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 public class WebSocketManager {
-    private final String clientId = "Android";
+    public static final String CLIENT_ID = "Android";
+    public static final List<String> RECIPIENT_ID = List.of("TopView", "SideView");
     private static final String TAG = "WebSocketManager";
     private static WebSocketManager instance;
     private WebSocketClient webSocketClient;
@@ -25,8 +32,10 @@ public class WebSocketManager {
     private String serverIp;
     private int serverPort;
     private String clientType;
+    private final Context context;
 
     private WebSocketManager(Context context) {
+        this.context = context.getApplicationContext();
         this.speakerSensor = new SpeakerSensor(context);
         JSONObject config = ConfigReader.readConfig(context);
         if (config != null) {
@@ -36,10 +45,6 @@ public class WebSocketManager {
         }
         initWebSocket();
 
-    }
-
-    public String getClientId() {
-        return clientId;
     }
 
     public static synchronized WebSocketManager getInstance(Context context) {
@@ -125,21 +130,27 @@ public class WebSocketManager {
         synchronized (lock) {
             if (webSocketClient != null && webSocketClient.isOpen()) {
                 try {
-                    // Create a list of recipient IDs
-                    String[] recipientIds = { "TopView", "SideView" };
-
-                    // Create the JSON message for each recipient
-                    for (String recipientId : recipientIds) {
-                        JSONObject jsonMessage = new JSONObject();
-                        jsonMessage.put("clientId", clientId);
-                        jsonMessage.put("type", sensorType);
-                        jsonMessage.put("value", value);
-                        jsonMessage.put("recipientId", recipientId);
-
-                        // Send the message
-                        webSocketClient.send(jsonMessage.toString());
-                        Log.d(TAG, "Sent sensor data to " + recipientId + ": " + jsonMessage);
+                    for (String recipientId : RECIPIENT_ID) {
+                        SensorMessage message = new SensorMessage(CLIENT_ID, recipientId, sensorType, value);
+                        webSocketClient.send(message.toString());
+                        Log.d(TAG, "Sent sensor data to " + recipientId + ": " + message);
                     }
+                } catch (Exception e) {
+                    Log.e(TAG, "Error sending sensor data", e);
+                    reconnectWithDelay();
+                }
+            } else {
+                Log.w(TAG, "WebSocket is not connected. Attempting to reconnect...");
+                reconnectWithDelay();
+            }
+        }
+    }
+
+    public void sendDataToServer(Message message) {
+        synchronized (lock) {
+            if (webSocketClient != null && webSocketClient.isOpen()) {
+                try {
+                    webSocketClient.send(message.toString());
                 } catch (Exception e) {
                     Log.e(TAG, "Error sending sensor data", e);
                     reconnectWithDelay();
@@ -174,4 +185,6 @@ public class WebSocketManager {
             }
         }
     }
+
+
 }
