@@ -89,9 +89,14 @@ public class WebSocketManager {
                         String clientId = jsonMessage.getString("clientId");
                         String type = jsonMessage.getString("type");
 
-                        if ("TopView".equals(clientId) && "vibrate".equals(type)) {
-                            speakerSensor.vibratePhone();
+                        if ("TopView".equals(clientId)) {
+                            if ("vibrate".equals(type)) {
+                                speakerSensor.vibratePhone();
+                            } else if ("switchObject".equals(type)) {
+                                ActivitySwitcher.switchActivity(context.getApplicationContext(), LightSensorActivity.class);
+                            }
                         }
+
                     } catch (Exception e) {
                         Log.e(TAG, "Error parsing message", e);
                     }
