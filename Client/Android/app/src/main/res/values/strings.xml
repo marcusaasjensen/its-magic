@@ -3,4 +3,6 @@
     <string name="title_activity_login">MainActivity</string>
     <string name="rotating_sun_cycle">Rotating sun cycle</string>
     <string name="foreground_sun_watch_cycle">Foreground sun watch cycle</string>
+    <string name="star_type">Star type</string>
+    <string name="light_level">Light Level</string>
 </resources>
