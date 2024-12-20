@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -12,20 +13,35 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+
+        <ImageView
+            android:id="@+id/starType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/star_type"
+            android:src="@drawable/moon" />
+
         <ImageView
             android:id="@+id/sunCycleImg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="20dp"
             android:contentDescription="@string/rotating_sun_cycle"
-            android:scaleType="centerInside"
             android:src="@drawable/sun_cycle_watch" />
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="300dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="20dp"
             android:contentDescription="@string/foreground_sun_watch_cycle"
-            android:scaleType="centerInside"
             android:src="@drawable/clock" />
+
+        <com.example.its_magic.fireflies.FireflyView
+            android:id="@+id/fireflies"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </FrameLayout>
 
     <TextView
@@ -34,12 +50,12 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:gravity="center"
-        android:text="Light Level"
+        android:text="@string/light_level"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
