@@ -1,4 +1,4 @@
-package com.example.its_magic;
+package com.example.its_magic.activities;
 
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -15,10 +15,15 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.its_magic.BaseSensor;
+import com.example.its_magic.LightSensor;
+import com.example.its_magic.R;
+import com.example.its_magic.SensorCallback;
+import com.example.its_magic.WebSocketManager;
 import com.example.its_magic.fireflies.FireflyView;
 
 public class LightSensorActivity extends AppCompatActivity implements SensorCallback {
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "LightSensorActivity";
     private WebSocketManager webSocketManager;
     private boolean isActive = false;
 
@@ -183,6 +188,4 @@ public class LightSensorActivity extends AppCompatActivity implements SensorCall
         getWindow().getDecorView().setBackground(transitionDrawable);
         transitionDrawable.startTransition(1000);
     }
-
-
 }
