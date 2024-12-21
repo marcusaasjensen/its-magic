@@ -22,7 +22,7 @@
             <com.example.its_magic.fireflies.FireflyView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:fireflyColor="#3C3E87"
+                app:fireflyColor="@color/purple"
                 app:fireflyMaxSize="50dp"
                 app:fireflyMaxSpeed="2.5"
                 app:fireflyMinSize="30dp"
@@ -32,7 +32,7 @@
             <com.example.its_magic.fireflies.FireflyView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:fireflyColor="#5B90AC"
+                app:fireflyColor="@color/cyan"
                 app:fireflyMaxSize="40dp"
                 app:fireflyMaxSpeed="4.5"
                 app:fireflyMinSize="30dp"
@@ -42,7 +42,7 @@
             <com.example.its_magic.fireflies.FireflyView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:fireflyColor="#558491"
+                app:fireflyColor="@color/light_cyan"
                 app:fireflyMaxSize="40dp"
                 app:fireflyMaxSpeed="6.5"
                 app:fireflyMinSize="30dp"
@@ -52,7 +52,7 @@
             <com.example.its_magic.fireflies.FireflyView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:fireflyColor="#BAE8CE"
+                app:fireflyColor="@color/very_light_cyan"
                 app:fireflyMaxSize="20dp"
                 app:fireflyMaxSpeed="8.5"
                 app:fireflyMinSize="8dp"
@@ -63,7 +63,7 @@
                 android:id="@+id/firefly_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:fireflyColor="#C8E0E4"
+                app:fireflyColor="@color/very_very_light_cyan"
                 app:fireflyMaxSize="40dp"
                 app:fireflyMaxSpeed="10.5"
                 app:fireflyMinSize="8dp"
@@ -76,14 +76,18 @@
                 app:fireflyColor="@color/white"
                 app:fireflyBlurType="solid"/>
 
-            <Button
+
+
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/magic_button"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="200dp"
-                android:background="@drawable/magic_button_background"
+                android:background="@drawable/ball"
+                android:backgroundTint="@null"
                 android:text="Jouer"
+                android:textSize="30sp"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold" />
         </FrameLayout>
