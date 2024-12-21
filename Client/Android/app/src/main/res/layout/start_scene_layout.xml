@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/start_background">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/startButtonLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.example.its_magic.fireflies.FireflyView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:fireflyColor="#3C3E87"
+                app:fireflyMaxSize="50dp"
+                app:fireflyMaxSpeed="2.5"
+                app:fireflyMinSize="30dp"
+                app:fireflyMinSpeed="0.5"
+                app:fireflyBlurType="solid"/>
+
+            <com.example.its_magic.fireflies.FireflyView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:fireflyColor="#5B90AC"
+                app:fireflyMaxSize="40dp"
+                app:fireflyMaxSpeed="4.5"
+                app:fireflyMinSize="30dp"
+                app:fireflyMinSpeed="2.5"
+                app:fireflyBlurType="solid"/>
+
+            <com.example.its_magic.fireflies.FireflyView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:fireflyColor="#558491"
+                app:fireflyMaxSize="40dp"
+                app:fireflyMaxSpeed="6.5"
+                app:fireflyMinSize="30dp"
+                app:fireflyMinSpeed="4.5"
+                app:fireflyBlurType="solid"/>
+
+            <com.example.its_magic.fireflies.FireflyView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:fireflyColor="#BAE8CE"
+                app:fireflyMaxSize="20dp"
+                app:fireflyMaxSpeed="8.5"
+                app:fireflyMinSize="8dp"
+                app:fireflyMinSpeed="6.5"
+                app:fireflyBlurType="solid"/>
+
+            <com.example.its_magic.fireflies.FireflyView
+                android:id="@+id/firefly_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:fireflyColor="#C8E0E4"
+                app:fireflyMaxSize="40dp"
+                app:fireflyMaxSpeed="10.5"
+                app:fireflyMinSize="8dp"
+                app:fireflyMinSpeed="8.5"
+                app:fireflyBlurType="solid"/>
+
+            <com.example.its_magic.fireflies.FireflyView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:fireflyColor="@color/white"
+                app:fireflyBlurType="solid"/>
+
+            <Button
+                android:id="@+id/magic_button"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="200dp"
+                android:background="@drawable/magic_button_background"
+                android:text="Jouer"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/mascotLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/table"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_gravity="bottom"
+                android:contentDescription="@string/mascot"
+                android:src="@drawable/opened_book" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="70dp"
+                android:contentDescription="@string/mascot"
+                android:src="@drawable/mascot_happy" />
+
+        </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
