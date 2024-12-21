@@ -1,19 +1,33 @@
 package com.example.its_magic.fireflies;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+
+import com.example.its_magic.R;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 public class FireflyView extends View {
+    private static final int DEFAULT_MIN_SIZE = 5;
+    private static final int DEFAULT_MAX_SIZE = 20;
+    private static final int DEFAULT_COLOR = Color.GREEN;
+
+    private int fireflyColor = DEFAULT_COLOR;
+    private BlurMaskFilter.Blur blurType = BlurMaskFilter.Blur.NORMAL;
+    private float minSize;
+    private float maxSize;
+    private float minSpeed = 1f;
+    private float maxSpeed = 4f;
 
     private static final int NUM_FIREFLIES = 20;
     private final ArrayList<Firefly> fireflies = new ArrayList<>();
@@ -21,17 +35,35 @@ public class FireflyView extends View {
     private final Paint paint = new Paint();
     private boolean initialized = false;
 
+
     public FireflyView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(attrs);
     }
 
-    private void init() {
-        paint.setStyle(Paint.Style.FILL);
-        paint.setMaskFilter(new BlurMaskFilter(20, BlurMaskFilter.Blur.NORMAL));
+    private void init(AttributeSet attrs) {
+        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.FireflyView);
 
+        // Lire les attributs existants
+        fireflyColor = a.getColor(R.styleable.FireflyView_fireflyColor, DEFAULT_COLOR);
+        minSize = a.getDimension(R.styleable.FireflyView_fireflyMinSize,
+                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_MIN_SIZE, getResources().getDisplayMetrics()));
+        maxSize = a.getDimension(R.styleable.FireflyView_fireflyMaxSize,
+                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_MAX_SIZE, getResources().getDisplayMetrics()));
+        minSpeed = a.getFloat(R.styleable.FireflyView_fireflyMinSpeed, 1f);
+        maxSpeed = a.getFloat(R.styleable.FireflyView_fireflyMaxSpeed, 4f);
+
+        int blurTypeValue = a.getInt(R.styleable.FireflyView_fireflyBlurType, 0);
+        blurType = convertToBlurType(blurTypeValue);
+
+        a.recycle();
+
+        paint.setStyle(Paint.Style.FILL);
+        setBlur(blurType);
         setLayerType(LAYER_TYPE_SOFTWARE, null);
     }
+
+
 
     @Override
     protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
@@ -57,6 +89,20 @@ public class FireflyView extends View {
         invalidate();
     }
 
+    private void setBlur(BlurMaskFilter.Blur blur) {
+        paint.setMaskFilter(new BlurMaskFilter(20f, blur));
+    }
+
+    private BlurMaskFilter.Blur convertToBlurType(int value) {
+        switch (value) {
+            case 1: return BlurMaskFilter.Blur.SOLID;
+            case 2: return BlurMaskFilter.Blur.OUTER;
+            case 3: return BlurMaskFilter.Blur.INNER;
+            default: return BlurMaskFilter.Blur.NORMAL;
+        }
+    }
+
+
     private class Firefly {
         float x, y, size;
         float dx, dy;
@@ -72,31 +118,20 @@ public class FireflyView extends View {
 
             x = random.nextInt(width);
             y = random.nextInt(height);
-            size = random.nextFloat() * 10 + 10;
-            dx = random.nextFloat() * 4 - 2;
-            dy = random.nextFloat() * 4 - 2;
+            size = random.nextFloat() * (maxSize - minSize) + minSize;
+            dx = random.nextFloat() * (maxSpeed - minSpeed) + minSpeed * (random.nextBoolean() ? 1 : -1);
+            dy = random.nextFloat() * (maxSpeed - minSpeed) + minSpeed * (random.nextBoolean() ? 1 : -1);
             alpha = random.nextInt(156) + 100;
-            color = getRandomColor();
+            color = fireflyColor;
         }
 
         void update(int width, int height) {
             x += dx;
             y += dy;
 
-            if (random.nextFloat() < 0.02) {
-                color = getRandomColor();
-            }
-
             if (x < 0 || x > width || y < 0 || y > height) {
                 reset(width, height);
             }
-        }
-
-        private int getRandomColor() {
-            int red = random.nextInt(100);
-            int green = random.nextInt(156) + 100;
-            int blue = random.nextInt(100);
-            return Color.rgb(red, green, blue);
         }
     }
 }
