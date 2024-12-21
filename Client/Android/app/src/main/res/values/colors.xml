@@ -12,4 +12,9 @@
     <color name="night_900">#081D48</color>
     <color name="day_200">#4BB7D4</color>
     <color name="day_900">#1A5B95</color>
+    <color name="purple">#3C3E87</color>
+    <color name="cyan">#5B90AC</color>
+    <color name="light_cyan">#558491</color>
+    <color name="very_light_cyan">#BAE8CE</color>
+    <color name="very_very_light_cyan">#C8E0E4</color>
 </resources>
