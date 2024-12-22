@@ -1,4 +1,4 @@
-package com.example.its_magic;
+package com.example.its_magic.sensors;
 
 import android.content.Context;
 import android.os.VibrationEffect;

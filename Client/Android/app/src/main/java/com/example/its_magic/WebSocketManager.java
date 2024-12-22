@@ -9,6 +9,7 @@ import com.example.its_magic.activities.ActivitySwitcher;
 import com.example.its_magic.activities.LightSensorActivity;
 import com.example.its_magic.messages.Message;
 import com.example.its_magic.messages.SensorMessage;
+import com.example.its_magic.sensors.SpeakerSensor;
 import com.example.its_magic.utils.ConfigReader;
 
 import org.java_websocket.client.WebSocketClient;
