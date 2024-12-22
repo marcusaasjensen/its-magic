@@ -9,6 +9,7 @@ import com.example.its_magic.activities.ActivitySwitcher;
 import com.example.its_magic.activities.LightSensorActivity;
 import com.example.its_magic.messages.Message;
 import com.example.its_magic.messages.SensorMessage;
+import com.example.its_magic.utils.ConfigReader;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
@@ -39,9 +40,9 @@ public class WebSocketManager {
         this.speakerSensor = new SpeakerSensor(context);
         JSONObject config = ConfigReader.readConfig(context);
         if (config != null) {
-            this.serverIp = config.optString("serverIp", "192.168.1.1"); // Valeur par défaut
-            this.serverPort = config.optInt("serverPort", 8080); // Valeur par défaut
-            this.clientType = config.optString("clientType", "Android"); // Valeur par défaut
+            this.serverIp = config.optString("serverIp", "192.168.1.1");
+            this.serverPort = config.optInt("serverPort", 8080);
+            this.clientType = config.optString("clientType", "Android");
         }
         initWebSocket();
 

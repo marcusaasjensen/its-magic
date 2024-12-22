@@ -23,7 +23,6 @@ public class FireflyView extends View {
     private static final int DEFAULT_COLOR = Color.GREEN;
 
     private int fireflyColor = DEFAULT_COLOR;
-    private BlurMaskFilter.Blur blurType = BlurMaskFilter.Blur.NORMAL;
     private float minSize;
     private float maxSize;
     private float minSpeed = 1f;
@@ -44,7 +43,6 @@ public class FireflyView extends View {
     private void init(AttributeSet attrs) {
         TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.FireflyView);
 
-        // Lire les attributs existants
         fireflyColor = a.getColor(R.styleable.FireflyView_fireflyColor, DEFAULT_COLOR);
         minSize = a.getDimension(R.styleable.FireflyView_fireflyMinSize,
                 TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_MIN_SIZE, getResources().getDisplayMetrics()));
@@ -54,7 +52,7 @@ public class FireflyView extends View {
         maxSpeed = a.getFloat(R.styleable.FireflyView_fireflyMaxSpeed, 4f);
 
         int blurTypeValue = a.getInt(R.styleable.FireflyView_fireflyBlurType, 0);
-        blurType = convertToBlurType(blurTypeValue);
+        BlurMaskFilter.Blur blurType = convertToBlurType(blurTypeValue);
 
         a.recycle();
 
