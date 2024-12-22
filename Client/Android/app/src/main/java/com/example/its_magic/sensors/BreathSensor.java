@@ -1,105 +1,93 @@
 package com.example.its_magic.sensors;
 
+
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
-import android.Manifest;
+import android.os.Handler;
 import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
 
 public class BreathSensor extends BaseSensor {
     private static final String TAG = "BreathSensor";
-    private static final int SAMPLE_RATE = 44100;
-    private static final int BUFFER_SIZE = AudioRecord.getMinBufferSize(
-            SAMPLE_RATE, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
+    public static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
 
+    private static final int SAMPLE_RATE = 44100;
+    private static final int BUFFER_SIZE = AudioRecord.getMinBufferSize(SAMPLE_RATE, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
     private AudioRecord audioRecord;
     private boolean isRecording = false;
-    private Thread recordingThread;
+    private final short[] audioBuffer = new short[BUFFER_SIZE];
+    private int currentFireState = 0;
+    private long lastBreathTime;
+    private static final long BREATH_TIMEOUT = 5000;
+    private final Activity activity;
+    private boolean isBreath = false;
 
-    public BreathSensor(Context context, SensorCallback callback) {
+    public BreathSensor(Context context, SensorCallback callback, Activity activity) {
         super(context, callback);
-        initAudioRecord();
+        this.activity = activity;
     }
 
     @Override
     protected String getSensorType() {
-        return "breath";
-    }
-
-    private void initAudioRecord() {
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO)
-                == PackageManager.PERMISSION_GRANTED) {
-            audioRecord = new AudioRecord(MediaRecorder.AudioSource.MIC,
-                    SAMPLE_RATE,
-                    AudioFormat.CHANNEL_IN_MONO,
-                    AudioFormat.ENCODING_PCM_16BIT,
-                    BUFFER_SIZE);
-        }
+        return "Breath";
     }
 
     @Override
     public void start() {
-        if (audioRecord == null || audioRecord.getState() != AudioRecord.STATE_INITIALIZED) {
-            Log.e(TAG, "Microphone not available");
-            callback.onError("breath", "Microphone not available");
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity,
+                    new String[]{Manifest.permission.RECORD_AUDIO}, REQUEST_RECORD_AUDIO_PERMISSION);
+
             return;
         }
+        audioRecord = new AudioRecord(
+                MediaRecorder.AudioSource.MIC,
+                SAMPLE_RATE,
+                AudioFormat.CHANNEL_IN_MONO,
+                AudioFormat.ENCODING_PCM_16BIT,
+                BUFFER_SIZE
+        );
 
-        try {
-            isRecording = true;
-            audioRecord.startRecording();
+        audioRecord.startRecording();
+        isRecording = true;
 
-            recordingThread = new Thread(() -> {
-                android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_AUDIO);
-                short[] buffer = new short[BUFFER_SIZE];
-
-                while (isRecording && !Thread.interrupted()) {
-                    try {
-                        int read = audioRecord.read(buffer, 0, buffer.length);
-                        if (read > 0) {
-                            float amplitude = calculateAmplitude(buffer, read);
-                            if (amplitude > 2000) {
-                                onBreathDetected(amplitude);
-                            }
-                        }
-                    } catch (Exception e) {
-                        Log.e(TAG, "Error reading audio data", e);
-                        break;
-                    }
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (isRecording) {
+                    detectBlow();
+                    handler.postDelayed(this, 100);
                 }
-            }, "AudioRecordingThread");
-
-            recordingThread.start();
-        } catch (Exception e) {
-            Log.e(TAG, "Error starting audio recording", e);
-            isRecording = false;
-        }
+            }
+        }, 100);
     }
 
-    private void onBreathDetected(float amplitude) {
-        String value = String.format("%.1f", amplitude);
-        callback.onValueChanged("breath", "Breath detected!");
-        sendToServer(value);
+    private void updateFireAnimation() {
+        if (currentFireState >= 300) {
+            callback.onValueChanged("fire", "Large fire");
+        } else if (currentFireState >= 200) {
+            callback.onValueChanged("fire", "Medium fire");
+        } else if (currentFireState >= 100) {
+            callback.onValueChanged("fire", "Small fire");
+        } else {
+            callback.onValueChanged("fire", "Fire off");
+        }
     }
 
     @Override
     public void stop() {
         Log.d(TAG, "Stopping BreathSensor");
-        isRecording = false;
-        if (recordingThread != null) {
-            recordingThread.interrupt();
-            recordingThread = null;
-        }
-        if (audioRecord != null) {
-            try {
-                audioRecord.stop();
-            } catch (Exception e) {
-                Log.e(TAG, "Error stopping audio record", e);
-            }
+        if (audioRecord != null && isRecording) {
+            audioRecord.stop();
+            audioRecord.release();
+            isRecording = false;
         }
     }
 
@@ -107,21 +95,51 @@ public class BreathSensor extends BaseSensor {
     public void cleanup() {
         Log.d(TAG, "Cleaning up BreathSensor");
         stop();
-        if (audioRecord != null) {
-            try {
-                audioRecord.release();
-                audioRecord = null;
-            } catch (Exception e) {
-                Log.e(TAG, "Error releasing audio record", e);
+    }
+
+    private void detectBlow() {
+        int numberOfShortsRead = audioRecord.read(audioBuffer, 0, audioBuffer.length);
+
+        if (numberOfShortsRead > 0) {
+            double amplitude = 0;
+
+            for (int i = 0; i < numberOfShortsRead; i++) {
+                amplitude += Math.abs(audioBuffer[i]);
+            }
+
+            amplitude /= numberOfShortsRead;
+
+            if (amplitude > 2000) {
+                Log.d(TAG, "Breath detected");
+                isBreath = true;
+                String value = String.format("%.1f", amplitude);
+                callback.onValueChanged("breath", "Breath detected!");
+                sendToServer(value);
+
+                if (currentFireState < 300) {
+                    currentFireState += 100;
+                }
+
+                updateFireAnimation();
+
+                lastBreathTime = System.currentTimeMillis();
+            } else {
+                isBreath = false;
             }
         }
     }
 
-    private float calculateAmplitude(short[] buffer, int read) {
-        float sum = 0;
-        for (int i = 0; i < read; i++) {
-            sum += Math.abs(buffer[i]);
+    public void reduceFireIfIdle() {
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lastBreathTime > BREATH_TIMEOUT) {
+            if (currentFireState > 0) {
+                currentFireState -= 50;
+            }
+            updateFireAnimation();
         }
-        return sum / read;
+    }
+
+    public boolean isBreath() {
+        return isBreath;
     }
 }
