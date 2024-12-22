@@ -16,11 +16,15 @@ import com.example.its_magic.WebSocketManager;
 import com.example.its_magic.messages.Message;
 import com.example.its_magic.utils.AnimationHelper;
 import com.example.its_magic.utils.SetupHelper;
+import com.example.its_magic.utils.SoundHelper;
 
 public class StartActivity extends AppCompatActivity {
     private static final String TAG = "StartActivity";
     private WebSocketManager webSocketManager;
+    private SoundHelper soundHelper;
     private Button playButton;
+    private final String soundPlayGame = "playGame";
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,10 +33,11 @@ public class StartActivity extends AppCompatActivity {
         setContentView(R.layout.start_scene_layout);
         try {
             SetupHelper.fullScreen(this);
+            soundHelper = new SoundHelper();
             initializeViews();
             initListeners();
+            initSound();
             this.webSocketManager = WebSocketManager.getInstance(this);
-
         } catch (Exception e) {
             Log.e(TAG, "Error in onCreate", e);
             Toast.makeText(this, "Error initializing app", Toast.LENGTH_LONG).show();
@@ -50,20 +55,36 @@ public class StartActivity extends AppCompatActivity {
                 Message message = new Message(CLIENT_ID, recipientId, "startGame");
                 webSocketManager.sendDataToServer(message);
             }
+            soundHelper.playSFX(soundPlayGame, 0.25f);
             ActivitySwitcher.switchActivity(this, ForestActivity.class);
         });
+    }
+
+    private void initSound() {
+        soundHelper.loadSound(this, soundPlayGame, R.raw.sfx_maaagical);
+        String soundGame = "startGame";
+        soundHelper.loadSound(this, soundGame, R.raw.sound_start);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        soundHelper.playAmbiance(this, R.raw.sound_start);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         Log.d(TAG, "onResume");
+        soundHelper.playAmbiance(this, R.raw.sound_start);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         Log.d(TAG, "onPause");
+        soundHelper.stopAmbiance();
+
     }
 
     @Override
@@ -73,5 +94,7 @@ public class StartActivity extends AppCompatActivity {
         if (webSocketManager != null) {
             webSocketManager.cleanup();
         }
+        soundHelper.stopAmbiance();
+        soundHelper.release();
     }
 }
