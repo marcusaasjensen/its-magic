@@ -18,6 +18,15 @@
     <color name="very_light_cyan">#BAE8CE</color>
     <color name="very_very_light_cyan">#C8E0E4</color>
 
+    <color name="dark_red">#3C0404</color>
+    <color name="red">#BD0101</color>
+    <color name="dark_orange">#9E4501</color>
+    <color name="orange">#E97C09</color>
+    <color name="dark_yellow">#EBD10F</color>
+    <color name="yellow">#F4F183</color>
+
+
+
     <color name="grey_with_opacity">#65656565</color>
 
 </resources>
