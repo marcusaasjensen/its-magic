@@ -17,10 +17,14 @@ import com.example.its_magic.WebSocketManager;
 import com.example.its_magic.messages.ObjectMessage;
 import com.example.its_magic.utils.AnimationHelper;
 import com.example.its_magic.utils.SetupHelper;
+import com.example.its_magic.utils.SoundHelper;
 
 public class ForestActivity extends AppCompatActivity {
     private static final String TAG = "ForestActivity";
     private WebSocketManager webSocketManager;
+    private SoundHelper soundHelper;
+
+    private final String soundTap = "tapObject";
 
     private FrameLayout alarmClockLayout;
     private ImageView alarmClock;
@@ -34,8 +38,10 @@ public class ForestActivity extends AppCompatActivity {
         setContentView(R.layout.forest_scene_layout);
         try {
             SetupHelper.fullScreen(this);
+            soundHelper = new SoundHelper();
             initializeViews();
             initListeners();
+            initSound();
             this.webSocketManager = WebSocketManager.getInstance(this);
             AnimationHelper.startAnimation(alarmClockLayout, R.anim.fade_in_up_anim);
             AnimationHelper.startAnimation(bagLayout, R.anim.fade_in_up_anim);
@@ -56,15 +62,29 @@ public class ForestActivity extends AppCompatActivity {
     private void initListeners() {
         bag.setOnClickListener(v -> {
             AnimationHelper.startAnimation(bag, R.anim.jelly_anim);
+            soundHelper.playSFX(soundTap, 0.25f);
             ObjectMessage message = new ObjectMessage(CLIENT_ID, RECIPIENT_ID.get(0), "glow", "bag");
             webSocketManager.sendDataToServer(message);
         });
         alarmClock.setOnClickListener(v -> {
             AnimationHelper.startAnimation(alarmClock, R.anim.jelly_anim);
+            soundHelper.playSFX(soundTap, 0.25f);
             ObjectMessage message = new ObjectMessage(CLIENT_ID, RECIPIENT_ID.get(0), "glow", "alarmClock");
             webSocketManager.sendDataToServer(message);
             ActivitySwitcher.switchActivity(this, LightSensorActivity.class);
         });
+    }
+
+    private void initSound() {
+        soundHelper.loadSound(this, soundTap, R.raw.sfx_tap);
+        String soundGame = "forestGame";
+        soundHelper.loadSound(this, soundGame, R.raw.sound_forest);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        soundHelper.playAmbiance(this, R.raw.sound_forest);
     }
 
     @Override
@@ -73,12 +93,14 @@ public class ForestActivity extends AppCompatActivity {
         Log.d(TAG, "onResume");
         AnimationHelper.startAnimation(alarmClockLayout, R.anim.fade_in_up_anim);
         AnimationHelper.startAnimation(bagLayout, R.anim.fade_in_up_anim);
+        soundHelper.playAmbiance(this, R.raw.sound_forest);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         Log.d(TAG, "onPause");
+        soundHelper.stopAmbiance();
     }
 
     @Override
@@ -88,5 +110,7 @@ public class ForestActivity extends AppCompatActivity {
         if (webSocketManager != null) {
             webSocketManager.cleanup();
         }
+        soundHelper.stopAmbiance();
+        soundHelper.release();
     }
 }

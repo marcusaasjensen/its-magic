@@ -21,16 +21,17 @@ import com.example.its_magic.sensors.SensorCallback;
 import com.example.its_magic.WebSocketManager;
 import com.example.its_magic.fireflies.FireflyView;
 import com.example.its_magic.utils.SetupHelper;
+import com.example.its_magic.utils.SoundHelper;
 
 public class LightSensorActivity extends AppCompatActivity implements SensorCallback {
     private static final String TAG = "LightSensorActivity";
     private WebSocketManager webSocketManager;
+    private SoundHelper soundHelper;
     private boolean isActive = false;
 
     private BaseSensor lightSensor;
 
     private TextView lightTextView;
-
     private ImageView sunCycleImageView;
     private ImageView starType;
     private FireflyView fireflyView;
@@ -43,8 +44,10 @@ public class LightSensorActivity extends AppCompatActivity implements SensorCall
 
         try {
             SetupHelper.fullScreen(this);
+            soundHelper = new SoundHelper();
             initializeViews();
             initializeSensors();
+            initSound();
         } catch (Exception e) {
             Log.e(TAG, "Error in onCreate", e);
             Toast.makeText(this, "Error initializing app", Toast.LENGTH_LONG).show();
@@ -78,6 +81,16 @@ public class LightSensorActivity extends AppCompatActivity implements SensorCall
         }
     }
 
+    private void initSound() {
+        String soundGame = "nightGame";
+        soundHelper.loadSound(this, soundGame, R.raw.sfx_fireflies);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -92,6 +105,7 @@ public class LightSensorActivity extends AppCompatActivity implements SensorCall
         Log.d(TAG, "onPause");
         isActive = false;
         stopAllSensors();
+        soundHelper.stopAmbiance();
     }
 
     @Override
@@ -102,6 +116,8 @@ public class LightSensorActivity extends AppCompatActivity implements SensorCall
         if (webSocketManager != null) {
             webSocketManager.cleanup();
         }
+        soundHelper.stopAmbiance();
+        soundHelper.release();
     }
 
     private void cleanupSensors() {
@@ -133,12 +149,14 @@ public class LightSensorActivity extends AppCompatActivity implements SensorCall
                             if (lightValue >= 0 && lightValue <= 180) {
                                 rotationAngle = mapValue(lightValue, 0, 180, 0, 180);
                                 changeBackgroundGradient(R.drawable.night_background_gradiant);
+                                soundHelper.playAmbiance(this, R.raw.sfx_fireflies);
                                 fireflyView.setVisibility(View.VISIBLE);
                                 starType.setImageResource(R.drawable.moon);
 
                             } else {
                                 rotationAngle = mapValue(lightValue, 180, 360, 180, 360);
                                 changeBackgroundGradient(R.drawable.day_background_gradiant);
+                                soundHelper.stopAmbiance();
                                 fireflyView.setVisibility(View.INVISIBLE);
                                 starType.setImageResource(R.drawable.sun);
                             }
