@@ -1,7 +1,9 @@
-package com.example.its_magic;
+package com.example.its_magic.sensors;
 
 import android.content.Context;
 import android.util.Log;
+
+import com.example.its_magic.WebSocketManager;
 
 public abstract class BaseSensor {
     protected Context context;

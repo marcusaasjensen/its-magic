@@ -14,10 +14,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
-import com.example.its_magic.BaseSensor;
-import com.example.its_magic.LightSensor;
+import com.example.its_magic.sensors.BaseSensor;
+import com.example.its_magic.sensors.LightSensor;
 import com.example.its_magic.R;
-import com.example.its_magic.SensorCallback;
+import com.example.its_magic.sensors.SensorCallback;
 import com.example.its_magic.WebSocketManager;
 import com.example.its_magic.fireflies.FireflyView;
 import com.example.its_magic.utils.SetupHelper;

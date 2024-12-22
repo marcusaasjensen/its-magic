@@ -1,4 +1,4 @@
-package com.example.its_magic;
+package com.example.its_magic.sensors;
 
 import android.content.ContentResolver;
 import android.content.Context;
