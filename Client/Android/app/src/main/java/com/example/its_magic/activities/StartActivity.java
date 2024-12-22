@@ -2,7 +2,10 @@ package com.example.its_magic.activities;
 
 import static com.example.its_magic.WebSocketManager.CLIENT_ID;
 import static com.example.its_magic.WebSocketManager.RECIPIENT_ID;
+import static com.example.its_magic.sensors.BreathSensor.REQUEST_RECORD_AUDIO_PERMISSION;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -10,6 +13,8 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.its_magic.R;
 import com.example.its_magic.WebSocketManager;
@@ -25,13 +30,18 @@ public class StartActivity extends AppCompatActivity {
     private Button playButton;
     private final String soundPlayGame = "playGame";
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate");
         setContentView(R.layout.start_scene_layout);
         try {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.RECORD_AUDIO}, REQUEST_RECORD_AUDIO_PERMISSION);
+            }
             SetupHelper.fullScreen(this);
             soundHelper = new SoundHelper();
             initializeViews();
@@ -56,7 +66,7 @@ public class StartActivity extends AppCompatActivity {
                 webSocketManager.sendDataToServer(message);
             }
             soundHelper.playSFX(soundPlayGame, 0.25f);
-            ActivitySwitcher.switchActivity(this, ForestActivity.class);
+            ActivitySwitcher.switchActivity(this, WorkshopActivity.class);
         });
     }
 

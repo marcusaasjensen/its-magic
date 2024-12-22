@@ -30,5 +30,7 @@
 
         <activity android:name=".activities.ForestActivity" />
         <activity android:name=".activities.LightSensorActivity" />
+        <activity android:name=".activities.WorkshopActivity"/>
+        <activity android:name=".activities.BreathSensorActivity" />
     </application>
 </manifest>
