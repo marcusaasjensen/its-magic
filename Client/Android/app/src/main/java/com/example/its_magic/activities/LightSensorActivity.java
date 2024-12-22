@@ -6,14 +6,13 @@ import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowInsets;
-import android.view.WindowInsetsController;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.example.its_magic.BaseSensor;
 import com.example.its_magic.LightSensor;
@@ -21,6 +20,7 @@ import com.example.its_magic.R;
 import com.example.its_magic.SensorCallback;
 import com.example.its_magic.WebSocketManager;
 import com.example.its_magic.fireflies.FireflyView;
+import com.example.its_magic.utils.SetupHelper;
 
 public class LightSensorActivity extends AppCompatActivity implements SensorCallback {
     private static final String TAG = "LightSensorActivity";
@@ -40,23 +40,14 @@ public class LightSensorActivity extends AppCompatActivity implements SensorCall
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate");
         setContentView(R.layout.light_sensor_scene_layout);
-        fullScreen();
 
         try {
+            SetupHelper.fullScreen(this);
             initializeViews();
             initializeSensors();
         } catch (Exception e) {
             Log.e(TAG, "Error in onCreate", e);
             Toast.makeText(this, "Error initializing app", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    private void fullScreen() {
-        getWindow().setDecorFitsSystemWindows(false);
-        WindowInsetsController controller = getWindow().getInsetsController();
-        if (controller != null) {
-            controller.hide(WindowInsets.Type.statusBars() | WindowInsets.Type.navigationBars());
-            controller.setSystemBarsBehavior(WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
         }
     }
 
@@ -178,7 +169,7 @@ public class LightSensorActivity extends AppCompatActivity implements SensorCall
     }
 
     private void changeBackgroundGradient(int gradientResourceId) {
-        GradientDrawable gradient = (GradientDrawable) getResources().getDrawable(gradientResourceId);
+        GradientDrawable gradient = (GradientDrawable) ResourcesCompat.getDrawable(getResources(), gradientResourceId, null);
 
         TransitionDrawable transitionDrawable = new TransitionDrawable(new Drawable[]{
                 getWindow().getDecorView().getBackground(),
