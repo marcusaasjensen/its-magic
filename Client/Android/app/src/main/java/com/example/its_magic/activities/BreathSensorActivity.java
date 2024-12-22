@@ -4,6 +4,8 @@ package com.example.its_magic.activities;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -21,6 +23,10 @@ public class BreathSensorActivity extends AppCompatActivity implements SensorCal
     private BreathSensor breathSensor;
     private ImageView fire;
     private ImageView breath;
+    private FrameLayout smallFire;
+    private FrameLayout mediumFire;
+    private FrameLayout largeFire;
+
     private int currentFireState = 0;
     private final Handler handler = new Handler();
 
@@ -60,6 +66,10 @@ public class BreathSensorActivity extends AppCompatActivity implements SensorCal
     private void initializeViews() {
         breath = findViewById(R.id.breath);
         fire = findViewById(R.id.fire);
+        smallFire = findViewById(R.id.fireRed);
+        mediumFire = findViewById(R.id.fireOrange);
+        largeFire = findViewById(R.id.fireYellow);
+
     }
 
     private void initializeSensor() {
@@ -111,12 +121,24 @@ public class BreathSensorActivity extends AppCompatActivity implements SensorCal
     private void updateFireAnimation(String value) {
         if ("Fire off".equals(value)) {
             currentFireState = 0;
+            smallFire.setVisibility(View.INVISIBLE);
+            mediumFire.setVisibility(View.INVISIBLE);
+            largeFire.setVisibility(View.INVISIBLE);
         } else if ("Small fire".equals(value)) {
             currentFireState = 100;
+            smallFire.setVisibility(View.VISIBLE);
+            mediumFire.setVisibility(View.INVISIBLE);
+            largeFire.setVisibility(View.INVISIBLE);
         } else if ("Medium fire".equals(value)) {
             currentFireState = 200;
+            smallFire.setVisibility(View.VISIBLE);
+            mediumFire.setVisibility(View.VISIBLE);
+            largeFire.setVisibility(View.INVISIBLE);
         } else if ("Large fire".equals(value)) {
             currentFireState = 300;
+            smallFire.setVisibility(View.VISIBLE);
+            mediumFire.setVisibility(View.VISIBLE);
+            largeFire.setVisibility(View.VISIBLE);
         }
         fire.setBackgroundResource(fireImages[getFireStateIndex()]);
     }
