@@ -86,7 +86,7 @@
                 android:layout_marginBottom="200dp"
                 android:background="@drawable/ball"
                 android:backgroundTint="@null"
-                android:text="Jouer"
+                android:text="@string/playText"
                 android:textSize="30sp"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold" />
@@ -105,7 +105,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_gravity="bottom"
-                android:contentDescription="@string/mascot"
+                android:contentDescription="@string/opened_book_image"
                 android:src="@drawable/opened_book" />
 
             <ImageView
@@ -113,7 +113,7 @@
                 android:layout_height="350dp"
                 android:layout_gravity="bottom"
                 android:layout_marginBottom="70dp"
-                android:contentDescription="@string/mascot"
+                android:contentDescription="@string/mascot_happy"
                 android:src="@drawable/mascot_happy" />
 
         </FrameLayout>

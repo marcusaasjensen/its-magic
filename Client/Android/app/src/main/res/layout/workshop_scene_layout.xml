@@ -32,7 +32,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
-                    android:contentDescription="@string/alarm_clock_bubble"
+                    android:contentDescription="@string/bellows_bubble"
                     android:src="@drawable/left_bubble" />
 
                 <ImageView
@@ -42,7 +42,7 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="10dp"
                     android:layout_marginBottom="20dp"
-                    android:contentDescription="@string/alarm_clock_icon"
+                    android:contentDescription="@string/bellows_icon"
                     android:src="@drawable/bellows"
                     app:tint="@color/black" />
             </FrameLayout>
