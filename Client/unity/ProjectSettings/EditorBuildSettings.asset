@@ -5,10 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
-    path: Assets/Scenes/SideViewScene.unity
-    guid: dba3a3641c5e28a41a49c567078389bf
   - enabled: 0
-    path: Assets/Scenes/TopViewScene.unity
+    path: Assets/Scenes/ForestSideScene.unity
+    guid: dba3a3641c5e28a41a49c567078389bf
+  - enabled: 1
+    path: Assets/Scenes/ForestTopScene.unity
     guid: 336492791eed1184fae1c61a195a93fd
   m_configObjects: {}

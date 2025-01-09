@@ -1,4 +1,0 @@
-{
-    "serverIp": "localhost",
-    "serverPort": "8080"
-}
