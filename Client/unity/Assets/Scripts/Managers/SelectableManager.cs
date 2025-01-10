@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 namespace Managers
 {
-    public class SelectableManager : Utils.SceneSingleton<SelectableManager>
+    public class SelectableManager : Utils.MonoBehaviourSingleton<SelectableManager>
     {
         [SerializeField] private UnityEvent onSelected;
         [SerializeField] private UnityEvent onDeselected;

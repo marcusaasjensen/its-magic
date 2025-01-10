@@ -5,7 +5,7 @@ using Utils;
 
 namespace Managers
 {
-    public class CollectibleManager : SceneSingleton<CollectibleManager>
+    public class CollectibleManager : MonoBehaviourSingleton<CollectibleManager>
     {
         [SerializeField] public GlobalData globalData;
         [SerializeField] private bool save;

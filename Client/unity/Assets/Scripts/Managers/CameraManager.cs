@@ -5,7 +5,7 @@ using Utils;
 
 namespace Managers
 {
-    public class CameraManager : SceneSingleton<CameraManager>
+    public class CameraManager : MonoBehaviour
     {
         [SerializeField] private CinemachineVirtualCamera currentCamera;
         public event Action OnCameraSwitch;
@@ -13,12 +13,6 @@ namespace Managers
         public CinemachineVirtualCamera CurrentCamera => currentCamera;
         
         public Camera MainCamera { get; private set; }
-        
-        protected override void Awake()
-        {
-            base.Awake();
-            MainCamera = Camera.main;
-        }
         
         public void SwitchToCamera(CinemachineVirtualCamera newCamera)
         {

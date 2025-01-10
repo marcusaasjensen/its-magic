@@ -1,6 +1,8 @@
 ﻿using System;
 using Client;
+using Managers;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace Environment
 {
@@ -15,7 +17,8 @@ namespace Environment
         
         public void LoadScene(string sceneName)
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
+            SceneController.Instance.TransitionToScene(sceneName);
+            //UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
         }
 
         public void LoadSceneFromMessage(string message)
@@ -31,7 +34,8 @@ namespace Environment
                 return;
             }
             
-            UnityEngine.SceneManagement.SceneManager.LoadScene(sceneMessage.sceneName);
+            //UnityEngine.SceneManagement.SceneManager.LoadScene(sceneMessage.sceneName);
+            SceneController.Instance.TransitionToScene(sceneMessage.sceneName);
         }
     }
 }
