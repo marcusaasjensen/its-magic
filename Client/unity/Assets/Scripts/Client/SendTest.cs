@@ -35,10 +35,24 @@ namespace Client
             WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(getClock));
         }
         
-        [ContextMenu("Bag")]
-        public void getBag()
+        [ContextMenu("Bellows")]
+        public void getBellows()
         {
-            var getBag = new SwitchObjectMessage
+            var getBellows = new SwitchObjectMessage
+            {
+                clientId = "TopView",
+                type = "switchObject",
+                recipientId = "Android",
+                objectName = "bellows",
+                objectScene = "forest"
+            };
+            WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(getBellows));
+        }
+        
+        [ContextMenu("BagInForest")]
+        public void getBagInForest()
+        {
+            var getBagInForest = new SwitchObjectMessage
             {
                 clientId = "TopView",
                 type = "switchObject",
@@ -46,7 +60,86 @@ namespace Client
                 objectName = "bag",
                 objectScene = "forest"
             };
-            WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(getBag));
+            WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(getBagInForest));
+        }
+        
+        [ContextMenu("BagInWorkshop")]
+        public void getBagInWorkshop()
+        {
+            var getBagInWorkshop = new SwitchObjectMessage
+            {
+                clientId = "TopView",
+                type = "switchObject",
+                recipientId = "Android",
+                objectName = "bag",
+                objectScene = "workshop"
+            };
+            WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(getBagInWorkshop));
+        }
+        
+        [ContextMenu("SwitchToWorkshop")]
+        public void switchToWorkshop()
+        {
+            var switchToWorkshop = new SwitchSceneMessage
+            {
+                clientId = "TopView",
+                type = "switchScene",
+                recipientId = "Android",
+                sceneName = "workshop"
+            };
+            WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(switchToWorkshop));
+        }
+        
+        [ContextMenu("SwitchToForest")]
+        public void switchToForest()
+        {
+            var switchToForest = new SwitchSceneMessage
+            {
+                clientId = "TopView",
+                type = "switchScene",
+                recipientId = "Android",
+                sceneName = "forest"
+            };
+            WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(switchToForest));
+        }
+        
+        [ContextMenu("AddMushroom")]
+        public void addMushroom()
+        {
+            var addMushroom = new ItemBagMessage
+            {
+                clientId = "TopView",
+                type = "addItem",
+                recipientId = "Android",
+                objectId = "1"
+            };
+            WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(addMushroom));
+        }
+        
+        [ContextMenu("AddAcorn")]
+        public void addAcorn()
+        {
+            var addAcorn = new ItemBagMessage
+            {
+                clientId = "TopView",
+                type = "addItem",
+                recipientId = "Android",
+                objectId = "2"
+            };
+            WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(addAcorn));
+        }
+        
+        [ContextMenu("AddBerry")]
+        public void addBerry()
+        {
+            var addBerry = new ItemBagMessage
+            {
+                clientId = "TopView",
+                type = "addItem",
+                recipientId = "Android",
+                objectId = "3"
+            };
+            WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(addBerry));
         }
     }
 }
