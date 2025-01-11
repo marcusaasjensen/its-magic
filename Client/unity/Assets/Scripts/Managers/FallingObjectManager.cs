@@ -30,7 +30,7 @@ namespace Managers
             var topViewPosition = CalculatePosition(fallingObjectMessage.x);
             var prefab = fallenObjectPrefab.Find( x => x.name == fallingObjectMessage.name);
 
-            Instantiate(prefab, new Vector3(topViewPosition.x, 0, topViewPosition.y), Quaternion.Euler(0, 0, Random.Range(0, 360)));
+            Instantiate(prefab, new Vector3(topViewPosition.x, 0, topViewPosition.y), Quaternion.Euler(0, 0, Random.Range(0, 360)), transform);
         }
 
         private Vector2 CalculatePosition(float sideViewX)

@@ -31,7 +31,7 @@ namespace Player
                 return;
             }
             
-            var ray = CameraManager.Instance.MainCamera.ScreenPointToRay(TouchInput.Instance.Touches[FingerId].position);
+            var ray = Camera.main.ScreenPointToRay(TouchInput.Instance.Touches[FingerId].position);
         
             Debug.DrawRay(new Vector3(ray.origin.x, ray.origin.y, transform.position.z), ray.direction, Color.red);
 

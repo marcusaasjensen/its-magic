@@ -11,7 +11,7 @@ namespace Client
 {
     public class WebSocketClient : MonoBehaviourSingleton<WebSocketClient>
     {
-        [SerializeField] private UnityEvent<string> onMessageReceived;
+        [SerializeField] public UnityEvent<string> onMessageReceived;
         [SerializeField] private string clientTag;
 
         private ServerConfig _serverConfig;
