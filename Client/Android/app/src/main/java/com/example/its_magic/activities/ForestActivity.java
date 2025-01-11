@@ -71,7 +71,6 @@ public class ForestActivity extends AppCompatActivity {
             soundHelper.playSFX(soundTap, 0.25f);
             ObjectMessage message = new ObjectMessage(CLIENT_ID, RECIPIENT_ID.get(0), "glow", "alarmClock");
             webSocketManager.sendDataToServer(message);
-            ActivitySwitcher.switchActivity(this, LightSensorActivity.class);
         });
     }
 

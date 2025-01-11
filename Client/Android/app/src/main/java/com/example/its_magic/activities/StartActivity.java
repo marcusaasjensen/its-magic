@@ -5,6 +5,8 @@ import static com.example.its_magic.WebSocketManager.RECIPIENT_ID;
 import static com.example.its_magic.sensors.BreathSensor.REQUEST_RECORD_AUDIO_PERMISSION;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -48,6 +50,7 @@ public class StartActivity extends AppCompatActivity {
             initListeners();
             initSound();
             this.webSocketManager = WebSocketManager.getInstance(this);
+            clearSharedPreferences();
         } catch (Exception e) {
             Log.e(TAG, "Error in onCreate", e);
             Toast.makeText(this, "Error initializing app", Toast.LENGTH_LONG).show();
@@ -66,7 +69,7 @@ public class StartActivity extends AppCompatActivity {
                 webSocketManager.sendDataToServer(message);
             }
             soundHelper.playSFX(soundPlayGame, 0.25f);
-            ActivitySwitcher.switchActivity(this, WorkshopActivity.class);
+//            ActivitySwitcher.switchActivity(this, WorkshopActivity.class);
         });
     }
 
@@ -106,5 +109,13 @@ public class StartActivity extends AppCompatActivity {
         }
         soundHelper.stopAmbiance();
         soundHelper.release();
+    }
+
+    private void clearSharedPreferences() {
+        SharedPreferences preferences = getSharedPreferences("PhysicsLayoutPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear(); // Effacer toutes les données
+        editor.apply(); // Appliquer les changements
+        Log.d("Physics", "Les SharedPreferences ont été vidées au démarrage.");
     }
 }

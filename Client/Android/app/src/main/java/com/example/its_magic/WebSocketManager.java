@@ -1,12 +1,17 @@
 package com.example.its_magic;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
 import com.example.its_magic.activities.ActivitySwitcher;
+import com.example.its_magic.activities.BagActivity;
+import com.example.its_magic.activities.BreathSensorActivity;
+import com.example.its_magic.activities.ForestActivity;
 import com.example.its_magic.activities.LightSensorActivity;
+import com.example.its_magic.activities.WorkshopActivity;
 import com.example.its_magic.messages.Message;
 import com.example.its_magic.messages.SensorMessage;
 import com.example.its_magic.sensors.SpeakerSensor;
@@ -37,7 +42,7 @@ public class WebSocketManager {
     private final Context context;
 
     private WebSocketManager(Context context) {
-        this.context = context.getApplicationContext();
+        this.context = context;
         this.speakerSensor = new SpeakerSensor(context);
         JSONObject config = ConfigReader.readConfig(context);
         if (config != null) {
@@ -49,10 +54,8 @@ public class WebSocketManager {
 
     }
 
-    public static synchronized WebSocketManager getInstance(Context context) {
-        if (instance == null) {
-            instance = new WebSocketManager(context);
-        }
+    public static synchronized WebSocketManager getInstance(Context newContext) {
+        instance = new WebSocketManager(newContext);
         return instance;
     }
 
@@ -91,11 +94,43 @@ public class WebSocketManager {
                         String clientId = jsonMessage.getString("clientId");
                         String type = jsonMessage.getString("type");
 
-                        if ("TopView".equals(clientId)) {
-                            if ("vibrate".equals(type)) {
-                                speakerSensor.vibratePhone();
-                            } else if ("switchObject".equals(type)) {
-                                ActivitySwitcher.switchActivity(context.getApplicationContext(), LightSensorActivity.class);
+                        if (clientId.equals("TopView")) {
+                            switch (type) {
+                                case "vibrate":
+                                    speakerSensor.vibratePhone();
+                                    break;
+                                case "switchObject":
+                                    String object = jsonMessage.getString("objectName");
+                                    if (object.equals("bag")) {
+                                        String scene = jsonMessage.getString("objectScene");
+                                        if (scene.equals("forest")) {
+                                            ActivitySwitcher.switchActivityWithExtras(context.getApplicationContext(), BagActivity.class, R.drawable.forest_background);
+                                        } else {
+                                            ActivitySwitcher.switchActivityWithExtras(context.getApplicationContext(), BagActivity.class, R.drawable.workshop_background);
+                                        }
+                                    } else if (object.equals("bellows")) {
+                                        ActivitySwitcher.switchActivity(context.getApplicationContext(), BreathSensorActivity.class);
+                                    } else {
+                                        ActivitySwitcher.switchActivity(context.getApplicationContext(), LightSensorActivity.class);
+                                    }
+                                    break;
+                                case "switchScene":
+                                    String scene = jsonMessage.getString("sceneName");
+                                    if (scene.equals("forest")) {
+                                        ActivitySwitcher.switchActivity(context.getApplicationContext(), ForestActivity.class);
+                                    } else {
+                                        ActivitySwitcher.switchActivity(context.getApplicationContext(), WorkshopActivity.class);
+                                    }
+                                    break;
+                                case "addItem":
+                                    int objectId = jsonMessage.getInt("objectId");
+                                    if (context instanceof Activity) {
+                                        ((Activity) context).runOnUiThread(() -> {
+                                            BagActivity bagActivity = (BagActivity) context;
+                                            bagActivity.addItemInBag(objectId);
+                                        });
+                                    }
+                                    break;
                             }
                         }
 
