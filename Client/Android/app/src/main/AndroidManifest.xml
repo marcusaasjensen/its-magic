@@ -32,5 +32,7 @@
         <activity android:name=".activities.LightSensorActivity" />
         <activity android:name=".activities.WorkshopActivity"/>
         <activity android:name=".activities.BreathSensorActivity" />
+        <activity android:name=".activities.BagActivity" />
+
     </application>
 </manifest>
