@@ -168,7 +168,6 @@ public class BagActivity extends AppCompatActivity {
     private WebSocketManager webSocketManager;
 
     private PhysicsLayout physicsLayout;
-    private RelativeLayout container;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -190,10 +189,6 @@ public class BagActivity extends AppCompatActivity {
 
     private void initializeViews() {
         physicsLayout = findViewById(R.id.physicsLayout);
-        container = findViewById(R.id.bagBackground);
-
-        int backgroundResourceId = getIntent().getIntExtra("backgroundResourceId", R.drawable.workshop_background);
-        container.setBackgroundResource(backgroundResourceId);
     }
 
     public void addItemInBag(int objectId) {
