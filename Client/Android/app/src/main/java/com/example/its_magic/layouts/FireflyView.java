@@ -1,4 +1,4 @@
-package com.example.its_magic.fireflies;
+package com.example.its_magic.layouts;
 
 import android.content.Context;
 import android.content.res.TypedArray;

@@ -1,4 +1,4 @@
-package com.example.its_magic;
+package com.example.its_magic.layouts;
 
 import android.widget.ImageView;
 

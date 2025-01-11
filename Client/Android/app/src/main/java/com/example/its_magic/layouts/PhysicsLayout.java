@@ -1,4 +1,4 @@
-package com.example.its_magic;
+package com.example.its_magic.layouts;
 
 import static com.example.its_magic.WebSocketManager.CLIENT_ID;
 import static com.example.its_magic.WebSocketManager.RECIPIENT_ID;
@@ -6,7 +6,6 @@ import static com.example.its_magic.WebSocketManager.RECIPIENT_ID;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Handler;
@@ -21,6 +20,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
+import com.example.its_magic.R;
+import com.example.its_magic.WebSocketManager;
 import com.example.its_magic.messages.ObjectMessage;
 
 import java.util.ArrayList;

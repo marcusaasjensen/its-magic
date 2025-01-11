@@ -19,7 +19,7 @@ import com.example.its_magic.sensors.LightSensor;
 import com.example.its_magic.R;
 import com.example.its_magic.sensors.SensorCallback;
 import com.example.its_magic.WebSocketManager;
-import com.example.its_magic.fireflies.FireflyView;
+import com.example.its_magic.layouts.FireflyView;
 import com.example.its_magic.utils.SetupHelper;
 import com.example.its_magic.utils.SoundHelper;
 
