@@ -157,7 +157,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1200427041}
         m_TargetAssemblyTypeName: Environment.SceneLoader, Assembly-CSharp
-        m_MethodName: StartGame
+        m_MethodName: StartTopViewGame
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
