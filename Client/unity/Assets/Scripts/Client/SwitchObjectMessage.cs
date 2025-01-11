@@ -9,7 +9,7 @@
         {
             clientId = "TopView";
             recipientId = "Android";
-            type = "switchObject";
+            type = "SwitchObject";
         }
         
     }

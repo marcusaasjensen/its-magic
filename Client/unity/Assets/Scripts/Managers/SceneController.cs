@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Client;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utils;
 
@@ -12,7 +13,7 @@ namespace Managers
         protected override void Awake()
         {
             base.Awake();
-            LoadSceneAdditively(initialScene);
+            // LoadSceneAdditively(initialScene);
             _activeSceneName = initialScene;
         }
 
@@ -36,7 +37,7 @@ namespace Managers
 
             // If the scene is not loaded, load it additively
             SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive).completed += (operation) =>
-            {
+            {     
                 Debug.Log($"Scene {sceneName} loaded successfully.");
             };
         }

@@ -62,5 +62,24 @@ namespace Managers
                 return new Vector2(boundaryCenter.x - width / 2, boundaryCenter.y - height / 2 + (perimeterOffset - (2 * width + height)));
             }
         }
+        
+        public void RemoveItem(string message)
+        {
+            if (message == null)
+            {
+                return;
+            }
+
+            var itemBagMessage = JsonUtility.FromJson<ObjectMessage>(message);
+            if (itemBagMessage is not { type: "ShowItem" })
+            {
+                return;
+            }
+            
+            var topViewPosition = CalculatePosition(10);
+            var prefab = fallenObjectPrefab.Find( x => x.name == itemBagMessage.targetObject);
+
+            Instantiate(prefab, new Vector3(topViewPosition.x, 0, topViewPosition.y), Quaternion.Euler(0, 0, Random.Range(0, 360)), transform);
+        }
     }
 }

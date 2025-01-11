@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 namespace Environment
 {
-    public class Collectible : MonoBehaviour
+    public abstract class Collectible : MonoBehaviour
     {
         [SerializeField] private ParticleSystem collectibleParticles;
         [SerializeField] protected UnityEvent onCollect;
@@ -44,11 +44,11 @@ namespace Environment
             collectibleParticles.Play();
         }
         
-        // protected abstract void WhenCollected();
+        protected abstract void WhenCollected();
 
         public void Collect()
         {
-            // WhenCollected();
+            WhenCollected();
             CollectibleManager.Instance.CollectItem(_collectibleId);
             PlayParticles();
             onCollect.Invoke();
