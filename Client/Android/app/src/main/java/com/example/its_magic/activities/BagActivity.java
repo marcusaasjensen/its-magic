@@ -157,8 +157,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.its_magic.ItemBag;
-import com.example.its_magic.PhysicsLayout;
+import com.example.its_magic.layouts.ItemBag;
+import com.example.its_magic.layouts.PhysicsLayout;
 import com.example.its_magic.R;
 import com.example.its_magic.WebSocketManager;
 import com.example.its_magic.utils.SetupHelper;

@@ -19,7 +19,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <com.example.its_magic.fireflies.FireflyView
+            <com.example.its_magic.layouts.FireflyView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:fireflyColor="@color/purple"
@@ -29,7 +29,7 @@
                 app:fireflyMinSpeed="0.5"
                 app:fireflyBlurType="solid"/>
 
-            <com.example.its_magic.fireflies.FireflyView
+            <com.example.its_magic.layouts.FireflyView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:fireflyColor="@color/cyan"
@@ -39,7 +39,7 @@
                 app:fireflyMinSpeed="2.5"
                 app:fireflyBlurType="solid"/>
 
-            <com.example.its_magic.fireflies.FireflyView
+            <com.example.its_magic.layouts.FireflyView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:fireflyColor="@color/light_cyan"
@@ -49,7 +49,7 @@
                 app:fireflyMinSpeed="4.5"
                 app:fireflyBlurType="solid"/>
 
-            <com.example.its_magic.fireflies.FireflyView
+            <com.example.its_magic.layouts.FireflyView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:fireflyColor="@color/very_light_cyan"
@@ -59,7 +59,7 @@
                 app:fireflyMinSpeed="6.5"
                 app:fireflyBlurType="solid"/>
 
-            <com.example.its_magic.fireflies.FireflyView
+            <com.example.its_magic.layouts.FireflyView
                 android:id="@+id/firefly_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -70,7 +70,7 @@
                 app:fireflyMinSpeed="8.5"
                 app:fireflyBlurType="solid"/>
 
-            <com.example.its_magic.fireflies.FireflyView
+            <com.example.its_magic.layouts.FireflyView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:fireflyColor="@color/white"

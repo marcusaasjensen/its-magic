@@ -38,7 +38,7 @@
             android:contentDescription="@string/foreground_sun_watch_cycle"
             android:src="@drawable/clock" />
 
-        <com.example.its_magic.fireflies.FireflyView
+        <com.example.its_magic.layouts.FireflyView
             android:id="@+id/fireflies"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

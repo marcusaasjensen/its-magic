@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.example.its_magic.PhysicsLayout
+    <com.example.its_magic.layouts.PhysicsLayout
         android:id="@+id/physicsLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
