@@ -25,6 +25,11 @@
     <color name="dark_yellow">#EBD10F</color>
     <color name="yellow">#F4F183</color>
 
+    <color name="outsideBag">#BD844F</color>
+    <color name="insideBag">#B37E4C</color>
+    <color name="bottomBag">#996C42</color>
+
+
 
 
     <color name="grey_with_opacity">#65656565</color>
