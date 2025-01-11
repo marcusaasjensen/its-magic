@@ -17,4 +17,5 @@
     <string name="bellows_icon">bellows icon</string>
     <string name="breath_icon">breath icon</string>
     <string name="fire_status">fire status</string>
+    <string name="indication_remove_item">Indication: Remove item from bag</string>
 </resources>

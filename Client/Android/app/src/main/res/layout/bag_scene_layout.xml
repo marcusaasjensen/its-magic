@@ -1,0 +1,31 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bagBackground"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.example.its_magic.PhysicsLayout
+        android:id="@+id/physicsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:background="@color/insideBag" />
+
+    <RelativeLayout
+        android:layout_width="25dp"
+        android:layout_height="match_parent"
+        android:background="@color/bottomBag" />
+
+    <RelativeLayout
+        android:layout_width="25dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:background="@color/bottomBag" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/arrow"
+        app:tint="@color/outsideBag"
+        android:contentDescription="@string/indication_remove_item"/>
+</RelativeLayout>
