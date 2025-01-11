@@ -21,6 +21,7 @@ import androidx.core.content.ContextCompat;
 import com.example.its_magic.R;
 import com.example.its_magic.WebSocketManager;
 import com.example.its_magic.messages.Message;
+import com.example.its_magic.messages.SceneMessage;
 import com.example.its_magic.utils.AnimationHelper;
 import com.example.its_magic.utils.SetupHelper;
 import com.example.its_magic.utils.SoundHelper;
@@ -65,7 +66,7 @@ public class StartActivity extends AppCompatActivity {
         playButton.setOnClickListener(v -> {
             AnimationHelper.startAnimation(playButton, R.anim.jelly_anim);
             for (String recipientId : RECIPIENT_ID) {
-                Message message = new Message(CLIENT_ID, recipientId, "startGame");
+                SceneMessage message = new SceneMessage(CLIENT_ID, recipientId, "StartGame", "ForestTopScene");
                 webSocketManager.sendDataToServer(message);
             }
             soundHelper.playSFX(soundPlayGame, 0.25f);

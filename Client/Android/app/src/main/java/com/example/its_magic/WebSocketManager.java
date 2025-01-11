@@ -96,35 +96,42 @@ public class WebSocketManager {
 
                         if (clientId.equals("TopView")) {
                             switch (type) {
-                                case "vibrate":
+                                case "Vibrate":
                                     speakerSensor.vibratePhone();
                                     break;
-                                case "switchObject":
+                                case "SwitchObject":
                                     String object = jsonMessage.getString("objectName");
-                                    if (object.equals("bag")) {
+                                    if (object.equals("Bag")) {
                                         String scene = jsonMessage.getString("objectScene");
                                         if (scene.equals("forest")) {
                                             ActivitySwitcher.switchActivityWithExtras(context.getApplicationContext(), BagActivity.class, R.drawable.forest_background);
+                                            speakerSensor.vibratePhone();
                                         } else {
                                             ActivitySwitcher.switchActivityWithExtras(context.getApplicationContext(), BagActivity.class, R.drawable.workshop_background);
+                                            speakerSensor.vibratePhone();
                                         }
                                     } else if (object.equals("bellows")) {
                                         ActivitySwitcher.switchActivity(context.getApplicationContext(), BreathSensorActivity.class);
+                                        speakerSensor.vibratePhone();
                                     } else {
                                         ActivitySwitcher.switchActivity(context.getApplicationContext(), LightSensorActivity.class);
+                                        speakerSensor.vibratePhone();
                                     }
                                     break;
-                                case "switchScene":
+                                case "Scene":
                                     String scene = jsonMessage.getString("sceneName");
                                     if (scene.equals("forest")) {
                                         ActivitySwitcher.switchActivity(context.getApplicationContext(), ForestActivity.class);
+                                        speakerSensor.vibratePhone();
                                     } else {
                                         ActivitySwitcher.switchActivity(context.getApplicationContext(), WorkshopActivity.class);
+                                        speakerSensor.vibratePhone();
                                     }
                                     break;
-                                case "addItem":
+                                case "AddItem":
                                     int objectId = jsonMessage.getInt("objectId");
                                     if (context instanceof Activity) {
+                                        speakerSensor.vibratePhone();
                                         ((Activity) context).runOnUiThread(() -> {
                                             BagActivity bagActivity = (BagActivity) context;
                                             bagActivity.addItemInBag(objectId);

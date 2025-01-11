@@ -323,11 +323,11 @@ public class PhysicsLayout extends FrameLayout {
         int imageRes = itemBag.getImageRes();
 
         if (imageRes == R.drawable.mushroom) {
-            message = new ObjectMessage(CLIENT_ID, RECIPIENT_ID.get(0), "showItem", "mushroom");
+            message = new ObjectMessage(CLIENT_ID, RECIPIENT_ID.get(0), "ShowItem", "Mushroom");
         } else if (imageRes == R.drawable.acorn) {
-            message = new ObjectMessage(CLIENT_ID, RECIPIENT_ID.get(0), "showItem", "acorn");
+            message = new ObjectMessage(CLIENT_ID, RECIPIENT_ID.get(0), "ShowItem", "Acorn");
         } else if (imageRes == R.drawable.berry) {
-            message = new ObjectMessage(CLIENT_ID, RECIPIENT_ID.get(0), "showItem", "berry");
+            message = new ObjectMessage(CLIENT_ID, RECIPIENT_ID.get(0), "ShowItem", "Berry");
         }
 
         if (message != null) {

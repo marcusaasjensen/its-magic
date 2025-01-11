@@ -63,13 +63,13 @@ public class ForestActivity extends AppCompatActivity {
         bag.setOnClickListener(v -> {
             AnimationHelper.startAnimation(bag, R.anim.jelly_anim);
             soundHelper.playSFX(soundTap, 0.25f);
-            ObjectMessage message = new ObjectMessage(CLIENT_ID, RECIPIENT_ID.get(0), "glow", "bag");
+            ObjectMessage message = new ObjectMessage(CLIENT_ID, RECIPIENT_ID.get(0), "Glow", "Bag");
             webSocketManager.sendDataToServer(message);
         });
         alarmClock.setOnClickListener(v -> {
             AnimationHelper.startAnimation(alarmClock, R.anim.jelly_anim);
             soundHelper.playSFX(soundTap, 0.25f);
-            ObjectMessage message = new ObjectMessage(CLIENT_ID, RECIPIENT_ID.get(0), "glow", "alarmClock");
+            ObjectMessage message = new ObjectMessage(CLIENT_ID, RECIPIENT_ID.get(0), "Glow", "AlarmClock");
             webSocketManager.sendDataToServer(message);
         });
     }

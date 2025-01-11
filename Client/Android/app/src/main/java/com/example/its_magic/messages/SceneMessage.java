@@ -6,20 +6,20 @@ import androidx.annotation.NonNull;
 
 import org.json.JSONObject;
 
-public class ObjectMessage extends Message {
-    private static final String TAG = "Object Message";
-    private final String targetObject;
+public class SceneMessage extends Message {
+    private static final String TAG = "Scene Message";
+    private final String sceneName;
 
-    public ObjectMessage(String clientId, String recipientId, String type, String targetObject) {
+    public SceneMessage(String clientId, String recipientId, String type, String sceneName) {
         super(clientId, recipientId, type);
-        this.targetObject = targetObject;
+        this.sceneName = sceneName;
     }
 
     @Override
     public JSONObject toJson() {
         JSONObject jsonMessage = super.toJson();
         try {
-            jsonMessage.put("targetObject", targetObject);
+            jsonMessage.put("sceneName", sceneName);
         } catch (Exception e) {
             Log.e(TAG, "Error sending data", e);
         }
