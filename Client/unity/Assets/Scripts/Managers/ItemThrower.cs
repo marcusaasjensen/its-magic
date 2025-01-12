@@ -21,7 +21,7 @@ namespace Managers
 
             var index = int.Parse(itemBagMessage.targetObject);
             CollectibleManager.Instance.RemoveItem(itemBagMessage.targetObject);
-            spawner.SpawnAtIndex(index);
+            spawner.SpawnAtIndex(index - 1);
             onItemThrown.Invoke();
         }
     }

@@ -65,6 +65,7 @@ namespace Managers
         // Transition between scenes
         public void TransitionToScene(string newSceneName)
         {
+            Debug.Log($"Transitioning to scene {newSceneName}");
             if (!string.IsNullOrEmpty(_activeSceneName))
             {
                 UnloadScene(_activeSceneName); // Deactivate the current active scene
