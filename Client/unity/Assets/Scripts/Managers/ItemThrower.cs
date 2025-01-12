@@ -19,7 +19,9 @@ namespace Managers
             var itemBagMessage = JsonUtility.FromJson<ObjectMessage>(message);
             if (itemBagMessage is not { type: "ShowItem" }) return;
 
-            spawner.SpawnAtIndex(int.Parse(itemBagMessage.targetObject));
+            var index = int.Parse(itemBagMessage.targetObject);
+            CollectibleManager.Instance.RemoveItem(itemBagMessage.targetObject);
+            spawner.SpawnAtIndex(index);
             onItemThrown.Invoke();
         }
     }
