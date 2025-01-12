@@ -13,11 +13,15 @@ namespace Managers
         protected override void Awake()
         {
             base.Awake();
-            // LoadSceneAdditively(initialScene);
             _activeSceneName = initialScene;
         }
 
-        // Load a scene additively
+        [ContextMenu("Load Initial Scene")]
+        public void LoadInitialScene()
+        {
+            LoadSceneAdditively(initialScene);
+        }
+        
         public void LoadSceneAdditively(string sceneName)
         {
             Scene scene = SceneManager.GetSceneByName(sceneName);
