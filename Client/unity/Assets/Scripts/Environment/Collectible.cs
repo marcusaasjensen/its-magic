@@ -1,29 +1,16 @@
+using Client;
 using Managers;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace Environment
 {
-    public abstract class Collectible : MonoBehaviour
+    public class Collectible : MonoBehaviour
     {
+        [SerializeField] private string collectibleId = "1";
         [SerializeField] private ParticleSystem collectibleParticles;
         [SerializeField] protected UnityEvent onCollect;
         [SerializeField] private string collectorName = "Player";
-        private string _collectibleId;
-
-        private void Start() => OnCollectible();
-        
-        private void OnCollectible()
-        {
-            _collectibleId = CollectibleManager.GenerateCollectibleId(gameObject);
-
-            if (!CollectibleManager.IsItemCollected(_collectibleId))
-            {
-                return;
-            }
-            
-            Destroy(gameObject);
-        }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
@@ -43,13 +30,23 @@ namespace Environment
             collectibleParticles.transform.position = transform.position;
             collectibleParticles.Play();
         }
-        
-        protected abstract void WhenCollected();
+
+        private void WhenCollected()
+        {
+            var addItem = new ItemBagMessage
+            {
+                clientId = "TopView",
+                type = "AddItem",
+                recipientId = "Android",
+                objectId = collectibleId
+            };
+            WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(addItem));
+        }
 
         public void Collect()
         {
             WhenCollected();
-            CollectibleManager.Instance.CollectItem(_collectibleId);
+            CollectibleManager.Instance.CollectItem(collectibleId);
             PlayParticles();
             onCollect.Invoke();
             Destroy(gameObject);

@@ -18,7 +18,6 @@ namespace Environment
         public void LoadScene(string sceneName)
         {
             SceneController.Instance.TransitionToScene(sceneName);
-            //UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
         }
 
         public void LoadSceneFromMessage(string message)
@@ -34,31 +33,7 @@ namespace Environment
                 return;
             }
 
-            //UnityEngine.SceneManagement.SceneManager.LoadScene(sceneMessage.sceneName);
             SceneController.Instance.TransitionToScene(sceneMessage.sceneName);
-        }
-
-        public void StartGame(string message)
-        {
-            if (message == null)
-            {
-                return;
-            }
-
-            var startGameMessage = JsonUtility.FromJson<SceneMessage>(message);
-            if (startGameMessage is not { type: "StartGame" })
-            {
-                return;
-            }
-
-            SceneController.Instance.TransitionToScene(startGameMessage.sceneName);
-            var sceneMessage = new SceneMessage()
-            {
-                clientId = "TopView",
-                recipientId = "Android",
-                sceneName = "forest",
-            };
-            WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(sceneMessage));
         }
     }
 }

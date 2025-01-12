@@ -14,13 +14,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Side Scenes/HouseSideScene.unity
     guid: facf831e3eb49224190ba61d034eb648
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Main Scenes/MainTopScene.unity
     guid: 2840a5d77cb970f40aba39b62d6b7860
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Top Scenes/ForestTopScene.unity
     guid: 336492791eed1184fae1c61a195a93fd
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Top Scenes/HouseTopScene.unity
     guid: b2165563bc804134abbd97cb71bc1a03
   m_configObjects: {}
