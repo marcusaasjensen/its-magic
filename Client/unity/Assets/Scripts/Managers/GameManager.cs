@@ -22,7 +22,7 @@ namespace Managers
             Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen;
         }
         
-        public void StartGame(string message)
+        public void StartTopViewGame(string message)
         {
             if (message == null)
             {
@@ -36,7 +36,7 @@ namespace Managers
             }
 
             SceneController.Instance.TransitionToScene(startGameMessage.sceneName);
-            var sceneMessage = new SceneMessage()
+            var sceneMessage = new SceneMessage
             {
                 clientId = "TopView",
                 recipientId = "Android",
@@ -45,5 +45,20 @@ namespace Managers
             WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(sceneMessage));
         }
         
+        public void StartSideViewGame(string message)
+        {
+            if (message == null)
+            {
+                return;
+            }
+
+            var startGameMessage = JsonUtility.FromJson<SceneMessage>(message);
+            if (startGameMessage is not { type: "StartGame" })
+            {
+                return;
+            }
+
+            SceneController.Instance.TransitionToScene(startGameMessage.sceneName);
+        }
     }
 }

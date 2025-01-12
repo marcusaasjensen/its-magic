@@ -154,7 +154,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onMessageReceived:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 792382800}
+        m_TargetAssemblyTypeName: Managers.GameManager, Assembly-CSharp
+        m_MethodName: StartTopViewGame
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   clientTag: TopView
 --- !u!4 &148307644
 Transform:
@@ -750,7 +762,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   globalData: {fileID: 11400000, guid: 964bf62e2fc793b45bb64a7d195a6c21, type: 2}
-  save: 0
 --- !u!4 &1944395604
 Transform:
   m_ObjectHideFlags: 0
