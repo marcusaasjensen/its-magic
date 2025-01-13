@@ -65,9 +65,9 @@ public class StartActivity extends AppCompatActivity {
     private void initListeners() {
         playButton.setOnClickListener(v -> {
             AnimationHelper.startAnimation(playButton, R.anim.jelly_anim);
-            SceneMessage topViewMessage = new SceneMessage(CLIENT_ID, RECIPIENT_ID.get(0), "StartGame", "ForestTopSceneMarie");
+            SceneMessage topViewMessage = new SceneMessage(CLIENT_ID, RECIPIENT_ID.get(0), "StartGame", "ForestTopScene");
             webSocketManager.sendDataToServer(topViewMessage);
-            SceneMessage sideViewMessage = new SceneMessage(CLIENT_ID, RECIPIENT_ID.get(1), "StartGame", "ForestSideSceneMarie");
+            SceneMessage sideViewMessage = new SceneMessage(CLIENT_ID, RECIPIENT_ID.get(1), "StartGame", "ForestSideScene");
             webSocketManager.sendDataToServer(sideViewMessage);
 
             soundHelper.playSFX(soundPlayGame, 0.25f);

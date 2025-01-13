@@ -46,7 +46,7 @@ public class WebSocketManager {
         this.speakerSensor = new SpeakerSensor(context);
         JSONObject config = ConfigReader.readConfig(context);
         if (config != null) {
-            this.serverIp = config.optString("serverIp", "192.168.1.1");
+            this.serverIp = config.optString("serverIp", "192.168.205.187");
             this.serverPort = config.optInt("serverPort", 8080);
             this.clientType = config.optString("clientType", "Android");
         }
