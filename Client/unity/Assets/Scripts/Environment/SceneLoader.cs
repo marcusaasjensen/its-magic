@@ -17,6 +17,28 @@ namespace Environment
 
         public void LoadScene(string sceneName)
         {
+            if (sceneName == "HouseSideScene")
+            {
+                var sceneMessageAndroid = new SceneMessage
+                {
+                    clientId = "TopView",
+                    recipientId = "Android",
+                    sceneName = "workshop",
+                };
+                WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(sceneMessageAndroid));
+            }
+
+            if (sceneName == "ForestSideScene")
+            {
+                var sceneMessageAndroid = new SceneMessage
+                {
+                    clientId = "TopView",
+                    recipientId = "Android",
+                    sceneName = "forest",
+                };
+                WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(sceneMessageAndroid));
+            }
+            
             SceneController.Instance.TransitionToScene(sceneName);
         }
 

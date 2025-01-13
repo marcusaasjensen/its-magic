@@ -1,4 +1,6 @@
-﻿using Client;
+﻿using System.Globalization;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Client;
 using UnityEngine;
 using UnityEngine.Playables;
 
@@ -37,6 +39,11 @@ public class TimelineControl : MonoBehaviour
         {
             return;
         }
-        timelinePosition = 1f - float.Parse(timelineMessage.value);
+        
+        if (float.TryParse(timelineMessage.value, NumberStyles.Float, CultureInfo.InvariantCulture, out float parsedValue))
+        {
+            Debug.Log($"Parsed value successfully: {parsedValue}");
+            timelinePosition = 1f - parsedValue;
+        }
     }
 }
