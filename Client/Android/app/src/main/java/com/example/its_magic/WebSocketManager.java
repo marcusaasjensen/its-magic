@@ -131,7 +131,8 @@ public class WebSocketManager {
                                     break;
                                 case "AddItem":
                                     int objectId = jsonMessage.getInt("objectId");
-                                    if (context instanceof Activity) {
+                                    if (!(context instanceof BagActivity)) {
+                                        ActivitySwitcher.switchActivityWithExtras(context.getApplicationContext(), BagActivity.class, R.drawable.forest_background);
                                         ((Activity) context).runOnUiThread(() -> {
                                             BagActivity bagActivity = (BagActivity) context;
                                             bagActivity.addItemInBag(objectId);
