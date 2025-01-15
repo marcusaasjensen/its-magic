@@ -46,7 +46,7 @@ public class WebSocketManager {
         this.speakerSensor = new SpeakerSensor(context);
         JSONObject config = ConfigReader.readConfig(context);
         if (config != null) {
-            this.serverIp = config.optString("serverIp", "192.168.205.187");
+            this.serverIp = config.optString("serverIp", "192.168.1.1");
             this.serverPort = config.optInt("serverPort", 8080);
             this.clientType = config.optString("clientType", "Android");
         }
@@ -96,46 +96,47 @@ public class WebSocketManager {
 
                         if (clientId.equals("TopView")) {
                             switch (type) {
-                                case "Vibrate":
-                                    speakerSensor.vibratePhone();
-                                    break;
                                 case "SwitchObject":
                                     String object = jsonMessage.getString("objectName");
                                     if (object.equals("Bag")) {
-                                        String scene = jsonMessage.getString("objectScene");
-                                        if (scene.equals("forest")) {
+                                        if (!(context instanceof BagActivity)) {
                                             ActivitySwitcher.switchActivityWithExtras(context.getApplicationContext(), BagActivity.class, R.drawable.forest_background);
                                             speakerSensor.vibratePhone();
-                                        } else {
-                                            ActivitySwitcher.switchActivityWithExtras(context.getApplicationContext(), BagActivity.class, R.drawable.workshop_background);
+                                        }
+                                    } else if (object.equals("Bellows")) {
+                                        if (!(context instanceof BreathSensorActivity)) {
+                                            ActivitySwitcher.switchActivity(context.getApplicationContext(), BreathSensorActivity.class);
                                             speakerSensor.vibratePhone();
                                         }
-                                    } else if (object.equals("bellows")) {
-                                        ActivitySwitcher.switchActivity(context.getApplicationContext(), BreathSensorActivity.class);
-                                        speakerSensor.vibratePhone();
                                     } else {
-                                        ActivitySwitcher.switchActivity(context.getApplicationContext(), LightSensorActivity.class);
-                                        speakerSensor.vibratePhone();
+                                        if (!(context instanceof LightSensorActivity)) {
+                                            ActivitySwitcher.switchActivity(context.getApplicationContext(), LightSensorActivity.class);
+                                            speakerSensor.vibratePhone();
+                                        }
                                     }
                                     break;
                                 case "Scene":
                                     String scene = jsonMessage.getString("sceneName");
                                     if (scene.equals("forest")) {
-                                        ActivitySwitcher.switchActivity(context.getApplicationContext(), ForestActivity.class);
-                                        speakerSensor.vibratePhone();
+                                        if (!(context instanceof ForestActivity)) {
+                                            ActivitySwitcher.switchActivity(context.getApplicationContext(), ForestActivity.class);
+                                            speakerSensor.vibratePhone();
+                                        }
                                     } else {
-                                        ActivitySwitcher.switchActivity(context.getApplicationContext(), WorkshopActivity.class);
-                                        speakerSensor.vibratePhone();
+                                        if (!(context instanceof WorkshopActivity)) {
+                                            ActivitySwitcher.switchActivity(context.getApplicationContext(), WorkshopActivity.class);
+                                            speakerSensor.vibratePhone();
+                                        }
                                     }
                                     break;
                                 case "AddItem":
                                     int objectId = jsonMessage.getInt("objectId");
                                     if (context instanceof Activity) {
-                                        speakerSensor.vibratePhone();
                                         ((Activity) context).runOnUiThread(() -> {
                                             BagActivity bagActivity = (BagActivity) context;
                                             bagActivity.addItemInBag(objectId);
                                         });
+                                        speakerSensor.vibratePhone();
                                     }
                                     break;
                             }

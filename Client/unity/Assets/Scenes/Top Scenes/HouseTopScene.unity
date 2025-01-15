@@ -16230,7 +16230,7 @@ GameObject:
   - component: {fileID: 739107777}
   - component: {fileID: 739107776}
   m_Layer: 0
-  m_Name: bellows
+  m_Name: Bellows
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16404,7 +16404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdcbe3807dfd444cb21000b10f58baca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectNameToShow: bellows
+  objectNameToShow: Bellows
   sceneName: workshop
 --- !u!114 &739107779
 MonoBehaviour:
