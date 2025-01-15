@@ -133,7 +133,11 @@ public class WebSocketManager {
                                     int objectId = jsonMessage.getInt("objectId");
                                     if (!(context instanceof BagActivity)) {
                                         ActivitySwitcher.switchActivityWithExtras(context.getApplicationContext(), BagActivity.class, R.drawable.forest_background);
+                                        speakerSensor.vibratePhone();
+                                    }
+                                    if (context instanceof Activity) {
                                         ((Activity) context).runOnUiThread(() -> {
+                                            assert context instanceof BagActivity;
                                             BagActivity bagActivity = (BagActivity) context;
                                             bagActivity.addItemInBag(objectId);
                                         });
