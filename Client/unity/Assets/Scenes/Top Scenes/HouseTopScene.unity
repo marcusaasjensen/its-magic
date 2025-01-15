@@ -16404,7 +16404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdcbe3807dfd444cb21000b10f58baca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectNameToShow: Bellows
+  objectNameToShow: bellows
   sceneName: workshop
 --- !u!114 &739107779
 MonoBehaviour:
@@ -35614,7 +35614,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdcbe3807dfd444cb21000b10f58baca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectNameToShow: Bag
+  objectNameToShow: bag
   sceneName: forest
 --- !u!60 &2103887093
 PolygonCollider2D:

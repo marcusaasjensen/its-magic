@@ -41,7 +41,7 @@ public class WorkshopActivity extends AppCompatActivity {
             soundHelper = new SoundHelper();
             initializeViews();
             initListeners();
-            initSound();
+//            initSound();
             this.webSocketManager = WebSocketManager.getInstance(this);
             AnimationHelper.startAnimation(bellowsLayout, R.anim.fade_in_up_anim);
             AnimationHelper.startAnimation(bagLayout, R.anim.fade_in_up_anim);
@@ -63,13 +63,13 @@ public class WorkshopActivity extends AppCompatActivity {
         bag.setOnClickListener(v -> {
             AnimationHelper.startAnimation(bag, R.anim.jelly_anim);
             soundHelper.playSFX(soundTap, 0.25f);
-            ObjectMessage message = new ObjectMessage(CLIENT_ID, RECIPIENT_ID.get(0), "glow", "bag");
+            ObjectMessage message = new ObjectMessage(CLIENT_ID, RECIPIENT_ID.get(0), "Glow", "Bag");
             webSocketManager.sendDataToServer(message);
         });
         bellows.setOnClickListener(v -> {
             AnimationHelper.startAnimation(bellows, R.anim.jelly_anim);
             soundHelper.playSFX(soundTap, 0.25f);
-            ObjectMessage message = new ObjectMessage(CLIENT_ID, RECIPIENT_ID.get(0), "glow", "bellows");
+            ObjectMessage message = new ObjectMessage(CLIENT_ID, RECIPIENT_ID.get(0), "Glow", "Bellows");
             webSocketManager.sendDataToServer(message);
 //            ActivitySwitcher.switchActivity(this, BreathSensorActivity.class);
         });

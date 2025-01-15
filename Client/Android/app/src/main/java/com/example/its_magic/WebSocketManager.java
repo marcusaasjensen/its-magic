@@ -98,12 +98,12 @@ public class WebSocketManager {
                             switch (type) {
                                 case "SwitchObject":
                                     String object = jsonMessage.getString("objectName");
-                                    if (object.equals("Bag")) {
+                                    if (object.equals("bag")) {
                                         if (!(context instanceof BagActivity)) {
                                             ActivitySwitcher.switchActivityWithExtras(context.getApplicationContext(), BagActivity.class, R.drawable.forest_background);
                                             speakerSensor.vibratePhone();
                                         }
-                                    } else if (object.equals("Bellows")) {
+                                    } else if (object.equals("bellows")) {
                                         if (!(context instanceof BreathSensorActivity)) {
                                             ActivitySwitcher.switchActivity(context.getApplicationContext(), BreathSensorActivity.class);
                                             speakerSensor.vibratePhone();

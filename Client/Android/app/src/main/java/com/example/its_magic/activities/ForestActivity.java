@@ -41,7 +41,7 @@ public class ForestActivity extends AppCompatActivity {
             soundHelper = new SoundHelper();
             initializeViews();
             initListeners();
-            initSound();
+//            initSound();
             this.webSocketManager = WebSocketManager.getInstance(this);
             AnimationHelper.startAnimation(alarmClockLayout, R.anim.fade_in_up_anim);
             AnimationHelper.startAnimation(bagLayout, R.anim.fade_in_up_anim);
