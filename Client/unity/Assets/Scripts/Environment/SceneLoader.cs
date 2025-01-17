@@ -14,27 +14,47 @@ namespace Environment
             var sceneMessage = new SceneMessage { sceneName = remoteSceneName };
             WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(sceneMessage));
         }
-        
+
         public void LoadScene(string sceneName)
         {
+            if (sceneName == "HouseSideScene")
+            {
+                var sceneMessageAndroid = new SceneMessage
+                {
+                    clientId = "TopView",
+                    recipientId = "Android",
+                    sceneName = "workshop",
+                };
+                WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(sceneMessageAndroid));
+            }
+
+            if (sceneName == "ForestSideScene")
+            {
+                var sceneMessageAndroid = new SceneMessage
+                {
+                    clientId = "TopView",
+                    recipientId = "Android",
+                    sceneName = "forest",
+                };
+                WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(sceneMessageAndroid));
+            }
+            
             SceneController.Instance.TransitionToScene(sceneName);
-            //UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
         }
 
         public void LoadSceneFromMessage(string message)
         {
-            if(message == null)
+            if (message == null)
             {
                 return;
             }
-            
+
             var sceneMessage = JsonUtility.FromJson<SceneMessage>(message);
-            if(sceneMessage is not { type: "Scene" })
+            if (sceneMessage is not { type: "Scene" })
             {
                 return;
             }
-            
-            //UnityEngine.SceneManagement.SceneManager.LoadScene(sceneMessage.sceneName);
+
             SceneController.Instance.TransitionToScene(sceneMessage.sceneName);
         }
     }

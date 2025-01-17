@@ -1,4 +1,5 @@
-﻿using Data;
+﻿using Client;
+using Data;
 using UnityEngine;
 using Utils;
 
@@ -21,5 +22,43 @@ namespace Managers
             Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen;
         }
         
+        public void StartTopViewGame(string message)
+        {
+            if (message == null)
+            {
+                return;
+            }
+
+            var startGameMessage = JsonUtility.FromJson<SceneMessage>(message);
+            if (startGameMessage is not { type: "StartGame" })
+            {
+                return;
+            }
+
+            SceneController.Instance.TransitionToScene(startGameMessage.sceneName);
+            var sceneMessage = new SceneMessage
+            {
+                clientId = "TopView",
+                recipientId = "Android",
+                sceneName = "forest",
+            };
+            WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(sceneMessage));
+        }
+        
+        public void StartSideViewGame(string message)
+        {
+            if (message == null)
+            {
+                return;
+            }
+
+            var startGameMessage = JsonUtility.FromJson<SceneMessage>(message);
+            if (startGameMessage is not { type: "StartGame" })
+            {
+                return;
+            }
+
+            SceneController.Instance.TransitionToScene(startGameMessage.sceneName);
+        }
     }
 }

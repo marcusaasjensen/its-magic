@@ -12,4 +12,26 @@
     <color name="night_900">#081D48</color>
     <color name="day_200">#4BB7D4</color>
     <color name="day_900">#1A5B95</color>
+    <color name="purple">#3C3E87</color>
+    <color name="cyan">#5B90AC</color>
+    <color name="light_cyan">#558491</color>
+    <color name="very_light_cyan">#BAE8CE</color>
+    <color name="very_very_light_cyan">#C8E0E4</color>
+
+    <color name="dark_red">#3C0404</color>
+    <color name="red">#BD0101</color>
+    <color name="dark_orange">#9E4501</color>
+    <color name="orange">#E97C09</color>
+    <color name="dark_yellow">#EBD10F</color>
+    <color name="yellow">#F4F183</color>
+
+    <color name="outsideBag">#BD844F</color>
+    <color name="insideBag">#B37E4C</color>
+    <color name="bottomBag">#996C42</color>
+
+
+
+
+    <color name="grey_with_opacity">#65656565</color>
+
 </resources>

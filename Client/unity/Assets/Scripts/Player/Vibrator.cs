@@ -10,7 +10,7 @@ namespace Player
             var message = new Message
             {
                 clientId = "TopView",
-                type = "vibrate",
+                type = "Vibrate",
                 recipientId = "Android"
             };
             

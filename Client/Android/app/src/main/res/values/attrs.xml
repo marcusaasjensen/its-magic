@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="FireflyView">
+        <attr name="fireflyColor" format="color" />
+        <attr name="fireflyMinSize" format="dimension" />
+        <attr name="fireflyMaxSize" format="dimension" />
+        <attr name="fireflyMinSpeed" format="float" />
+        <attr name="fireflyMaxSpeed" format="float" />
+        <attr name="fireflyBlurType">
+            <enum name="normal" value="0" />
+            <enum name="solid" value="1" />
+            <enum name="outer" value="2" />
+            <enum name="inner" value="3" />
+        </attr>
+    </declare-styleable>
+</resources>

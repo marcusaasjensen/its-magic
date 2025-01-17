@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Client;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utils;
 
@@ -12,11 +13,15 @@ namespace Managers
         protected override void Awake()
         {
             base.Awake();
-            LoadSceneAdditively(initialScene);
             _activeSceneName = initialScene;
         }
 
-        // Load a scene additively
+        [ContextMenu("Load Initial Scene")]
+        public void LoadInitialScene()
+        {
+            LoadSceneAdditively(initialScene);
+        }
+        
         public void LoadSceneAdditively(string sceneName)
         {
             Scene scene = SceneManager.GetSceneByName(sceneName);
@@ -36,7 +41,7 @@ namespace Managers
 
             // If the scene is not loaded, load it additively
             SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive).completed += (operation) =>
-            {
+            {     
                 Debug.Log($"Scene {sceneName} loaded successfully.");
             };
         }
@@ -64,6 +69,7 @@ namespace Managers
         // Transition between scenes
         public void TransitionToScene(string newSceneName)
         {
+            Debug.Log($"Transitioning to scene {newSceneName}");
             if (!string.IsNullOrEmpty(_activeSceneName))
             {
                 UnloadScene(_activeSceneName); // Deactivate the current active scene

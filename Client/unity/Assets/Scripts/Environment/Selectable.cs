@@ -56,23 +56,5 @@ namespace Environment
         {
             SelectableManager.Instance.RegisterSelectable(this, false);
         }
-
-        /*private void OnTriggerStay2D(Collider2D other)
-        {
-            if (other.CompareTag("Player") && !IsSelected)
-            {
-                SetAsSelected(true);
-                _isTriggered = true;
-            }
-        }
-
-        private void OnTriggerExit(Collider other)
-        {
-            if (other.CompareTag("Player"))
-            {
-                SetAsSelected(false);
-                _isTriggered = false;
-            }
-        }*/
     }
 }
