@@ -153,6 +153,8 @@ namespace Client
                 value = 1.0f
             };
             WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(toDay));
+            toDay.recipientId = "SideView";
+            WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(toDay));
         }
         
         [ContextMenu("To Night")]
@@ -165,6 +167,8 @@ namespace Client
                 recipientId = "TopView",
                 value = 0.0f
             };
+            WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(toDay));
+            toDay.recipientId = "SideView";
             WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(toDay));
         }
     }
