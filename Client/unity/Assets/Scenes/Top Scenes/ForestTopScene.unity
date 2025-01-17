@@ -35947,6 +35947,7 @@ MonoBehaviour:
   - {fileID: 935289846}
   - {fileID: 2015880986304579171, guid: a1bcd56a00b6ad242b581ce0a86e8a39, type: 3}
   - {fileID: 2015880986304579171, guid: c725ebcf6056937459e81800f0ffbef0, type: 3}
+  - {fileID: 2015880986304579171, guid: e81c47ec3dde82042b39a2b93b15ee51, type: 3}
   spawnOnStart: 0
 --- !u!1 &1739203377
 GameObject:
