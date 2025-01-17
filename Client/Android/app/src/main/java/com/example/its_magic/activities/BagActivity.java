@@ -60,8 +60,10 @@ public class BagActivity extends AppCompatActivity {
                 return R.drawable.mushroom;
             case 2:
                 return R.drawable.acorn;
-            default:
+            case 3:
                 return R.drawable.berry;
+            default:
+                return R.drawable.firefly;
         }
     }
 }

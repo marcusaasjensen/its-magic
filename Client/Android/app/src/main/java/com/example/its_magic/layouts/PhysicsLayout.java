@@ -328,6 +328,8 @@ public class PhysicsLayout extends FrameLayout {
             message = new ObjectMessage(CLIENT_ID, RECIPIENT_ID.get(0), "ShowItem", "2");
         } else if (imageRes == R.drawable.berry) {
             message = new ObjectMessage(CLIENT_ID, RECIPIENT_ID.get(0), "ShowItem", "3");
+        } else if (imageRes == R.drawable.firefly) {
+            message = new ObjectMessage(CLIENT_ID, RECIPIENT_ID.get(0), "ShowItem", "4");
         }
 
         if (message != null) {
