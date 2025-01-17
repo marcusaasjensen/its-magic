@@ -18,6 +18,13 @@ public class DragArcParticleSystem : MonoBehaviour
     private Coroutine animationCoroutine;
     private float lastDragTime;
     private bool isDragging;
+    private Animator targetAnimator;
+
+    private void Awake()
+    {
+        // Récupère l'Animator au démarrage
+        targetAnimator = GetComponent<Animator>();
+    }
 
     private void Update()
     {
@@ -43,6 +50,13 @@ public class DragArcParticleSystem : MonoBehaviour
     private void StartArcAnimation()
     {
         isDragging = true;
+
+        // Désactive l'Animator si il existe
+        if (targetAnimator != null)
+        {
+            targetAnimator.enabled = false;
+        }
+
         animationCoroutine = StartCoroutine(GenererArcsEnBoucle());
     }
 
@@ -52,6 +66,12 @@ public class DragArcParticleSystem : MonoBehaviour
         if (animationCoroutine != null)
         {
             StopCoroutine(animationCoroutine);
+        }
+
+        // Réactive l'Animator
+        if (targetAnimator != null)
+        {
+            targetAnimator.enabled = true;
         }
     }
 
