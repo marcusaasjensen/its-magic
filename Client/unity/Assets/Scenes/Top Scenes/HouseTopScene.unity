@@ -5700,6 +5700,7 @@ GameObject:
   - component: {fileID: 530631521}
   - component: {fileID: 530631522}
   - component: {fileID: 530631523}
+  - component: {fileID: 530631524}
   m_Layer: 0
   m_Name: Chauldron
   m_TagString: Untagged
@@ -6072,6 +6073,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &530631524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 530631515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f23b897308e44469ba2b43a8493a4b90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &587949652
 GameObject:
   m_ObjectHideFlags: 0
@@ -33948,6 +33961,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 530631524}
+        m_TargetAssemblyTypeName: Environment.Cauldron, Assembly-CSharp
+        m_MethodName: PositionCauldron
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onUnsnap:
     m_PersistentCalls:
       m_Calls:
@@ -33955,6 +33980,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
         m_MethodName: set_enabled
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 530631524}
+        m_TargetAssemblyTypeName: Environment.Cauldron, Assembly-CSharp
+        m_MethodName: RemoveCauldron
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
