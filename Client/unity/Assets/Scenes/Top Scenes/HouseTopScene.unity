@@ -33684,7 +33684,7 @@ MonoBehaviour:
   amount: 1
   spawnArea: {x: 2, y: 0.16}
   prefabs:
-  - {fileID: 0}
+  - {fileID: 5956938916356397418, guid: 22b1923f877274b4d99d23f5dc5a9c9b, type: 3}
   - {fileID: 2015880986304579171, guid: a1bcd56a00b6ad242b581ce0a86e8a39, type: 3}
   - {fileID: 2015880986304579171, guid: c725ebcf6056937459e81800f0ffbef0, type: 3}
   spawnOnStart: 0
