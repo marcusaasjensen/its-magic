@@ -8,8 +8,11 @@ namespace Environment
     {
         [SerializeField] private UnityEvent onStartDrag;
         [SerializeField] private UnityEvent onDragged;
+        [SerializeField] private UnityEvent onEndDrag; // Event for when dragging ends
+
         private Vector2 _touchOffset;
         private int _activeTouchId = -1;
+
         protected bool IsBeingDragged => _activeTouchId != -1;
         public bool IsDraggable { get; set; } = true;
 
@@ -33,6 +36,7 @@ namespace Environment
                     {
                         continue;
                     }
+
                     _activeTouchId = touch.fingerId; // Assign the touch ID
                     _touchOffset = (Vector2)transform.position - touchPosition;
                     onStartDrag?.Invoke();
@@ -46,8 +50,8 @@ namespace Environment
                     }
                     else if (touch.phase is TouchPhase.Ended or TouchPhase.Canceled)
                     {
-
                         _activeTouchId = -1;
+                        onEndDrag?.Invoke(); // Invoke the onEndDrag event
                     }
                 }
             }
