@@ -103,13 +103,16 @@ public class BreathSensor extends BaseSensor {
         if (numberOfShortsRead > 0) {
             double amplitude = 0;
 
+            // Calcul de l'amplitude moyenne
             for (int i = 0; i < numberOfShortsRead; i++) {
                 amplitude += Math.abs(audioBuffer[i]);
             }
 
             amplitude /= numberOfShortsRead;
 
-            if (amplitude > 2000) {
+            long currentTime = System.currentTimeMillis();
+
+            if (amplitude > 2000 && (currentTime - lastBreathTime > 1000)) {
                 Log.d(TAG, "Breath detected");
                 isBreath = true;
                 String value = String.format("%.1f", amplitude);
@@ -122,7 +125,7 @@ public class BreathSensor extends BaseSensor {
 
                 updateFireAnimation();
 
-                lastBreathTime = System.currentTimeMillis();
+                lastBreathTime = currentTime;
             } else {
                 isBreath = false;
             }
