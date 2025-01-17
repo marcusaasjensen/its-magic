@@ -132,17 +132,16 @@ public class WebSocketManager {
                                 case "AddItem":
                                     int objectId = jsonMessage.getInt("objectId");
                                     if (!(context instanceof BagActivity)) {
-                                        ActivitySwitcher.switchActivityWithExtras(context.getApplicationContext(), BagActivity.class, R.drawable.forest_background);
+                                        ActivitySwitcher.switchActivityWithExtras(context.getApplicationContext(), BagActivity.class, objectId);
                                         speakerSensor.vibratePhone();
-                                    }
-                                    if (context instanceof Activity) {
+                                    } else {
                                         ((Activity) context).runOnUiThread(() -> {
-                                            assert context instanceof BagActivity;
                                             BagActivity bagActivity = (BagActivity) context;
                                             bagActivity.addItemInBag(objectId);
                                         });
                                         speakerSensor.vibratePhone();
                                     }
+
                                     break;
                             }
                         }

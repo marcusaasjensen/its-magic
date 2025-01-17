@@ -26,9 +26,9 @@ public class ActivitySwitcher {
 
     }
 
-    public static void switchActivityWithExtras(Context context, Class<?> targetActivity, int backgroundResourceId) {
+    public static void switchActivityWithExtras(Context context, Class<?> targetActivity, int objectId) {
         Intent intent = new Intent(context, targetActivity);
-        intent.putExtra("backgroundResourceId", backgroundResourceId);
+        intent.putExtra("objectId", objectId);
 
         if (!(context instanceof Activity)) {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
