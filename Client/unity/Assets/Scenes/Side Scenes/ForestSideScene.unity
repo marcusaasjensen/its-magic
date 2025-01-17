@@ -312,7 +312,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playableDirector: {fileID: 20475137}
   timelinePosition: 0
-  transitionSpeed: 1
+  transitionSpeed: 0.5
 --- !u!320 &20475137
 PlayableDirector:
   m_ObjectHideFlags: 0
