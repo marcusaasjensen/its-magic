@@ -483,7 +483,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 390b6aad1d85413bace4803fa586f43a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialScene: ForestTopScene
+  initialScene: HouseTopScene
 --- !u!4 &1032818365
 Transform:
   m_ObjectHideFlags: 0

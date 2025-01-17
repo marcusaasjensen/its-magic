@@ -11,15 +11,17 @@ namespace Environment
         [SerializeField] private ParticleSystem collectibleParticles;
         [SerializeField] protected UnityEvent onCollect;
         [SerializeField] private string collectorName = "Player";
+        
+        public string CollectibleId => collectibleId;
 
-        private void OnTriggerEnter2D(Collider2D other)
+        /*private void OnTriggerEnter2D(Collider2D other)
         {
             if (!other.CompareTag(collectorName))
             {
                 return;
             }
             Collect();
-        }
+        }*/
 
         private void PlayParticles()
         {
