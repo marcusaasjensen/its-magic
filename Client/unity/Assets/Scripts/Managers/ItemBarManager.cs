@@ -62,14 +62,22 @@ namespace Managers
 
         private void OnItemBarClicked(string id)
         {
-            
+            if (!itemSlots.TryGetValue(id, out Image itemImage))
+            {
+                Debug.LogWarning($"L'item '{id}' n'existe pas dans les slots.");
+                return;
+            }
+
             if (!activeItems.Contains(id))
             {
-                Debug.Log($"L'item '{id}' n'a pas encore été collecté.");
+                Debug.Log($"L'item '{id}' n'a pas encore été collecté. Animation de refus.");
+                StartItemRefusalAnimation(itemImage); // Lancer l'animation de refus
                 return;
             }
 
             Debug.Log($"Item cliqué : {id}");
+            StartItemAnimation(itemImage); // Lancer l'animation d'agrandissement
+
             GameObject[] allItems = GameObject.FindGameObjectsWithTag("Slashable");
 
             var matchingItems = allItems
@@ -192,5 +200,67 @@ namespace Managers
                 fallingObjectCatcher.onFallingObject.RemoveListener(OnFallingObjectEvent);
             }
         }
+
+        private void StartItemAnimation(Image itemImage)
+        {
+            StartCoroutine(ItemPulseAnimation(itemImage));
+        }
+
+        private IEnumerator ItemPulseAnimation(Image itemImage)
+        {
+            Vector3 originalScale = itemImage.rectTransform.localScale;
+            Vector3 targetScale = originalScale * 1.2f; // Agrandissement à 120%
+
+            for (int i = 0; i < animationLoops; i++)
+            {
+                // Agrandissement
+                float elapsedTime = 0f;
+                while (elapsedTime < animationDuration / 2)
+                {
+                    itemImage.rectTransform.localScale = Vector3.Lerp(originalScale, targetScale, elapsedTime / (animationDuration / 2));
+                    elapsedTime += Time.deltaTime;
+                    yield return null;
+                }
+
+                // Rétrécissement
+                elapsedTime = 0f;
+                while (elapsedTime < animationDuration / 2)
+                {
+                    itemImage.rectTransform.localScale = Vector3.Lerp(targetScale, originalScale, elapsedTime / (animationDuration / 2));
+                    elapsedTime += Time.deltaTime;
+                    yield return null;
+                }
+            }
+
+            itemImage.rectTransform.localScale = originalScale; // Réinitialise la taille
+        }
+
+        private void StartItemRefusalAnimation(Image itemImage)
+        {
+            StartCoroutine(ItemRefusalAnimation(itemImage));
+        }
+
+        private IEnumerator ItemRefusalAnimation(Image itemImage)
+        {
+            Vector3 originalPosition = itemImage.rectTransform.localPosition; // Position d'origine
+            float vibrationDistance = 10f; // Distance du déplacement
+            int vibrationLoops = 6; // Nombre de vibrations (chaque boucle = gauche + droite)
+            float vibrationSpeed = 0.05f; // Vitesse de chaque vibration (en secondes)
+
+            for (int i = 0; i < vibrationLoops; i++)
+            {
+                // Déplacement à gauche
+                itemImage.rectTransform.localPosition = originalPosition + new Vector3(-vibrationDistance, 0, 0);
+                yield return new WaitForSeconds(vibrationSpeed);
+
+                // Déplacement à droite
+                itemImage.rectTransform.localPosition = originalPosition + new Vector3(vibrationDistance, 0, 0);
+                yield return new WaitForSeconds(vibrationSpeed);
+            }
+
+            // Réinitialiser à la position d'origine
+            itemImage.rectTransform.localPosition = originalPosition;
+        }
+
     }
 }
