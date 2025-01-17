@@ -69,7 +69,7 @@ public class ScreenBrightnessSensor extends BaseSensor {
             callback.onValueChanged("brightness", value + "%");
 
             if (brightnessPercentage == 100) {
-                sendToServer(value);
+//                sendToServer(value);
             }
         } catch (Exception e) {
             Log.e(TAG, "Error updating brightness", e);

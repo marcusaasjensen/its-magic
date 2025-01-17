@@ -117,7 +117,7 @@ public class BreathSensor extends BaseSensor {
                 isBreath = true;
                 String value = String.format("%.1f", amplitude);
                 callback.onValueChanged("breath", "Breath detected!");
-                sendToServer(value);
+                sendToServer((float) amplitude);
 
                 if (currentFireState < 300) {
                     currentFireState += 100;

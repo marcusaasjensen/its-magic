@@ -63,7 +63,7 @@ public class LightSensor extends BaseSensor implements SensorEventListener {
                 String normalizedValue = String.format("%.2f", normalizedLightLevel);
 
                 callback.onValueChanged("Light", value + " lx");
-                sendToServer(normalizedValue);
+                sendToServer(normalizedLightLevel);
             }
 
         } catch (Exception e) {

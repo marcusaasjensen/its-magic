@@ -180,7 +180,7 @@ public class WebSocketManager {
         }
     }
 
-    public void sendSensorData(String sensorType, String value) {
+    public void sendSensorData(String sensorType, float value) {
         synchronized (lock) {
             if (webSocketClient != null && webSocketClient.isOpen()) {
                 try {

@@ -21,7 +21,7 @@ public abstract class BaseSensor {
         }
     }
 
-    protected void sendToServer(String value) {
+    protected void sendToServer(float value) {
         try {
             if (webSocketManager != null) {
                 webSocketManager.sendSensorData(getSensorType(), value);

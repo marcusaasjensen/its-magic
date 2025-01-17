@@ -8,9 +8,9 @@ import org.json.JSONObject;
 
 public class SensorMessage extends Message {
     private static final String TAG = "Sensor Message";
-    private final String value;
+    private final float value;
 
-    public SensorMessage(String clientId, String recipientId, String sensorType, String value) {
+    public SensorMessage(String clientId, String recipientId, String sensorType, float value) {
         super(clientId, recipientId, sensorType);
         this.value = value;
     }
