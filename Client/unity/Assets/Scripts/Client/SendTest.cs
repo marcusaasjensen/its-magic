@@ -141,5 +141,31 @@ namespace Client
             };
             WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(addBerry));
         }
+        
+        [ContextMenu("To Day")]
+        public void ToDay()
+        {
+            var toDay = new LightMessage
+            {
+                clientId = "TopView",
+                type = "Light",
+                recipientId = "TopView",
+                value = 1.0f
+            };
+            WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(toDay));
+        }
+        
+        [ContextMenu("To Night")]
+        public void ToNight()
+        {
+            var toDay = new LightMessage
+            {
+                clientId = "TopView",
+                type = "Light",
+                recipientId = "TopView",
+                value = 0.0f
+            };
+            WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(toDay));
+        }
     }
 }
