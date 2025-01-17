@@ -29,6 +29,7 @@ public class TimelineControl : MonoBehaviour
     
     public void UpdateTimelinePosition(string message)
     {
+        Debug.Log($"Pouet: {message}");
         if (message == null)
         {
             return;
@@ -40,10 +41,12 @@ public class TimelineControl : MonoBehaviour
             return;
         }
         
-        if (float.TryParse(timelineMessage.value, NumberStyles.Float, CultureInfo.InvariantCulture, out float parsedValue))
-        {
-            Debug.Log($"Parsed value successfully: {parsedValue}");
-            timelinePosition = 1f - parsedValue;
-        }
+        timelinePosition = 1f - timelineMessage.value;
+        
+        // if (float.TryParse(timelineMessage.value, NumberStyles.Float, CultureInfo.InvariantCulture, out float parsedValue))
+        // {
+        //     Debug.Log($"Parsed value successfully: {parsedValue}");
+        //     timelinePosition = 1f - parsedValue;
+        // }
     }
 }
