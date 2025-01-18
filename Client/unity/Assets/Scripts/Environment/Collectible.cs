@@ -2,6 +2,7 @@ using Client;
 using Managers;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 namespace Environment
 {
@@ -35,14 +36,31 @@ namespace Environment
 
         private void WhenCollected()
         {
-            var addItem = new ItemBagMessage
+            string sceneName = SceneController.Instance.activeSceneName;
+            if (sceneName == "ForestTopScene")
             {
-                clientId = "TopView",
-                type = "AddItem",
-                recipientId = "Android",
-                objectId = collectibleId
-            };
-            WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(addItem));
+                var addItem = new ItemBagMessage
+                {
+                    clientId = "TopView",
+                    type = "AddItem",
+                    recipientId = "Android",
+                    objectId = collectibleId,
+                    sceneName = "forest"
+                };
+                WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(addItem));
+            }
+            else
+            {
+                var addItem = new ItemBagMessage
+                {
+                    clientId = "TopView",
+                    type = "AddItem",
+                    recipientId = "Android",
+                    objectId = collectibleId,
+                    sceneName = "workshop"
+                };
+                WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(addItem));
+            }
         }
 
         public void Collect()

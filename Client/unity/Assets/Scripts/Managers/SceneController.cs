@@ -1,6 +1,7 @@
 ﻿using Client;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using Utils;
 
 namespace Managers
@@ -8,12 +9,12 @@ namespace Managers
     public class SceneController : MonoBehaviourSingleton<SceneController>
     {
         [SerializeField] private string initialScene;
-        private string _activeSceneName;
+        public string activeSceneName;
 
         protected override void Awake()
         {
             base.Awake();
-            _activeSceneName = initialScene;
+            activeSceneName = initialScene;
         }
 
         [ContextMenu("Load Initial Scene")]
@@ -70,13 +71,13 @@ namespace Managers
         public void TransitionToScene(string newSceneName)
         {
             Debug.Log($"Transitioning to scene {newSceneName}");
-            if (!string.IsNullOrEmpty(_activeSceneName))
+            if (!string.IsNullOrEmpty(activeSceneName))
             {
-                UnloadScene(_activeSceneName); // Deactivate the current active scene
+                UnloadScene(activeSceneName); // Deactivate the current active scene
             }
 
             LoadSceneAdditively(newSceneName); // Load the new scene additively
-            _activeSceneName = newSceneName; // Update active scene name
+            activeSceneName = newSceneName; // Update active scene name
         }
 
         // Set the active scene and reactivate all root objects

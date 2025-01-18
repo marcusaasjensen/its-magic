@@ -35207,7 +35207,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectNameToShow: bag
-  sceneName: forest
+  sceneName: workshop
 --- !u!60 &2103887093
 PolygonCollider2D:
   m_ObjectHideFlags: 0

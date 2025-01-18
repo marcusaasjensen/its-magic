@@ -40,7 +40,7 @@ namespace Managers
             {
                 clientId = "TopView",
                 recipientId = "Android",
-                sceneName = "forest",
+                sceneName = "workshop",
             };
             WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(sceneMessage));
         }
