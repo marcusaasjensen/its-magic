@@ -8,7 +8,7 @@
         {
             clientId = "TopView";
             recipientId = "Android";
-            type = "Bellows";
+            type = "BlowFire";
         }
     }
 }
