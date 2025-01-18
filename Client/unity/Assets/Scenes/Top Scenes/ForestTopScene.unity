@@ -36201,7 +36201,7 @@ MonoBehaviour:
   dureeVieArc: 0.75
   epaisseurLigne: 0.05
   delaiEntreArcs: 1
-  couleurArc: {r: 0.91585517, g: 0.9169811, b: 0.29585615, a: 1}
+  couleurArc: {r: 1, g: 1, b: 1, a: 1}
   materialArc: {fileID: 2100000, guid: 9f3119edebba1ba438fee4f7facecea5, type: 2}
 --- !u!1 &1736446019
 GameObject:
@@ -43403,7 +43403,7 @@ MonoBehaviour:
   dureeVieArc: 1
   epaisseurLigne: 0.05
   delaiEntreArcs: 1
-  couleurArc: {r: 0.908316, g: 0.93962264, b: 0.03368445, a: 1}
+  couleurArc: {r: 1, g: 1, b: 1, a: 1}
   materialArc: {fileID: 2100000, guid: 9f3119edebba1ba438fee4f7facecea5, type: 2}
 --- !u!82 &555216548460969695
 AudioSource:

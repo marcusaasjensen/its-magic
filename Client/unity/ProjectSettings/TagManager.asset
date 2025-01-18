@@ -9,6 +9,7 @@ TagManager:
   - Ingredient
   - Slashable
   - Parallax
+  - Bellows
   layers:
   - Default
   - TransparentFX
