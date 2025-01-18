@@ -101,7 +101,7 @@ public class WebSocketManager {
                                     if (object.equals("bag")) {
                                         if (!(context instanceof BagActivity)) {
                                             String sceneName = jsonMessage.getString("objectScene");
-                                            ActivitySwitcher.switchActivityWithExtras(context.getApplicationContext(), BagActivity.class, -1, sceneName);
+                                            ActivitySwitcher.switchBagActivityWithExtras(context.getApplicationContext(), BagActivity.class, -1, sceneName);
                                             speakerSensor.vibratePhone();
                                         }
                                     } else if (object.equals("bellows")) {
@@ -134,7 +134,7 @@ public class WebSocketManager {
                                     int objectId = jsonMessage.getInt("objectId");
                                     String sceneName = jsonMessage.getString("sceneName");
                                     if (!(context instanceof BagActivity)) {
-                                        ActivitySwitcher.switchActivityWithExtras(context.getApplicationContext(), BagActivity.class, objectId, sceneName);
+                                        ActivitySwitcher.switchBagActivityWithExtras(context.getApplicationContext(), BagActivity.class, objectId, sceneName);
                                         speakerSensor.vibratePhone();
                                     } else {
                                         ((Activity) context).runOnUiThread(() -> {
@@ -143,8 +143,20 @@ public class WebSocketManager {
                                         });
                                         speakerSensor.vibratePhone();
                                     }
-
                                     break;
+
+                                case "BlowFire":
+                                    boolean enableBlow = jsonMessage.getBoolean("isBlowingInFire");
+                                    Log.d(TAG, "EnableBlow: " + enableBlow);
+                                    if (context instanceof BreathSensorActivity) {
+                                        ((Activity) context).runOnUiThread(() -> {
+                                            BreathSensorActivity breathSensorActivity = (BreathSensorActivity) context;
+                                            breathSensorActivity.enableBlow(enableBlow);
+                                        });
+                                        speakerSensor.vibratePhone();
+                                    }
+                                    break;
+
                             }
                         }
 

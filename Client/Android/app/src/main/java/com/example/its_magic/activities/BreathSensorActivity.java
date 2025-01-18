@@ -1,6 +1,7 @@
 package com.example.its_magic.activities;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -12,9 +13,11 @@ import android.widget.Toast;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.its_magic.R;
 import com.example.its_magic.WebSocketManager;
+import com.example.its_magic.layouts.ItemBag;
 import com.example.its_magic.messages.SendMessage;
 import com.example.its_magic.sensors.BreathSensor;
 import com.example.its_magic.sensors.SensorCallback;
@@ -29,6 +32,7 @@ public class BreathSensorActivity extends AppCompatActivity implements SensorCal
     private BreathSensor breathSensor;
     private ImageView breath, fire;
     private FrameLayout smallFire, mediumFire, largeFire;
+    private ConstraintLayout breathLayout;
 
     private int currentFireState = 0;
     private final Handler handler = new Handler();
@@ -74,7 +78,8 @@ public class BreathSensorActivity extends AppCompatActivity implements SensorCal
         smallFire = findViewById(R.id.fireRed);
         mediumFire = findViewById(R.id.fireOrange);
         largeFire = findViewById(R.id.fireYellow);
-
+        breathLayout = findViewById(R.id.breathLayout);
+        breathLayout.setVisibility(View.INVISIBLE);
     }
 
     private void initializeSensor() {
@@ -83,6 +88,16 @@ public class BreathSensorActivity extends AppCompatActivity implements SensorCal
 
     private void initSound() {
         soundHelper.loadSound(this, soundHelper.getTapSound(), R.raw.sfx_tap);
+    }
+
+    public void enableBlow(boolean canBlow) {
+        if(canBlow) {
+            breathLayout.setVisibility(View.VISIBLE);
+            breathSensor.start();
+        } else {
+            breathLayout.setVisibility(View.INVISIBLE);
+            stopAllSensors();
+        }
     }
 
 
