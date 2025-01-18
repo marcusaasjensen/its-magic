@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ import com.example.its_magic.R;
 import com.example.its_magic.WebSocketManager;
 import com.example.its_magic.messages.Message;
 import com.example.its_magic.messages.SceneMessage;
+import com.example.its_magic.messages.SendMessage;
 import com.example.its_magic.utils.AnimationHelper;
 import com.example.its_magic.utils.SetupHelper;
 import com.example.its_magic.utils.SoundHelper;
@@ -63,16 +65,7 @@ public class StartActivity extends AppCompatActivity {
     }
 
     private void initListeners() {
-        playButton.setOnClickListener(v -> {
-            AnimationHelper.startAnimation(playButton, R.anim.jelly_anim);
-            SceneMessage topViewMessage = new SceneMessage(CLIENT_ID, RECIPIENT_ID.get(0), "StartGame", "ForestTopScene");
-            webSocketManager.sendDataToServer(topViewMessage);
-            SceneMessage sideViewMessage = new SceneMessage(CLIENT_ID, RECIPIENT_ID.get(1), "StartGame", "ForestSideScene");
-            webSocketManager.sendDataToServer(sideViewMessage);
-
-            soundHelper.playSFX(soundPlayGame, 0.25f);
-//            ActivitySwitcher.switchActivity(this, WorkshopActivity.class);
-        });
+        playButton.setOnClickListener(v -> SendMessage.starGame(webSocketManager, soundHelper,playButton));
     }
 
     private void initSound() {
@@ -116,8 +109,20 @@ public class StartActivity extends AppCompatActivity {
     private void clearSharedPreferences() {
         SharedPreferences preferences = getSharedPreferences("PhysicsLayoutPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.clear(); // Effacer toutes les données
-        editor.apply(); // Appliquer les changements
-        Log.d("Physics", "Les SharedPreferences ont été vidées au démarrage.");
+        editor.clear();
+        editor.apply();
+    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+            Log.d("PhysicalButtons", "Physical Volume Up pressed");
+            return true;
+        } else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
+            Log.d("PhysicalButtons", "Physical Volume Down pressed");
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

@@ -14,6 +14,7 @@ public class SoundHelper {
     private MediaPlayer mediaPlayer;
     private boolean isLoaded = false;
 
+
     public SoundHelper() {
         AudioAttributes audioAttributes = new AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_GAME)
@@ -33,6 +34,14 @@ public class SoundHelper {
                 isLoaded = true;
             }
         });
+    }
+
+    public String getTapSound() {
+        return "tapObject";
+    }
+
+    public String getStartGameSound() {
+        return "playGame";
     }
 
     /**

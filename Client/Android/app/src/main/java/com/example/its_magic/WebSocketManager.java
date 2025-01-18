@@ -100,7 +100,8 @@ public class WebSocketManager {
                                     String object = jsonMessage.getString("objectName");
                                     if (object.equals("bag")) {
                                         if (!(context instanceof BagActivity)) {
-                                            ActivitySwitcher.switchActivityWithExtras(context.getApplicationContext(), BagActivity.class, R.drawable.forest_background);
+                                            String sceneName = jsonMessage.getString("objectScene");
+                                            ActivitySwitcher.switchActivityWithExtras(context.getApplicationContext(), BagActivity.class, -1, sceneName);
                                             speakerSensor.vibratePhone();
                                         }
                                     } else if (object.equals("bellows")) {
@@ -131,8 +132,9 @@ public class WebSocketManager {
                                     break;
                                 case "AddItem":
                                     int objectId = jsonMessage.getInt("objectId");
+                                    String sceneName = jsonMessage.getString("sceneName");
                                     if (!(context instanceof BagActivity)) {
-                                        ActivitySwitcher.switchActivityWithExtras(context.getApplicationContext(), BagActivity.class, objectId);
+                                        ActivitySwitcher.switchActivityWithExtras(context.getApplicationContext(), BagActivity.class, objectId, sceneName);
                                         speakerSensor.vibratePhone();
                                     } else {
                                         ((Activity) context).runOnUiThread(() -> {

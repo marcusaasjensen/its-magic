@@ -4,6 +4,7 @@ package com.example.its_magic.activities;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -13,19 +14,21 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.its_magic.R;
+import com.example.its_magic.WebSocketManager;
+import com.example.its_magic.messages.SendMessage;
 import com.example.its_magic.sensors.BreathSensor;
 import com.example.its_magic.sensors.SensorCallback;
 import com.example.its_magic.utils.AnimationHelper;
 import com.example.its_magic.utils.SetupHelper;
+import com.example.its_magic.utils.SoundHelper;
 
 public class BreathSensorActivity extends AppCompatActivity implements SensorCallback {
     private static final String TAG = "BreathSensorActivity";
+    private WebSocketManager webSocketManager;
+    private SoundHelper soundHelper;
     private BreathSensor breathSensor;
-    private ImageView fire;
-    private ImageView breath;
-    private FrameLayout smallFire;
-    private FrameLayout mediumFire;
-    private FrameLayout largeFire;
+    private ImageView breath, fire;
+    private FrameLayout smallFire, mediumFire, largeFire;
 
     private int currentFireState = 0;
     private final Handler handler = new Handler();
@@ -40,9 +43,11 @@ public class BreathSensorActivity extends AppCompatActivity implements SensorCal
 
         try {
             SetupHelper.fullScreen(this);
+            soundHelper = new SoundHelper();
             initializeViews();
             initSound();
             initializeSensor();
+            this.webSocketManager = WebSocketManager.getInstance(this);
             AnimationHelper.startAnimation(breath, R.anim.blow_anim);
         } catch (Exception e) {
             Log.e(TAG, "Error in onCreate", e);
@@ -77,7 +82,7 @@ public class BreathSensorActivity extends AppCompatActivity implements SensorCal
     }
 
     private void initSound() {
-        String soundGame = "nightGame";
+        soundHelper.loadSound(this, soundHelper.getTapSound(), R.raw.sfx_tap);
     }
 
 
@@ -153,6 +158,20 @@ public class BreathSensorActivity extends AppCompatActivity implements SensorCal
         } else {
             return 0;
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+            super.onKeyDown(keyCode, event);
+            SendMessage.glowItem(webSocketManager, soundHelper, "Bellows");
+            return true;
+        } else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
+            super.onKeyDown(keyCode, event);
+            SendMessage.glowItem(webSocketManager, soundHelper, "Bag");
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 }

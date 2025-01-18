@@ -44,6 +44,16 @@
                     android:contentDescription="@string/alarm_clock_icon"
                     android:src="@drawable/alarm_clock"
                     app:tint="@color/black" />
+
+                <ImageView
+                    android:id="@+id/volume_up"
+                    android:layout_width="50dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="20dp"
+                    android:contentDescription="@string/volume_up_icon"
+                    android:src="@drawable/volume_up"
+                    app:tint="@color/white" />
             </FrameLayout>
 
             <FrameLayout
@@ -75,6 +85,17 @@
                     android:contentDescription="@string/bag_icon"
                     android:src="@drawable/opened_bag"
                     app:tint="@color/black" />
+
+                <ImageView
+                    android:id="@+id/volume_down"
+                    android:layout_width="50dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginBottom="70dp"
+                    android:contentDescription="@string/volume_down_icon"
+                    android:src="@drawable/volume_down"
+                    app:tint="@color/white" />
             </FrameLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

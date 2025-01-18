@@ -26,9 +26,10 @@ public class ActivitySwitcher {
 
     }
 
-    public static void switchActivityWithExtras(Context context, Class<?> targetActivity, int objectId) {
+    public static void switchActivityWithExtras(Context context, Class<?> targetActivity, int objectId, String scene) {
         Intent intent = new Intent(context, targetActivity);
         intent.putExtra("objectId", objectId);
+        intent.putExtra("sceneName", scene);
 
         if (!(context instanceof Activity)) {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -5,6 +5,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
+import com.example.its_magic.messages.SendMessage;
 import com.example.its_magic.sensors.BaseSensor;
 import com.example.its_magic.sensors.LightSensor;
 import com.example.its_magic.R;
@@ -48,6 +50,7 @@ public class LightSensorActivity extends AppCompatActivity implements SensorCall
             initializeViews();
             initializeSensors();
             initSound();
+            this.webSocketManager = WebSocketManager.getInstance(this);
         } catch (Exception e) {
             Log.e(TAG, "Error in onCreate", e);
             Toast.makeText(this, "Error initializing app", Toast.LENGTH_LONG).show();
@@ -84,6 +87,7 @@ public class LightSensorActivity extends AppCompatActivity implements SensorCall
     private void initSound() {
         String soundGame = "nightGame";
         soundHelper.loadSound(this, soundGame, R.raw.sfx_fireflies);
+        soundHelper.loadSound(this, soundHelper.getTapSound(), R.raw.sfx_tap);
     }
 
     @Override
@@ -196,5 +200,19 @@ public class LightSensorActivity extends AppCompatActivity implements SensorCall
 
         getWindow().getDecorView().setBackground(transitionDrawable);
         transitionDrawable.startTransition(1000);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+            super.onKeyDown(keyCode, event);
+            SendMessage.glowItem(webSocketManager, soundHelper, "AlarmClock");
+            return true;
+        } else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
+            super.onKeyDown(keyCode, event);
+            SendMessage.glowItem(webSocketManager, soundHelper, "Bag");
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

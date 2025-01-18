@@ -15,6 +15,7 @@ public class ObjectMessage extends Message {
         this.targetObject = targetObject;
     }
 
+
     @Override
     public JSONObject toJson() {
         JSONObject jsonMessage = super.toJson();
