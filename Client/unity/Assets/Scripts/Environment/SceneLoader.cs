@@ -2,12 +2,14 @@
 using Client;
 using Managers;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Rendering;
 
 namespace Environment
 {
     public class SceneLoader : MonoBehaviour
     {
+        [SerializeField] private UnityEvent onSceneTransition;
         public void LoadRemoteScene(string remoteSceneName)
         {
             if (string.IsNullOrEmpty(remoteSceneName)) return;
@@ -54,7 +56,8 @@ namespace Environment
             {
                 return;
             }
-
+            
+            onSceneTransition.Invoke();
             SceneController.Instance.TransitionToScene(sceneMessage.sceneName);
         }
     }
