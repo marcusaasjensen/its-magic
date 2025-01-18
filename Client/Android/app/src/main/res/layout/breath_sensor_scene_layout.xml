@@ -121,6 +121,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:tint="@color/grey_with_opacity" />
+        app:tint="@color/grey" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

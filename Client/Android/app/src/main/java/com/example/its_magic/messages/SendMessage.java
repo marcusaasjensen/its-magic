@@ -37,4 +37,11 @@ public class SendMessage {
         ObjectMessage message = new ObjectMessage(CLIENT_ID, RECIPIENT_ID.get(0), "Glow", targetObject);
         webSocketManager.sendDataToServer(message);
     }
+
+    public static void fireWind(WebSocketManager webSocketManager, float fireIntensity, float breathIntensity) {
+        BreathMessage message = new BreathMessage(CLIENT_ID, RECIPIENT_ID.get(0), "FireWind", fireIntensity, breathIntensity);
+        webSocketManager.sendDataToServer(message);
+    }
+
+
 }

@@ -89,9 +89,9 @@
                 <ImageView
                     android:id="@+id/volume_down"
                     android:layout_width="50dp"
-                    android:layout_height="100dp"
+                    android:layout_height="25dp"
                     android:layout_gravity="center"
-                    android:layout_marginStart="30dp"
+                    android:layout_marginStart="25dp"
                     android:layout_marginBottom="70dp"
                     android:contentDescription="@string/volume_down_icon"
                     android:src="@drawable/volume_down"

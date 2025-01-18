@@ -130,17 +130,17 @@ public class BreathSensorActivity extends AppCompatActivity implements SensorCal
             mediumFire.setVisibility(View.INVISIBLE);
             largeFire.setVisibility(View.INVISIBLE);
         } else if ("Small fire".equals(value)) {
-            currentFireState = 100;
+            currentFireState = 300;
             smallFire.setVisibility(View.VISIBLE);
             mediumFire.setVisibility(View.INVISIBLE);
             largeFire.setVisibility(View.INVISIBLE);
         } else if ("Medium fire".equals(value)) {
-            currentFireState = 200;
+            currentFireState = 600;
             smallFire.setVisibility(View.VISIBLE);
             mediumFire.setVisibility(View.VISIBLE);
             largeFire.setVisibility(View.INVISIBLE);
         } else if ("Large fire".equals(value)) {
-            currentFireState = 300;
+            currentFireState = 900;
             smallFire.setVisibility(View.VISIBLE);
             mediumFire.setVisibility(View.VISIBLE);
             largeFire.setVisibility(View.VISIBLE);
@@ -149,11 +149,11 @@ public class BreathSensorActivity extends AppCompatActivity implements SensorCal
     }
 
     private int getFireStateIndex() {
-        if (currentFireState >= 300) {
+        if (currentFireState >= 900) {
             return 3;
-        } else if (currentFireState >= 200) {
+        } else if (currentFireState >= 600) {
             return 2;
-        } else if (currentFireState >= 100) {
+        } else if (currentFireState >= 300) {
             return 1;
         } else {
             return 0;
