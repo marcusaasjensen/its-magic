@@ -14,7 +14,6 @@ import android.util.Log;
 import androidx.core.app.ActivityCompat;
 
 import com.example.its_magic.messages.SendMessage;
-import com.example.its_magic.messages.SensorMessage;
 
 public class BreathSensor extends BaseSensor {
     private static final String TAG = "BreathSensor";

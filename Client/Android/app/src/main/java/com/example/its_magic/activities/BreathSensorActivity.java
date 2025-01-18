@@ -103,12 +103,32 @@ public class BreathSensorActivity extends AppCompatActivity implements SensorCal
     protected void onPause() {
         super.onPause();
         Log.d(TAG, "onPause");
+        stopAllSensors();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        cleanupSensors();
         breathSensor.stop();
+    }
+
+    private void stopAllSensors() {
+        try {
+            if (breathSensor != null) breathSensor.stop();
+        } catch (Exception e) {
+            Log.e(TAG, "Error stopping sensors", e);
+        }
+    }
+
+
+    private void cleanupSensors() {
+        try {
+            if (breathSensor != null) breathSensor.cleanup();
+            breathSensor = null;
+        } catch (Exception e) {
+            Log.e(TAG, "Error cleaning up sensors", e);
+        }
     }
 
     @Override
