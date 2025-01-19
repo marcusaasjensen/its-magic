@@ -49,8 +49,10 @@ namespace Environment
             };
             
             _isPositioned = true;
+
+            print("Positioning cauldron");
             
-            WebSocketClient.Instance.SendMessage(JsonUtility.ToJson(cauldronMessage));
+            WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(cauldronMessage));
         }
         
         public void RemoveCauldron()
@@ -62,7 +64,7 @@ namespace Environment
             
             _isPositioned = false;
             
-            WebSocketClient.Instance.SendMessage(JsonUtility.ToJson(cauldronMessage));
+            WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(cauldronMessage));
         }
 
         public void UpdateSideCauldron(string message)

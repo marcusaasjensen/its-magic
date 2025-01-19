@@ -34,7 +34,7 @@ namespace Environment
             collectibleParticles.Play();
         }
 
-        private void WhenCollected()
+        private void SendItemToServer()
         {
             string sceneName = SceneController.Instance.activeSceneName;
             if (sceneName == "ForestTopScene")
@@ -73,9 +73,12 @@ namespace Environment
             }
         }
 
-        public void Collect()
+        public void Collect(bool sendToServer = true)
         {
-            WhenCollected();
+            if (sendToServer)
+            {
+                SendItemToServer();
+            }
             CollectibleManager.Instance.CollectItem(collectibleId);
             PlayParticles();
             onCollect.Invoke();

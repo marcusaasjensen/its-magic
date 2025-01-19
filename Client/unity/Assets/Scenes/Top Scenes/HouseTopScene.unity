@@ -15622,6 +15622,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  sendItemToServer: 0
 --- !u!114 &530631519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57497,6 +57498,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  sendItemToServer: 1
 --- !u!212 &1379966443
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -70427,6 +70429,7 @@ MonoBehaviour:
   onCollect:
     m_PersistentCalls:
       m_Calls: []
+  sendItemToServer: 1
 --- !u!114 &2103887097
 MonoBehaviour:
   m_ObjectHideFlags: 0

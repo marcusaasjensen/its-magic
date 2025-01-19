@@ -6,6 +6,7 @@ namespace Environment
     public class Collector : MonoBehaviour
     {
         [SerializeField] private UnityEvent<string> onCollect;
+        [SerializeField] private bool sendItemToServer = true;
         private void OnTriggerEnter2D(Collider2D other)
         {
             var collectible = other.GetComponent<Collectible>();
@@ -14,7 +15,7 @@ namespace Environment
                 return;
             }
             
-            collectible.Collect();
+            collectible.Collect(sendItemToServer);
             onCollect.Invoke(collectible.CollectibleId);
         }
     }

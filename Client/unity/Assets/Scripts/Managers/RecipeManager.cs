@@ -38,10 +38,17 @@ namespace Managers
 
         public void CheckRecipe()
         {
-            if (recipeData.requiredIngredientsById.Where((t, i) => recipeData.currentIngredientsById[i] < t).Any() ||
-                IsRecipeComplete)
+            if (IsRecipeComplete)
             {
                 return;
+            }
+
+            for (int i = 0; i < recipeData.currentIngredientsById.Length; i++)
+            {
+                if (recipeData.currentIngredientsById[i] < recipeData.requiredIngredientsById[i])
+                {
+                    return;
+                }
             }
 
             Debug.Log("Recipe complete!");

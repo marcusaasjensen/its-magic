@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: IngredientData
   m_EditorClassIdentifier: 
   requiredIngredientsById: 05000000020000000100000002000000
-  currentIngredientsById: 05000000020000000100000002000000
+  currentIngredientsById: 00000000010000000000000000000000
