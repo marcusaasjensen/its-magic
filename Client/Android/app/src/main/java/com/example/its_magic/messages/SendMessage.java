@@ -44,8 +44,10 @@ public class SendMessage {
     }
 
     public static void fire(WebSocketManager webSocketManager, float fireIntensity) {
-        FireMessage message = new FireMessage(CLIENT_ID, RECIPIENT_ID.get(0), "Fire", fireIntensity);
-        webSocketManager.sendDataToServer(message);
+        for (int i = 0; i < 2; i++) {
+            FireMessage message = new FireMessage(CLIENT_ID, RECIPIENT_ID.get(i), "Fire", fireIntensity);
+            webSocketManager.sendDataToServer(message);
+        }
     }
 
 
