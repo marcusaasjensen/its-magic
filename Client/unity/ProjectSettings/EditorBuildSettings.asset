@@ -5,13 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Main Scenes/MainSideScene.unity
     guid: d07a7e55767ce7247968ac0e3c6f8e87
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Side Scenes/ForestSideScene.unity
     guid: dba3a3641c5e28a41a49c567078389bf
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Side Scenes/HouseSideScene.unity
     guid: facf831e3eb49224190ba61d034eb648
   - enabled: 1
@@ -23,7 +23,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Top Scenes/HouseTopScene.unity
     guid: 9259dfff4403ec049aab958864a65bd0
-  - enabled: 0
-    path: Assets/Scenes/Archive/ForestSideClementScene.unity
-    guid: 3b673c84007cd3d46b4a6970ec56d586
   m_configObjects: {}
