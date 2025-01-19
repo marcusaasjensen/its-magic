@@ -1,12 +1,16 @@
 ﻿using Client;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 namespace Environment
 {
     public class FireIntensity : MonoBehaviour
     {
-        [SerializeField] private ParticleSystem fireParticles;
+        [SerializeField] private ParticleSystem smallFireParticles;
+        [SerializeField] private ParticleSystem mediumFireParticles;
+        [SerializeField] private ParticleSystem largeFireParticles;
         [SerializeField] private int maxFireRate = 20;
         [SerializeField] private float stopDelay = 2f;
         [SerializeField] private AudioSource fireSound;
@@ -16,16 +20,20 @@ namespace Environment
 
         private void Start()
         {
-            fireParticles.Stop();
+            smallFireParticles.Stop();
+            mediumFireParticles.Stop();
+            largeFireParticles.Stop();
             fireSound.volume = 0;
             fireLight.intensity = 0;
         }
 
         private void Update()
         {
-            if (Time.time - _lastBlowTime > stopDelay && fireParticles.isPlaying)
+            if (Time.time - _lastBlowTime > stopDelay && smallFireParticles.isPlaying && mediumFireParticles.isPlaying && largeFireParticles.isPlaying)
             {
-                fireParticles.Stop();
+                smallFireParticles.Stop();
+                mediumFireParticles.Stop();
+                largeFireParticles.Stop();
                 fireSound.volume = 0;
                 fireLight.intensity = 0;
             }
@@ -33,30 +41,46 @@ namespace Environment
 
         public void BringFire(string message)
         {
-            var fireWindMessage = JsonUtility.FromJson<FireWindMessage>(message);
+            var fireMessage = JsonUtility.FromJson<FireMessage>(message);
 
-            if (fireWindMessage.type != "FireWind")
+            if (fireMessage.type != "Fire")
             {
                 return;
             }
 
             _lastBlowTime = Time.time;
 
-            var rateOverTime = maxFireRate * fireWindMessage.fireIntensity;
+            var rateOverTime = maxFireRate * fireMessage.fireIntensity;
 
-            var emission = fireParticles.emission;
+            var emission = smallFireParticles.emission;
             emission.rateOverTime = Mathf.RoundToInt(rateOverTime);
             
-            fireSound.volume = fireWindMessage.fireIntensity;
-            fireLight.intensity = fireWindMessage.fireIntensity;
+            fireSound.volume = fireMessage.fireIntensity;
+            fireLight.intensity = fireMessage.fireIntensity;
 
-            if (fireWindMessage.fireIntensity > 0)
+            if (fireMessage.fireIntensity > 0 && fireMessage.fireIntensity <= 0.33)
             {
-                fireParticles.Play();
+                smallFireParticles.Play();
+                mediumFireParticles.Stop();
+                largeFireParticles.Stop();
+            }
+            else if (fireMessage.fireIntensity > 0.33 && fireMessage.fireIntensity <= 0.66)
+            {
+                smallFireParticles.Play();
+                mediumFireParticles.Play();
+                largeFireParticles.Stop();
+            }
+            else if (fireMessage.fireIntensity > 0.66)
+            {
+                smallFireParticles.Play();
+                mediumFireParticles.Play();
+                largeFireParticles.Play();
             }
             else
             {
-                fireParticles.Stop();
+                smallFireParticles.Stop();
+                mediumFireParticles.Stop();
+                largeFireParticles.Stop();
             }
         }
         

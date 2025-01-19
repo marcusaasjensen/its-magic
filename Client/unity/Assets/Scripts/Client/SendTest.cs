@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Environment;
+using Managers;
+using UnityEngine;
 
 namespace Client
 {
@@ -83,11 +85,12 @@ namespace Client
             var switchToWorkshop = new SwitchSceneMessage
             {
                 clientId = "TopView",
-                type = "switchScene",
+                type = "Scene",
                 recipientId = "Android",
                 sceneName = "workshop"
             };
             WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(switchToWorkshop));
+            SceneController.Instance.TransitionToScene("HouseTopScene");
         }
         
         [ContextMenu("SwitchToForest")]
@@ -96,11 +99,12 @@ namespace Client
             var switchToForest = new SwitchSceneMessage
             {
                 clientId = "TopView",
-                type = "switchScene",
+                type = "Scene",
                 recipientId = "Android",
                 sceneName = "forest"
             };
             WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(switchToForest));
+            SceneController.Instance.TransitionToScene("ForestTopScene");
         }
         
         [ContextMenu("AddMushroom")]
@@ -109,7 +113,7 @@ namespace Client
             var addMushroom = new ItemBagMessage
             {
                 clientId = "TopView",
-                type = "addItem",
+                type = "AddItem",
                 recipientId = "Android",
                 objectId = "1"
             };
@@ -122,7 +126,7 @@ namespace Client
             var addAcorn = new ItemBagMessage
             {
                 clientId = "TopView",
-                type = "addItem",
+                type = "AddItem",
                 recipientId = "Android",
                 objectId = "2"
             };
@@ -135,9 +139,22 @@ namespace Client
             var addBerry = new ItemBagMessage
             {
                 clientId = "TopView",
-                type = "addItem",
+                type = "AddItem",
                 recipientId = "Android",
                 objectId = "3"
+            };
+            WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(addBerry));
+        }
+        
+        [ContextMenu("AddFirefly")]
+        public void addFirefly()
+        {
+            var addBerry = new ItemBagMessage
+            {
+                clientId = "TopView",
+                type = "AddItem",
+                recipientId = "Android",
+                objectId = "4"
             };
             WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(addBerry));
         }
@@ -175,10 +192,10 @@ namespace Client
         [ContextMenu("BlowWind")]
         public void BlowWind()
         {
-            var blowWind = new FireWindMessage
+            var blowWind = new BreathMessage
             {
                 clientId = "Android",
-                type = "FireWind",
+                type = "Wind",
                 recipientId = "TopView",
                 windIntensity = 1.0f
             };
@@ -187,19 +204,33 @@ namespace Client
             WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(blowWind));
         }
         
-        [ContextMenu("BlowFire")]
-        public void BlowFire()
+        [ContextMenu("Wind")]
+        public void Wind()
         {
-            var blowFire = new FireWindMessage
+            var blowFire = new BreathMessage
             {
                 clientId = "Android",
-                type = "FireWind",
+                type = "Fire",
                 recipientId = "TopView",
-                fireIntensity = 1.0f
             };
             WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(blowFire));
             blowFire.recipientId = "SideView";
             WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(blowFire));
+        }
+        
+        [ContextMenu("Fire")]
+        public void Fire()
+        {
+            var fire = new FireMessage
+            {
+                clientId = "Android",
+                type = "Fire",
+                recipientId = "TopView",
+                fireIntensity = 1.0f
+            };
+            WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(fire));
+            fire.recipientId = "SideView";
+            WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(fire));
         }
     }
 }

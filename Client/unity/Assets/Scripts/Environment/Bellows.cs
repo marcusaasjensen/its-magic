@@ -23,9 +23,9 @@ namespace Environment
 
         public void Blow(string message)
         {
-            var fireWindMessage = JsonUtility.FromJson<FireWindMessage>(message);
+            var fireWindMessage = JsonUtility.FromJson<BreathMessage>(message);
 
-            if (fireWindMessage.type != "FireWind")
+            if (fireWindMessage.type != "Wind")
             {
                 return;
             }

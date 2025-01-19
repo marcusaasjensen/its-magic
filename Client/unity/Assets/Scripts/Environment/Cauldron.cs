@@ -83,8 +83,8 @@ namespace Environment
                 return;
             }
             
-            var fireMessage = JsonUtility.FromJson<FireWindMessage>(message);
-            if (fireMessage is not { type: "FireWind" })
+            var fireMessage = JsonUtility.FromJson<FireMessage>(message);
+            if (fireMessage is not { type: "Fire" })
             {
                 return;
             }
