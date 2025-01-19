@@ -76,10 +76,12 @@ namespace Environment
             }
             
             sideCauldron.SetActive(cauldronSnapMessage.isSnapped);
+            _isPositioned = cauldronSnapMessage.isSnapped;
         }
         
         public void SetOnFire(string message)
         {
+            print(message);
             if (!_isPositioned)
             {
                 return;
