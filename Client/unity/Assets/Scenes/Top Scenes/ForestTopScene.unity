@@ -987,6 +987,9 @@ MonoBehaviour:
   onEndDrag:
     m_PersistentCalls:
       m_Calls: []
+  layer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1001 &190684371
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7322,6 +7325,9 @@ MonoBehaviour:
   onEndDrag:
     m_PersistentCalls:
       m_Calls: []
+  layer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &587949652
 GameObject:
   m_ObjectHideFlags: 0
@@ -22509,6 +22515,9 @@ MonoBehaviour:
   onEndDrag:
     m_PersistentCalls:
       m_Calls: []
+  layer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &779697988
 GameObject:
   m_ObjectHideFlags: 0
@@ -28858,6 +28867,9 @@ MonoBehaviour:
   onEndDrag:
     m_PersistentCalls:
       m_Calls: []
+  layer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!60 &1163211517
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -29314,6 +29326,9 @@ MonoBehaviour:
   onEndDrag:
     m_PersistentCalls:
       m_Calls: []
+  layer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &1334789802
 GameObject:
   m_ObjectHideFlags: 0
@@ -34480,6 +34495,9 @@ MonoBehaviour:
   onEndDrag:
     m_PersistentCalls:
       m_Calls: []
+  layer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!212 &1419058959
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -35160,6 +35178,9 @@ MonoBehaviour:
   onEndDrag:
     m_PersistentCalls:
       m_Calls: []
+  layer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &1485090933
 GameObject:
   m_ObjectHideFlags: 0
@@ -35729,6 +35750,9 @@ MonoBehaviour:
   onEndDrag:
     m_PersistentCalls:
       m_Calls: []
+  layer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!212 &1686119232
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -36102,6 +36126,9 @@ MonoBehaviour:
   onEndDrag:
     m_PersistentCalls:
       m_Calls: []
+  layer:
+    serializedVersion: 2
+    m_Bits: 1
 --- !u!212 &1724128255
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -36712,6 +36739,9 @@ MonoBehaviour:
   onEndDrag:
     m_PersistentCalls:
       m_Calls: []
+  layer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &1814192776
 GameObject:
   m_ObjectHideFlags: 0
@@ -37532,6 +37562,9 @@ MonoBehaviour:
   onEndDrag:
     m_PersistentCalls:
       m_Calls: []
+  layer:
+    serializedVersion: 2
+    m_Bits: 1
   magicWand: {fileID: 21300000, guid: d6433c91b2b28c542930b622cf95a0b7, type: 3}
   lockedMagicWand: {fileID: 21300000, guid: 8f6b268905a1a1d4c9627605d806fada, type: 3}
   center: {fileID: 144745125}

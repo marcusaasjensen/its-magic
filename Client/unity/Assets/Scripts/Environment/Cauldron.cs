@@ -10,7 +10,7 @@ namespace Environment
         [SerializeField] private float timeToBeOnFire = 3f;
         [SerializeField] private float timeBeforeReset = 1f;
         [SerializeField] private UnityEvent onFireAmountCompleted;
-        
+
         public bool IsPotionReady => _timeLeft <= 0;
         
         private bool _isPositioned;

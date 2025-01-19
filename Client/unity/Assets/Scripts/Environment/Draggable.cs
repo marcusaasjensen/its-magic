@@ -9,6 +9,7 @@ namespace Environment
         [SerializeField] private UnityEvent onStartDrag;
         [SerializeField] private UnityEvent onDragged;
         [SerializeField] private UnityEvent onEndDrag; // Event for when dragging ends
+        //[SerializeField] private LayerMask layer = 0;
 
         private Vector2 _touchOffset;
         private int _activeTouchId = -1;
@@ -32,8 +33,10 @@ namespace Environment
                 {
                     var hit = Physics2D.Raycast(touchPosition, Vector2.zero);
 
+                    
                     if (hit.collider == null || hit.collider.name != gameObject.name)
                     {
+                        print(hit.collider);
                         continue;
                     }
 

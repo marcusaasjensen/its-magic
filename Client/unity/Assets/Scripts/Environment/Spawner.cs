@@ -76,6 +76,16 @@ namespace Environment
                 transform
             ).SetActive(true);
         }
+        
+        public void SpawnAtPosition()
+        {
+            Instantiate(
+                prefabs[0],
+                transform.position,
+                Quaternion.identity,
+                transform
+            ).SetActive(true);
+        }
 
         private void OnDrawGizmos()
         {

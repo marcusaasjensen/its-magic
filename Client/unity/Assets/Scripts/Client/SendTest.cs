@@ -232,5 +232,12 @@ namespace Client
             fire.recipientId = "SideView";
             WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(fire));
         }
+        
+        [ContextMenu("Explode")]
+        public void Explode()
+        {
+            var potionMessage = new PotionMessage();
+            WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(potionMessage));
+        }
     }
 }
