@@ -21,7 +21,7 @@ namespace Environment
         private void Start()
         {
             _timeLeft = timeToBeOnFire;
-            _isPositioned = true;
+            _isPositioned = false;
         }
 
         private void Update()
