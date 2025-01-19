@@ -9161,6 +9161,18 @@ MonoBehaviour:
           m_StringArgument: ForestSideScene
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 926206189}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: ForestSideScene
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!212 &946757168
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -9843,6 +9855,7 @@ MonoBehaviour:
   fallingObjectCatcher: {fileID: 927435325}
   leftCommunicationArea: {fileID: 805054567}
   rightCommunicationArea: {fileID: 955387720}
+  downCommunicationArea: {fileID: 0}
   animationDuration: 1
   animationLoops: 3
 --- !u!1 &1199986907
