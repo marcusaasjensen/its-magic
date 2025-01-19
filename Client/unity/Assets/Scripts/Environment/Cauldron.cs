@@ -17,6 +17,7 @@ namespace Environment
         private bool _isOnFire;
         private float _timeLeft;
         private float _fireTime;
+        private bool _hasFinished;
 
         private void Start()
         {
@@ -33,10 +34,11 @@ namespace Environment
             if (_isOnFire)
             {
                 _timeLeft -= Time.deltaTime;
-                if (_timeLeft <= 0)
+                if (_timeLeft <= 0 && !_hasFinished)
                 {
                     onFireAmountCompleted.Invoke();
                     _timeLeft = 0;
+                    _hasFinished = true;
                 }
             }
         }
