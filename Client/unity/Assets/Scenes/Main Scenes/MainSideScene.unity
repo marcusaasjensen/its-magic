@@ -259,7 +259,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 390b6aad1d85413bace4803fa586f43a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialScene: ForestSideScene
+  initialScene: HouseSideScene
+  activeSceneName: 
 --- !u!4 &1527688836
 Transform:
   m_ObjectHideFlags: 0

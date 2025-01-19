@@ -186,5 +186,20 @@ namespace Client
             blowWind.recipientId = "SideView";
             WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(blowWind));
         }
+        
+        [ContextMenu("BlowFire")]
+        public void BlowFire()
+        {
+            var blowFire = new FireWindMessage
+            {
+                clientId = "Android",
+                type = "FireWind",
+                recipientId = "TopView",
+                fireIntensity = 1.0f
+            };
+            WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(blowFire));
+            blowFire.recipientId = "SideView";
+            WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(blowFire));
+        }
     }
 }
