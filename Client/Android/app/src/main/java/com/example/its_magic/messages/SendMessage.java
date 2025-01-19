@@ -38,8 +38,13 @@ public class SendMessage {
         webSocketManager.sendDataToServer(message);
     }
 
-    public static void fireWind(WebSocketManager webSocketManager, float fireIntensity, float breathIntensity) {
-        BreathMessage message = new BreathMessage(CLIENT_ID, RECIPIENT_ID.get(0), "FireWind", fireIntensity, breathIntensity);
+    public static void breath(WebSocketManager webSocketManager, float breathIntensity) {
+        BreathMessage message = new BreathMessage(CLIENT_ID, RECIPIENT_ID.get(0), "Wind", breathIntensity);
+        webSocketManager.sendDataToServer(message);
+    }
+
+    public static void fire(WebSocketManager webSocketManager, float fireIntensity) {
+        FireMessage message = new FireMessage(CLIENT_ID, RECIPIENT_ID.get(0), "Fire", fireIntensity);
         webSocketManager.sendDataToServer(message);
     }
 

@@ -102,22 +102,26 @@ public class BreathSensor extends BaseSensor {
             amplitude /= numberOfShortsRead;
 
             double normalizedBreathIntensity = Math.min(amplitude / MAX_BREATH_INTENSITY, 1.0);
-            double normalizedFireIntensity = Math.min((double) currentFireState / 900, 1.0);
+            double normalizedFireIntensity = normalizeFireIntensity(currentFireState);
 
             long currentTime = System.currentTimeMillis();
 
             if (amplitude > 2000 && (currentTime - lastBreathTime > 1000)) {
                 Log.d(TAG, "Breath detected with normalized intensity: " + normalizedBreathIntensity);
+                isBreath = true;
 
                 if (currentFireState < 900) {
                     currentFireState += 100;
                 }
-                SendMessage.fireWind(webSocketManager, (float) normalizedFireIntensity, (float) normalizedBreathIntensity);
+                SendMessage.breath(webSocketManager, (float) normalizedFireIntensity);
+                SendMessage.fire(webSocketManager, (float) normalizeFireIntensity(currentFireState));
                 updateFireImage(currentFireState);
                 lastBreathTime = currentTime;
             }
+            isBreath = false;
         }
     }
+
     public void reduceFireIfIdle() {
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastBreathTime > BREATH_TIMEOUT) {
@@ -130,6 +134,7 @@ public class BreathSensor extends BaseSensor {
                 currentFireState = 900;
             }
             updateFireImage(currentFireState);
+            SendMessage.fire(webSocketManager, (float) normalizeFireIntensity(currentFireState));
         }
     }
 
@@ -147,5 +152,9 @@ public class BreathSensor extends BaseSensor {
 
     public boolean isBreath() {
         return isBreath;
+    }
+
+    private double normalizeFireIntensity(double fireIntensity) {
+        return Math.min(fireIntensity / 900, 1.0);
     }
 }

@@ -6,20 +6,20 @@ import androidx.annotation.NonNull;
 
 import org.json.JSONObject;
 
-public class BreathMessage extends Message {
+public class FireMessage extends Message {
     private static final String TAG = "Object Message";
-    private final float windIntensity;
+    private final float fireIntensity;
 
-    public BreathMessage(String clientId, String recipientId, String type, float windIntensity) {
+    public FireMessage(String clientId, String recipientId, String type, float fireIntensity) {
         super(clientId, recipientId, type);
-        this.windIntensity = windIntensity;
+        this.fireIntensity = fireIntensity;
     }
 
     @Override
     public JSONObject toJson() {
         JSONObject jsonMessage = super.toJson();
         try {
-            jsonMessage.put("windIntensity", windIntensity);
+            jsonMessage.put("fireIntensity", fireIntensity);
         } catch (Exception e) {
             Log.e(TAG, "Error sending data", e);
         }
