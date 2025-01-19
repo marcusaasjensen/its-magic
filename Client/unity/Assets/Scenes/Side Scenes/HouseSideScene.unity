@@ -3602,6 +3602,10 @@ PrefabInstance:
       propertyPath: onPotionExplode.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 6250404219192988706, guid: be9b837f0e229374f99416f5b3f36bb0, type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1665148084218893074, guid: be9b837f0e229374f99416f5b3f36bb0, type: 3}
     m_RemovedGameObjects: []
@@ -25379,6 +25383,10 @@ PrefabInstance:
     - target: {fileID: 6060235145781695238, guid: be9b837f0e229374f99416f5b3f36bb0, type: 3}
       propertyPath: onPotionExplode.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 6250404219192988706, guid: be9b837f0e229374f99416f5b3f36bb0, type: 3}
+      propertyPath: playOnAwake
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1665148084218893074, guid: be9b837f0e229374f99416f5b3f36bb0, type: 3}
