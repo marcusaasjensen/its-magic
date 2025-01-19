@@ -2,8 +2,9 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using Environment; // Pour accéder à FallingObject et FallingObjectCatcher
+using Environment;
 using System.Linq;
+using Client;
 
 namespace Managers
 {
@@ -15,6 +16,7 @@ namespace Managers
         private HashSet<string> activeItems = new HashSet<string>(); // IDs des items activés (sans ombre)
         [SerializeField] private GameObject leftCommunicationArea; // Référence au GameObject "Left Communication"
         [SerializeField] private GameObject rightCommunicationArea; // Référence au GameObject "Right Communication"
+        [SerializeField] private GameObject downCommunicationArea; // Référence au GameObject "Down Communication"
         private RectTransform leftButtonRect;
         private RectTransform rightButtonRect;
         [SerializeField] private float animationDuration = 1f; // Durée totale de l'animation
@@ -30,11 +32,10 @@ namespace Managers
             if (rightCommunicationArea != null)
                 rightButtonRect = rightCommunicationArea.GetComponent<RectTransform>();
 
-
-            if (fallingObjectCatcher != null)
+            /*if (fallingObjectCatcher != null)
             {
                 fallingObjectCatcher.onFallingObject.AddListener(OnFallingObjectEvent);
-            }
+            }*/
 
             InitializeItemSlots();
         }
@@ -78,8 +79,15 @@ namespace Managers
             Debug.Log($"Item cliqué : {id}");
             StartItemAnimation(itemImage); // Lancer l'animation d'agrandissement
 
-            GameObject[] allItems = GameObject.FindGameObjectsWithTag("Slashable");
+            if (id == "Mushroom" || id == "Firefly")
+            {
+                Debug.Log("Aucun item trouvé dans la scène pour cet objet. Activation de DownCommunication.");
+                StartCoroutine(ShowDownCommunication());
+                return;
+            }
 
+            // Recherche d'objets correspondants
+            GameObject[] allItems = GameObject.FindGameObjectsWithTag("Slashable");
             var matchingItems = allItems
                 .Where(obj => obj.GetComponent<FallingObject>()?.Name == id)
                 .ToList();
@@ -127,6 +135,54 @@ namespace Managers
         }
 
 
+        private IEnumerator ShowDownCommunication()
+{
+    if (downCommunicationArea == null)
+    {
+        Debug.LogWarning("DownCommunicationArea n'est pas défini !");
+        yield break;
+    }
+
+    // Activer DownCommunication
+    downCommunicationArea.SetActive(true);
+    Debug.Log("DownCommunication activée.");
+
+    // Animation de grossissement et rétrécissement
+    RectTransform downRect = downCommunicationArea.GetComponent<RectTransform>();
+    Vector3 originalScale = downRect.localScale;
+    Vector3 targetScale = originalScale * 1.2f; // Grossissement à 120%
+
+    float elapsedTime = 0f;
+    float pulseDuration = animationDuration / 2; // Durée d'un cycle (agrandissement ou rétrécissement)
+
+    for (int i = 0; i < animationLoops; i++)
+    {
+        // Grossissement
+        elapsedTime = 0f;
+        while (elapsedTime < pulseDuration)
+        {
+            downRect.localScale = Vector3.Lerp(originalScale, targetScale, elapsedTime / pulseDuration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Rétrécissement
+        elapsedTime = 0f;
+        while (elapsedTime < pulseDuration)
+        {
+            downRect.localScale = Vector3.Lerp(targetScale, originalScale, elapsedTime / pulseDuration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    // Réinitialiser l'échelle et désactiver DownCommunication
+    downRect.localScale = originalScale;
+    downCommunicationArea.SetActive(false);
+    Debug.Log("DownCommunication désactivée.");
+}
+
+
         private void StartButtonAnimation(RectTransform button)
         {
             StartCoroutine(ButtonPulseAnimation(button));
@@ -172,7 +228,7 @@ namespace Managers
         }
 
 
-        private void OnFallingObjectEvent(FallingObject fallingObject)
+        /*private void OnFallingObjectEvent(FallingObject fallingObject)
         {
             string id = fallingObject.Name;
 
@@ -181,6 +237,50 @@ namespace Managers
                 RemoveShadowEffect(itemSlots[id]);
                 activeItems.Add(id); // Ajoute à la liste des items activés
             }
+        }*/
+
+        private void UpdateItemState(string objectId)
+        {
+            if (!int.TryParse(objectId, out int index) || index < 1 || index > itemBarContainer.transform.childCount)
+            {
+                return;
+            }
+
+            Transform itemTransform = itemBarContainer.transform.GetChild(index - 1);
+            if (itemTransform == null)
+            {
+                return;
+            }
+
+            if (activeItems.Contains(itemTransform.name))
+            {
+                return;
+            }
+
+            var itemImage = itemTransform.Find("ItemImage")?.GetComponent<Image>();
+            if (itemImage == null)
+            {
+                return;
+            }
+            RemoveShadowEffect(itemImage);
+            activeItems.Add(itemTransform.name);
+        }
+
+
+
+        public void UpdateItemStateMessage(string message)
+        {
+            if (message == null)
+            {
+                return;
+            }
+
+            var itemBagMessage = JsonUtility.FromJson<ItemBagMessage>(message);
+            if (itemBagMessage is not { type: "AddItem" })
+            {
+                return;
+            }
+            UpdateItemState(itemBagMessage.objectId);
         }
 
         private void ApplyShadowEffect(Image image)
@@ -191,14 +291,6 @@ namespace Managers
         private void RemoveShadowEffect(Image image)
         {
             image.color = Color.white; // Réinitialise au sprite normal
-        }
-
-        private void OnDestroy()
-        {
-            if (fallingObjectCatcher != null)
-            {
-                fallingObjectCatcher.onFallingObject.RemoveListener(OnFallingObjectEvent);
-            }
         }
 
         private void StartItemAnimation(Image itemImage)

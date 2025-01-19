@@ -47,7 +47,17 @@ namespace Environment
                     objectId = collectibleId,
                     sceneName = "forest"
                 };
+
+                var addItem2 = new ItemBagMessage
+                {
+                    clientId = "TopView",
+                    type = "AddItem",
+                    recipientId = "SideView",
+                    objectId = collectibleId,
+                    sceneName = "forest"
+                };
                 WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(addItem));
+                WebSocketClient.Instance.SendMessageToServer(JsonUtility.ToJson(addItem2));
             }
             else
             {
