@@ -10680,7 +10680,7 @@ GameObject:
   - component: {fileID: 480252449}
   - component: {fileID: 480252450}
   m_Layer: 0
-  m_Name: Bubbles (1)
+  m_Name: Bubbles Potion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31562,6 +31562,18 @@ MonoBehaviour:
       - m_Target: {fileID: 1749745478}
         m_TargetAssemblyTypeName: Environment.FireIntensity, Assembly-CSharp
         m_MethodName: BringFire
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 530631524}
+        m_TargetAssemblyTypeName: Environment.Cauldron, Assembly-CSharp
+        m_MethodName: SetOnFire
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
