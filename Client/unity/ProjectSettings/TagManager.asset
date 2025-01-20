@@ -9,6 +9,9 @@ TagManager:
   - Ingredient
   - Slashable
   - Parallax
+  - Bellows
+  - Cauldron
+  - PotionCatcher
   layers:
   - Default
   - TransparentFX

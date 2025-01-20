@@ -1,9 +1,21 @@
 package com.example.its_magic;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+
+import com.example.its_magic.activities.ActivitySwitcher;
+import com.example.its_magic.activities.BagActivity;
+import com.example.its_magic.activities.BreathSensorActivity;
+import com.example.its_magic.activities.ForestActivity;
+import com.example.its_magic.activities.LightSensorActivity;
+import com.example.its_magic.activities.WorkshopActivity;
+import com.example.its_magic.messages.Message;
+import com.example.its_magic.messages.SensorMessage;
+import com.example.its_magic.sensors.SpeakerSensor;
+import com.example.its_magic.utils.ConfigReader;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
@@ -13,9 +25,11 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 public class WebSocketManager {
-    private final String clientId = "Android";
+    public static final String CLIENT_ID = "Android";
+    public static final List<String> RECIPIENT_ID = List.of("TopView", "SideView");
     private static final String TAG = "WebSocketManager";
     private static WebSocketManager instance;
     private WebSocketClient webSocketClient;
@@ -25,27 +39,23 @@ public class WebSocketManager {
     private String serverIp;
     private int serverPort;
     private String clientType;
+    private final Context context;
 
     private WebSocketManager(Context context) {
+        this.context = context;
         this.speakerSensor = new SpeakerSensor(context);
         JSONObject config = ConfigReader.readConfig(context);
         if (config != null) {
-            this.serverIp = config.optString("serverIp", "192.168.1.1"); // Valeur par défaut
-            this.serverPort = config.optInt("serverPort", 8080); // Valeur par défaut
-            this.clientType = config.optString("clientType", "Android"); // Valeur par défaut
+            this.serverIp = config.optString("serverIp", "192.168.1.1");
+            this.serverPort = config.optInt("serverPort", 8080);
+            this.clientType = config.optString("clientType", "Android");
         }
         initWebSocket();
 
     }
 
-    public String getClientId() {
-        return clientId;
-    }
-
-    public static synchronized WebSocketManager getInstance(Context context) {
-        if (instance == null) {
-            instance = new WebSocketManager(context);
-        }
+    public static synchronized WebSocketManager getInstance(Context newContext) {
+        instance = new WebSocketManager(newContext);
         return instance;
     }
 
@@ -84,9 +94,72 @@ public class WebSocketManager {
                         String clientId = jsonMessage.getString("clientId");
                         String type = jsonMessage.getString("type");
 
-                        if ("TopView".equals(clientId) && "vibrate".equals(type)) {
-                            speakerSensor.vibratePhone();
+                        if (clientId.equals("TopView")) {
+                            switch (type) {
+                                case "SwitchObject":
+                                    String object = jsonMessage.getString("objectName");
+                                    if (object.equals("bag")) {
+                                        if (!(context instanceof BagActivity)) {
+                                            String sceneName = jsonMessage.getString("objectScene");
+                                            ActivitySwitcher.switchBagActivityWithExtras(context.getApplicationContext(), BagActivity.class, -1, sceneName);
+                                            speakerSensor.vibratePhone();
+                                        }
+                                    } else if (object.equals("bellows")) {
+                                        if (!(context instanceof BreathSensorActivity)) {
+                                            ActivitySwitcher.switchActivity(context.getApplicationContext(), BreathSensorActivity.class);
+                                            speakerSensor.vibratePhone();
+                                        }
+                                    } else {
+                                        if (!(context instanceof LightSensorActivity)) {
+                                            ActivitySwitcher.switchActivity(context.getApplicationContext(), LightSensorActivity.class);
+                                            speakerSensor.vibratePhone();
+                                        }
+                                    }
+                                    break;
+                                case "Scene":
+                                    String scene = jsonMessage.getString("sceneName");
+                                    if (scene.equals("forest")) {
+                                        if (!(context instanceof ForestActivity)) {
+                                            ActivitySwitcher.switchActivity(context.getApplicationContext(), ForestActivity.class);
+                                            speakerSensor.vibratePhone();
+                                        }
+                                    } else {
+                                        if (!(context instanceof WorkshopActivity)) {
+                                            ActivitySwitcher.switchActivity(context.getApplicationContext(), WorkshopActivity.class);
+                                            speakerSensor.vibratePhone();
+                                        }
+                                    }
+                                    break;
+                                case "AddItem":
+                                    int objectId = jsonMessage.getInt("objectId");
+                                    String sceneName = jsonMessage.getString("sceneName");
+                                    if (!(context instanceof BagActivity)) {
+                                        ActivitySwitcher.switchBagActivityWithExtras(context.getApplicationContext(), BagActivity.class, objectId, sceneName);
+                                        speakerSensor.vibratePhone();
+                                    } else {
+                                        ((Activity) context).runOnUiThread(() -> {
+                                            BagActivity bagActivity = (BagActivity) context;
+                                            bagActivity.addItemInBag(objectId);
+                                        });
+                                        speakerSensor.vibratePhone();
+                                    }
+                                    break;
+
+                                case "BlowFire":
+                                    boolean enableBlow = jsonMessage.getBoolean("isBlowingInFire");
+                                    Log.d(TAG, "EnableBlow: " + enableBlow);
+                                    if (context instanceof BreathSensorActivity) {
+                                        ((Activity) context).runOnUiThread(() -> {
+                                            BreathSensorActivity breathSensorActivity = (BreathSensorActivity) context;
+                                            breathSensorActivity.enableBlow(enableBlow);
+                                        });
+                                        speakerSensor.vibratePhone();
+                                    }
+                                    break;
+
+                            }
                         }
+
                     } catch (Exception e) {
                         Log.e(TAG, "Error parsing message", e);
                     }
@@ -121,25 +194,31 @@ public class WebSocketManager {
         }
     }
 
-    public void sendSensorData(String sensorType, String value) {
+    public void sendSensorData(String sensorType, float value) {
         synchronized (lock) {
             if (webSocketClient != null && webSocketClient.isOpen()) {
                 try {
-                    // Create a list of recipient IDs
-                    String[] recipientIds = { "TopView", "SideView" };
-
-                    // Create the JSON message for each recipient
-                    for (String recipientId : recipientIds) {
-                        JSONObject jsonMessage = new JSONObject();
-                        jsonMessage.put("clientId", clientId);
-                        jsonMessage.put("type", sensorType);
-                        jsonMessage.put("value", value);
-                        jsonMessage.put("recipientId", recipientId);
-
-                        // Send the message
-                        webSocketClient.send(jsonMessage.toString());
-                        Log.d(TAG, "Sent sensor data to " + recipientId + ": " + jsonMessage);
+                    for (String recipientId : RECIPIENT_ID) {
+                        SensorMessage message = new SensorMessage(CLIENT_ID, recipientId, sensorType, value);
+                        webSocketClient.send(message.toString());
+                        Log.d(TAG, "Sent sensor data to " + recipientId + ": " + message);
                     }
+                } catch (Exception e) {
+                    Log.e(TAG, "Error sending sensor data", e);
+                    reconnectWithDelay();
+                }
+            } else {
+                Log.w(TAG, "WebSocket is not connected. Attempting to reconnect...");
+                reconnectWithDelay();
+            }
+        }
+    }
+
+    public void sendDataToServer(Message message) {
+        synchronized (lock) {
+            if (webSocketClient != null && webSocketClient.isOpen()) {
+                try {
+                    webSocketClient.send(message.toString());
                 } catch (Exception e) {
                     Log.e(TAG, "Error sending sensor data", e);
                     reconnectWithDelay();
@@ -174,4 +253,6 @@ public class WebSocketManager {
             }
         }
     }
+
+
 }

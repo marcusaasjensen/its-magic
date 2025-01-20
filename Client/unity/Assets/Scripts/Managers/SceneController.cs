@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using Client;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using Utils;
 
 namespace Managers
@@ -7,16 +9,20 @@ namespace Managers
     public class SceneController : MonoBehaviourSingleton<SceneController>
     {
         [SerializeField] private string initialScene;
-        private string _activeSceneName;
+        public string activeSceneName;
 
         protected override void Awake()
         {
             base.Awake();
-            LoadSceneAdditively(initialScene);
-            _activeSceneName = initialScene;
+            activeSceneName = initialScene;
         }
 
-        // Load a scene additively
+        [ContextMenu("Load Initial Scene")]
+        public void LoadInitialScene()
+        {
+            LoadSceneAdditively(initialScene);
+        }
+        
         public void LoadSceneAdditively(string sceneName)
         {
             Scene scene = SceneManager.GetSceneByName(sceneName);
@@ -36,7 +42,7 @@ namespace Managers
 
             // If the scene is not loaded, load it additively
             SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive).completed += (operation) =>
-            {
+            {     
                 Debug.Log($"Scene {sceneName} loaded successfully.");
             };
         }
@@ -64,13 +70,14 @@ namespace Managers
         // Transition between scenes
         public void TransitionToScene(string newSceneName)
         {
-            if (!string.IsNullOrEmpty(_activeSceneName))
+            Debug.Log($"Transitioning to scene {newSceneName}");
+            if (!string.IsNullOrEmpty(activeSceneName))
             {
-                UnloadScene(_activeSceneName); // Deactivate the current active scene
+                UnloadScene(activeSceneName); // Deactivate the current active scene
             }
 
             LoadSceneAdditively(newSceneName); // Load the new scene additively
-            _activeSceneName = newSceneName; // Update active scene name
+            activeSceneName = newSceneName; // Update active scene name
         }
 
         // Set the active scene and reactivate all root objects

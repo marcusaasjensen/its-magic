@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/breath_background">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/breathLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <FrameLayout
+            android:id="@+id/fireflies"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/breath"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <FrameLayout
+                android:id="@+id/fireRed"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible">
+
+                <com.example.its_magic.layouts.FireflyView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="150dp"
+                    app:fireflyBlurType="solid"
+                    app:fireflyColor="@color/dark_red"
+                    app:fireflyMaxSize="50dp"
+                    app:fireflyMaxSpeed="2.5"
+                    app:fireflyMinSize="30dp"
+                    app:fireflyMinSpeed="0.5" />
+
+                <com.example.its_magic.layouts.FireflyView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="150dp"
+                    app:fireflyBlurType="solid"
+                    app:fireflyColor="@color/red"
+                    app:fireflyMaxSize="40dp"
+                    app:fireflyMaxSpeed="4.5"
+                    app:fireflyMinSize="30dp"
+                    app:fireflyMinSpeed="2.5" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/fireOrange"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible">
+
+                <com.example.its_magic.layouts.FireflyView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="150dp"
+
+                    app:fireflyBlurType="solid"
+                    app:fireflyColor="@color/dark_orange"
+                    app:fireflyMaxSize="40dp"
+                    app:fireflyMaxSpeed="6.5"
+                    app:fireflyMinSize="30dp"
+                    app:fireflyMinSpeed="4.5" />
+
+                <com.example.its_magic.layouts.FireflyView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="150dp"
+
+                    app:fireflyBlurType="solid"
+                    app:fireflyColor="@color/orange"
+                    app:fireflyMaxSize="20dp"
+                    app:fireflyMaxSpeed="8.5"
+                    app:fireflyMinSize="8dp"
+                    app:fireflyMinSpeed="6.5" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/fireYellow"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible">
+
+                <com.example.its_magic.layouts.FireflyView
+                    android:id="@+id/firefly_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="150dp"
+                    app:fireflyBlurType="solid"
+                    app:fireflyColor="@color/dark_yellow"
+                    app:fireflyMaxSize="40dp"
+                    app:fireflyMaxSpeed="10.5"
+                    app:fireflyMinSize="8dp"
+                    app:fireflyMinSpeed="8.5" />
+
+                <com.example.its_magic.layouts.FireflyView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="150dp"
+                    app:fireflyBlurType="solid"
+                    app:fireflyColor="@color/yellow" />
+            </FrameLayout>
+
+            <ImageView
+                android:id="@+id/fire"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:background="@drawable/fire_off"
+                android:contentDescription="@string/fire_status" />
+
+        </FrameLayout>
+
+
+        <ImageView
+            android:id="@+id/breath"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:contentDescription="@string/breath_icon"
+            android:src="@drawable/breath"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:tint="@color/grey" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

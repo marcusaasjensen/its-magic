@@ -251,7 +251,7 @@ GameObject:
   - component: {fileID: 6931914618369969046}
   - component: {fileID: 2347762609427492499}
   m_Layer: 0
-  m_Name: Acorn
+  m_Name: Berry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -498,6 +498,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cf43eae89c102244ad2290a23b3ed65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectibleId: 3
   collectibleParticles: {fileID: 0}
   onCollect:
     m_PersistentCalls:

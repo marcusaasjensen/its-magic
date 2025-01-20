@@ -1,6 +1,23 @@
 <resources>
     <string name="app_name">Its-magic</string>
-    <string name="title_activity_login">MainActivity</string>
+    <string name="title_activity_login">Start Activity</string>
     <string name="rotating_sun_cycle">Rotating sun cycle</string>
     <string name="foreground_sun_watch_cycle">Foreground sun watch cycle</string>
+    <string name="star_type">Star type</string>
+    <string name="light_level">Light Level</string>
+    <string name="mascot">the mascot is thinking</string>
+    <string name="alarm_clock_bubble">alarm clock bubble</string>
+    <string name="alarm_clock_icon">alarm clock icon</string>
+    <string name="volume_up_icon">volume up icon</string>
+    <string name="volume_down_icon">volume down icon</string>
+    <string name="bag_bubble">bag bubble</string>
+    <string name="bag_icon">bag icon</string>
+    <string name="playText">Jouer</string>
+    <string name="mascot_happy">happy mascot</string>
+    <string name="opened_book_image">opened book image</string>
+    <string name="bellows_bubble">bellows bubble</string>
+    <string name="bellows_icon">bellows icon</string>
+    <string name="breath_icon">breath icon</string>
+    <string name="fire_status">fire status</string>
+    <string name="indication_remove_item">Indication: Remove item from bag</string>
 </resources>

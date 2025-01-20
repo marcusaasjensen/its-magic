@@ -758,6 +758,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cf43eae89c102244ad2290a23b3ed65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectibleId: 2
   collectibleParticles: {fileID: 0}
   onCollect:
     m_PersistentCalls:

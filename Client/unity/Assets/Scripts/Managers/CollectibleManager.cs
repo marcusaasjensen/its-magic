@@ -8,7 +8,6 @@ namespace Managers
     public class CollectibleManager : MonoBehaviourSingleton<CollectibleManager>
     {
         [SerializeField] public GlobalData globalData;
-        [SerializeField] private bool save;
 
         public event Action OnItemCollected;
 
@@ -18,21 +17,15 @@ namespace Managers
             return id;
         }
         
-        public static bool IsItemCollected(string id) => Instance.globalData.collectedItemKeys.Contains(id);
-        
         public void CollectItem(string id)
         {
-            if (IsItemCollected(id))
-            {
-                return;
-            }
-
-            if (save)
-            {
-                globalData.collectedItemKeys.Add(id);
-            }
-
+            globalData.collectedItemKeys.Add(id);
             OnItemCollected?.Invoke();
+        }
+        
+        public void RemoveItem(string id)
+        {
+            globalData.collectedItemKeys.Remove(id);
         }
     }
 }
